@@ -1,0 +1,39 @@
+﻿---
+import type { HTMLTag } from 'astro/types';
+import type { DualText } from '../data/siteContent';
+import type { Locale } from '../utils/i18n';
+
+interface Props {
+    locale: Locale;
+    text: DualText;
+    tag?: HTMLTag;
+    class?: string;
+}
+
+const { locale, text, tag = 'p', class: className } = Astro.props;
+const Tag = tag;
+---
+
+{
+    locale === 'bi' ? (
+    <Tag class:list={[className, 'is-bilingual']}>
+        <span class="locale-zh">{text.zh}</span>
+        <span class="locale-en">{text.en}</span>
+    </Tag>
+        ) : (
+    <Tag class={className}>{locale === 'zh' ? text.zh : text.en}</Tag>
+        )
+    }
+
+<style>
+    .is-bilingual .locale-zh,
+    .is-bilingual .locale-en {
+        display: block;
+    }
+
+    .is-bilingual .locale-en {
+        margin-top: 0.22rem;
+        font-size: 0.84em;
+        opacity: 0.82;
+    }
+</style>

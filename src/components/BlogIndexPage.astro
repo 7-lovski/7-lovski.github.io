@@ -1,0 +1,120 @@
+﻿---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Footer from './Footer.astro';
+import FormattedDate from './FormattedDate.astro';
+import Header from './Header.astro';
+import LocalizedText from './LocalizedText.astro';
+import type { Locale } from '../utils/i18n';
+import { withLocale } from '../utils/i18n';
+import { getLocalizedField } from '../utils/content';
+
+interface Props {
+    locale: Locale;
+    posts: CollectionEntry<'blog'>[];
+}
+
+const { locale, posts } = Astro.props;
+
+const pageTitle = {
+    zh: '博客',
+    en: 'Blog',
+};
+
+const pageDescription = {
+    zh: '写作记录与文章归档',
+    en: 'Writing archive and notes',
+};
+---
+
+<Header />
+
+<main>
+    <section class="page-hero">
+        <LocalizedText locale={locale} text={pageTitle} tag="h1" />
+        <LocalizedText locale={locale} text={pageDescription} tag="p" class="section-copy" />
+    </section>
+
+    <section>
+        <ul class="post-list">
+            {
+                posts.map((post) => (
+                        <li>
+                            <a href={withLocale(`/blog/${post.id}/`, locale)}>
+                                {post.data.heroImage && (
+                                        <Image width={720} height={360} src={post.data.heroImage} alt="" />
+                                )}
+                                <h2 class="title">{getLocalizedField(post.data.title, locale)}</h2>
+                                <p class="date">
+                                    <FormattedDate date={post.data.pubDate} />
+                                </p>
+                                <p class="desc">{getLocalizedField(post.data.description, locale)}</p>
+                            </a>
+                        </li>
+                ))
+            }
+        </ul>
+    </section>
+</main>
+
+<Footer locale={locale} />
+
+<style>
+    .page-hero {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .post-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.4rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .post-list li a {
+        display: block;
+        padding: 1.2rem;
+        border: 1px solid rgba(164, 182, 204, 0.28);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 14px 32px rgba(20, 43, 74, 0.05);
+        text-decoration: none;
+        color: inherit;
+        transition: 0.2s ease;
+    }
+
+    .post-list li a:hover {
+        transform: translateY(-2px);
+    }
+
+    .post-list img {
+        margin-bottom: 1rem;
+        border-radius: 16px;
+    }
+
+    .title {
+        margin: 0 0 0.5rem;
+        color: rgb(var(--black));
+    }
+
+    .date {
+        margin: 0 0 0.5rem;
+        color: rgb(var(--gray));
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+    .desc {
+        margin: 0;
+        color: rgb(var(--gray));
+    }
+
+    @media (max-width: 900px) {
+        .post-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

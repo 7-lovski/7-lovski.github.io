@@ -1,0 +1,81 @@
+﻿---
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import LocalizedText from './LocalizedText.astro';
+import {projectsContent} from '../data/siteContent';
+import type {Locale} from '../utils/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const {locale} = Astro.props;
+---
+
+<Header/>
+
+<main>
+    <section class="page-hero">
+        <LocalizedText locale={locale} text={projectsContent.title} tag="h1"/>
+        <LocalizedText locale={locale} text={projectsContent.description} tag="p" class="section-copy"/>
+    </section>
+
+    <section class="projects-grid">
+        {
+            projectsContent.items.map(
+                (item) => (
+                        <article class="card project-card">
+                            <LocalizedText locale={locale} text={item.title} tag="h2"/>
+                            <LocalizedText locale={locale} text={item.description} tag="p"/>
+                            <div class="pill-row">
+                                {
+                                    item.tags.map((tag) => {
+                                        const label =
+                                            locale === 'bi'
+                                                ? tag.zh === tag.en
+                                                    ? tag.zh
+                                                    : `${tag.zh} / ${tag.en}`
+                                                : locale === 'zh'
+                                                    ? tag.zh
+                                                    : tag.en;
+
+                                        return <span class="pill">{label}</span>;
+                                    })
+                                }
+
+                            </div>
+                        </article>
+                )
+            )
+        }
+    </section>
+</main>
+
+<Footer/>
+
+<style>
+    .page-hero {
+        margin-top: 1rem;
+    }
+
+    .projects-grid {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.2rem;
+    }
+
+    .project-card {
+        padding: 1.4rem;
+    }
+
+    .project-card p {
+        color: rgb(var(--gray));
+    }
+
+    @media (max-width: 800px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

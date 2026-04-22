@@ -1,0 +1,19 @@
+﻿---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import HomePage from '../../components/HomePage.astro';
+
+const posts = (await getCollection('blog'))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <BaseHead title="主页 | 洛屿柒秋" description="一个用于项目展示、写作记录与长期学习的个人网站。" />
+</head>
+<body>
+<HomePage locale="zh" posts={posts} />
+</body>
+</html>

@@ -1,85 +1,328 @@
 ---
-import { SITE_TITLE } from '../consts';
+import {SITE_TITLE} from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import {navigationContent} from '../data/siteContent';
+import {
+    getLocaleFromPath,
+    getLocaleLabel,
+    withLocale,
+    type Locale,
+} from '../utils/i18n';
+
+const pathname = Astro.url.pathname;
+const locale = getLocaleFromPath(pathname);
+
+const tagline =
+    locale === 'bi'
+        ? `${navigationContent.tagline.zh} / ${navigationContent.tagline.en}`
+        : locale === 'zh'
+            ? navigationContent.tagline.zh
+            : navigationContent.tagline.en;
+
+const localeLabel = getLocaleLabel(locale);
+
+const switcherItems: { locale: Locale; label: string }[] = [
+    {locale: 'bi', label: '语言 Language：中英双语 Bilingual'},
+    {locale: 'zh', label: '语言：中文'},
+    {locale: 'en', label: 'Language: English'},
+];
+
+function getNavText(text: { zh: string; en: string }) {
+    if (locale === 'zh') return {primary: text.zh, secondary: null};
+    if (locale === 'en') return {primary: text.en, secondary: null};
+    return {primary: text.zh, secondary: text.en};
+}
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-		</div>
-		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
-				<span class="sr-only">Follow Astro on Mastodon</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"
-					></path></svg
-				>
-			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
-				<span class="sr-only">Follow Astro on Twitter</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-					></path></svg
-				>
-			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
-				<span class="sr-only">Go to Astro's GitHub repo</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
-			</a>
-		</div>
-	</nav>
-</header>
-<style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
+<header class="site-header">
+    <div class="header-shell">
+        <div class="brand">
+            <a href={withLocale('/', locale)} class="brand-title">
+                <span class="brand-name">洛屿柒秋</span>
+                <span class="brand-roman">Luo Yu Qi Qiu</span>
+            </a>
+        </div>
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
+        <nav class="nav nav-center">
+            <HeaderLink href={withLocale('/', locale)}>
+		<span class="nav-label">
+			<span>{getNavText(navigationContent.labels.home).primary}</span>
+            {
+                getNavText(navigationContent.labels.home).secondary && (
+                            <span class="nav-sub">{getNavText(navigationContent.labels.home).secondary}</span>
+                )
+            }
+		</span>
+            </HeaderLink>
+
+            <HeaderLink href={withLocale('/projects', locale)}>
+		<span class="nav-label">
+			<span>{getNavText(navigationContent.labels.projects).primary}</span>
+            {
+                getNavText(navigationContent.labels.projects).secondary && (
+                            <span class="nav-sub">{getNavText(navigationContent.labels.projects).secondary}</span>
+                )
+            }
+		</span>
+            </HeaderLink>
+
+            <HeaderLink href={withLocale('/blog', locale)}>
+		<span class="nav-label">
+			<span>{getNavText(navigationContent.labels.blog).primary}</span>
+            {
+                getNavText(navigationContent.labels.blog).secondary && (
+                            <span class="nav-sub">{getNavText(navigationContent.labels.blog).secondary}</span>
+                )
+            }
+		</span>
+            </HeaderLink>
+
+            <HeaderLink href={withLocale('/about', locale)}>
+		<span class="nav-label">
+			<span>{getNavText(navigationContent.labels.about).primary}</span>
+            {
+                getNavText(navigationContent.labels.about).secondary && (
+                            <span class="nav-sub">{getNavText(navigationContent.labels.about).secondary}</span>
+                )
+            }
+		</span>
+            </HeaderLink>
+
+            <HeaderLink href={withLocale('/resume', locale)}>
+		<span class="nav-label">
+			<span>{getNavText(navigationContent.labels.resume).primary}</span>
+            {
+                getNavText(navigationContent.labels.resume).secondary && (
+                            <span class="nav-sub">{getNavText(navigationContent.labels.resume).secondary}</span>
+                )
+            }
+		</span>
+            </HeaderLink>
+        </nav>
+
+        <details class="language-switcher">
+            <summary>
+                {
+                    typeof localeLabel === 'string' ? (
+                        localeLabel
+                    ) : (
+                            <span class="locale-summary">
+					<span>{localeLabel.primary}</span>
+					<span class="locale-summary-sub">{localeLabel.secondary}</span>
+				</span>
+                    )
+                }
+            </summary>
+            <div class="language-menu">
+                {
+                    switcherItems.map((item) => (
+                            <a
+                                    href={withLocale(pathname, item.locale)}
+                                    class:list={{active: item.locale === locale}}
+                            >
+                                {item.label}
+                            </a>
+                    ))
+                }
+            </div>
+        </details>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: 1rem 1.25rem 0;
+        background: linear-gradient(
+                180deg,
+                rgba(241, 246, 252, 0.92) 0%,
+                rgba(241, 246, 252, 0.82) 65%,
+                rgba(241, 246, 252, 0) 100%
+        );
+        backdrop-filter: blur(10px);
+    }
+
+    .header-shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 1.15rem 1.4rem;
+        display: grid;
+        grid-template-columns: 260px 1fr auto;
+        align-items: center;
+        gap: 2rem;
+        border: 1px solid rgba(164, 182, 204, 0.35);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 14px 36px rgba(20, 43, 74, 0.08);
+    }
+
+    .brand {
+        min-width: 220px;
+    }
+
+    .brand-title {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.18rem;
+        text-decoration: none;
+        color: rgb(var(--black));
+    }
+
+    .brand-name {
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
+        font-size: 1.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        line-height: 1.02;
+        color: rgb(var(--black));
+    }
+
+    .brand-roman {
+        font-family: "EB Garamond", "Times New Roman", Georgia, serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        line-height: 1.1;
+        color: rgb(var(--gray));
+        text-transform: none;
+    }
+
+    .brand-tagline {
+        margin: 0.45rem 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        font-size: 0.88rem;
+        color: rgb(var(--gray));
+        line-height: 1.35;
+    }
+
+    .brand-sub {
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        opacity: 0.72;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.4rem;
+        align-items: center;
+    }
+
+    .nav a {
+        padding: 0.45rem 0.1rem;
+        color: rgb(var(--gray-dark));
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+    }
+
+    .nav-label {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.1;
+        gap: 0.18rem;
+    }
+    
+    .nav-center {
+        justify-self: center;
+    }
+
+    .nav-sub {
+        font-size: 0.82rem;
+        font-weight: 500;
+        opacity: 0.72;
+    }
+    
+    .language-switcher {
+        position: relative;
+        justify-self: end;
+    }
+
+    .language-switcher summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 0.72rem 0.95rem;
+        border: 1px solid rgba(164, 182, 204, 0.5);
+        border-radius: 14px;
+        background: #fff;
+        color: rgb(var(--gray-dark));
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .language-switcher summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .language-menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 0.6rem);
+        min-width: 250px;
+        padding: 0.55rem;
+        display: grid;
+        gap: 0.35rem;
+        border: 1px solid rgba(164, 182, 204, 0.34);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.97);
+        box-shadow: 0 18px 38px rgba(20, 43, 74, 0.12);
+    }
+
+    .language-menu a {
+        padding: 0.72rem 0.9rem;
+        border-radius: 10px;
+        color: rgb(var(--gray-dark));
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .language-menu a:hover,
+    .language-menu a.active {
+        background: rgba(232, 240, 251, 0.92);
+        color: var(--accent-dark);
+    }
+
+    .locale-summary {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.15;
+        gap: 0.16rem;
+    }
+
+    .locale-summary-sub {
+        font-size: 0.82rem;
+        font-weight: 500;
+        opacity: 0.72;
+    }
+
+
+    @media (max-width: 980px) {
+        .header-shell {
+            grid-template-columns: 1fr;
+            align-items: flex-start;
+        }
+
+        .nav-center,
+        .language-switcher {
+            justify-self: start;
+        }
+
+        .nav {
+            justify-content: flex-start;
+        }
+    }
 </style>

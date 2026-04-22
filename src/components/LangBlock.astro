@@ -1,0 +1,13 @@
+﻿---
+import { getLocaleFromPath } from '../utils/i18n';
+
+interface Props {
+    lang: 'zh' | 'en';
+}
+
+const { lang } = Astro.props;
+const currentLocale = getLocaleFromPath(Astro.url.pathname);
+const shouldRender = currentLocale === 'bi' || currentLocale === lang;
+---
+
+{shouldRender && <slot />}

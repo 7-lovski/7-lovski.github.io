@@ -1,0 +1,19 @@
+﻿---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import HomePage from '../../components/HomePage.astro';
+
+const posts = (await getCollection('blog'))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+    <BaseHead title="Home | Luo Yu Qi Qiu" description="A personal site for projects, writing, and steady learning." />
+</head>
+<body>
+<HomePage locale="en" posts={posts} />
+</body>
+</html>

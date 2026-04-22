@@ -1,0 +1,58 @@
+﻿---
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import LocalizedText from './LocalizedText.astro';
+import { resumeContent } from '../data/siteContent';
+import type { Locale } from '../utils/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Header />
+
+<main>
+    <section class="page-hero">
+        <LocalizedText locale={locale} text={resumeContent.title} tag="h1" />
+        <LocalizedText locale={locale} text={resumeContent.description} tag="p" class="section-copy" />
+    </section>
+
+    <section class="resume-grid">
+        {
+            resumeContent.sections.map((section) => (
+                    <article class="card resume-card">
+                        <LocalizedText locale={locale} text={section.title} tag="h2" />
+                        <LocalizedText locale={locale} text={section.body} tag="p" />
+                    </article>
+            ))
+        }
+    </section>
+</main>
+
+<Footer />
+
+<style>
+    .page-hero {
+        margin-top: 1rem;
+    }
+    .resume-grid {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.2rem;
+    }
+    .resume-card {
+        padding: 1.4rem;
+    }
+    .resume-card p {
+        color: rgb(var(--gray));
+    }
+    @media (max-width: 800px) {
+        .resume-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

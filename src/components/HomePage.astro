@@ -1,0 +1,242 @@
+﻿---
+import type { CollectionEntry } from 'astro:content';
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import FormattedDate from './FormattedDate.astro';
+import LocalizedText from './LocalizedText.astro';
+import { homeContent } from '../data/siteContent';
+import { withLocale, type Locale } from '../utils/i18n';
+
+interface Props {
+    locale: Locale;
+    posts: CollectionEntry<'blog'>[];
+}
+
+const { locale, posts } = Astro.props;
+---
+
+<Header />
+
+<main>
+    <section class="hero card">
+        <div class="hero-heading-block">
+            {
+                locale === 'bi' ? (
+                        <>
+                            <h1 class="hero-title">{homeContent.title.zh}</h1>
+                            <p class="hero-title-en">{homeContent.title.en}</p>
+                        </>
+                ) : (
+                        <LocalizedText locale={locale} text={homeContent.title} tag="h1" class="hero-title" />
+                )
+            }
+        </div>
+
+        <div class="hero-body">
+            <div class="hero-copy">
+                <LocalizedText locale={locale} text={homeContent.description} tag="p" class="hero-text" />
+
+                <div class="hero-actions">
+                    <a class="button" href={withLocale('/projects', locale)}>
+                        <LocalizedText locale={locale} text={homeContent.buttons.projects} tag="span" class="button-label" />
+                    </a>
+                    <a class="button secondary" href={withLocale('/blog', locale)}>
+                        <LocalizedText locale={locale} text={homeContent.buttons.blog} tag="span" class="button-label" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="section-top">
+            <LocalizedText locale={locale} text={homeContent.featuredTitle} tag="h2" class="section-heading" />
+            <a href={withLocale('/projects', locale)}>
+                {locale === 'bi'
+                    ? `${homeContent.featuredLink.zh} / ${homeContent.featuredLink.en}`
+                    : locale === 'zh'
+                        ? homeContent.featuredLink.zh
+                        : homeContent.featuredLink.en}
+            </a>
+        </div>
+
+        <div class="project-grid">
+            {
+                homeContent.projects.map((project) => (
+                        <article class="project-card card">
+                            <LocalizedText locale={locale} text={project.name} tag="h3" />
+                            <LocalizedText locale={locale} text={project.description} tag="p" />
+
+                            <div class="pill-row project-stack">
+                                {project.stack.map((item) => <span class="pill">{item}</span>)}
+                            </div>
+                        </article>
+                ))
+            }
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="section-top">
+            <LocalizedText locale={locale} text={homeContent.postsTitle} tag="h2" class="section-heading" />
+            <a href={withLocale('/blog', locale)}>
+                {locale === 'bi'
+                    ? `${homeContent.postsLink.zh} / ${homeContent.postsLink.en}`
+                    : locale === 'zh'
+                        ? homeContent.postsLink.zh
+                        : homeContent.postsLink.en}
+            </a>
+        </div>
+
+        <div class="post-grid">
+            {
+                posts.map((post) => (
+                        <a class="post-card card" href={withLocale(`/blog/${post.id}/`, locale)}>
+                            <p class="post-date">
+                                <FormattedDate date={post.data.pubDate} />
+                            </p>
+                            <h3>{post.data.title}</h3>
+                            <p>{post.data.description}</p>
+                        </a>
+                ))
+            }
+        </div>
+    </section>
+</main>
+
+<Footer />
+
+<style>
+    .hero {
+        padding: 2rem;
+        display: grid;
+        gap: 2rem;
+        justify-items: center;
+        text-align: center;
+    }
+
+
+    .hero-heading {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
+    .hero-heading-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        width: min(100%, 60rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+        max-width: none;
+        margin: 0;
+        font-size: clamp(2.55rem, 5vw, 4rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+    }
+
+    .hero-title-en {
+        margin: 0;
+        font-size: clamp(1.2rem, 2.2vw, 1.95rem);
+        font-weight: 700;
+        line-height: 1.2;
+        color: rgb(var(--gray-dark));
+    }
+
+    .hero-body {
+        width: min(100%, 42rem);
+        display: grid;
+        gap: 0;
+        justify-items: center;
+    }
+
+    .hero-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: none;
+    }
+
+    .hero-text {
+        max-width: 32rem;
+        margin: 0;
+        font-size: 1rem;
+        color: rgb(var(--gray));
+        line-height: 1.8;
+    }
+
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.9rem;
+        margin-top: 1.7rem;
+    }
+
+    .button-label {
+        line-height: 1.2;
+    }
+
+    .section-block {
+        margin-top: 4.25rem;
+    }
+
+    .section-top {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .project-grid,
+    .post-grid {
+        display: grid;
+        gap: 1.1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .project-card,
+    .post-card {
+        padding: 1.35rem;
+    }
+
+    .project-card p,
+    .post-card p {
+        margin-bottom: 0;
+        color: rgb(var(--gray));
+    }
+
+    .project-stack {
+        margin-top: 1rem;
+    }
+
+    .post-card {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .post-card:hover {
+        transform: translateY(-2px);
+        transition: 0.2s ease;
+    }
+
+    .post-date {
+        margin-bottom: 0.7rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+        .project-grid,
+        .post-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

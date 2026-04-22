@@ -1,0 +1,82 @@
+﻿---
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import LocalizedText from './LocalizedText.astro';
+import { aboutContent } from '../data/siteContent';
+import type { Locale } from '../utils/i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Header />
+
+<main>
+    <section class="page-hero">
+        <LocalizedText locale={locale} text={aboutContent.title} tag="h1" />
+        <LocalizedText locale={locale} text={aboutContent.description} tag="p" class="section-copy" />
+    </section>
+
+    <section class="about-grid">
+        <article class="card about-card intro-card">
+            <LocalizedText locale={locale} text={aboutContent.intro.title} tag="h2" />
+            <LocalizedText locale={locale} text={aboutContent.intro.text} tag="p" />
+        </article>
+
+        <article class="card about-card">
+            <LocalizedText locale={locale} text={aboutContent.focus.title} tag="h2" />
+            <ul>
+                {
+                    aboutContent.focus.items.map((item) => (
+                            <li>{locale === 'bi' ? `${item.zh}\n${item.en}` : locale === 'zh' ? item.zh : item.en}</li>
+                    ))
+                }
+            </ul>
+        </article>
+
+        <article class="card about-card">
+            <LocalizedText locale={locale} text={aboutContent.why.title} tag="h2" />
+            <LocalizedText locale={locale} text={aboutContent.why.text} tag="p" />
+        </article>
+    </section>
+</main>
+
+<Footer />
+
+<style>
+    .page-hero {
+        margin-top: 1rem;
+    }
+    .about-grid {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 1.2rem;
+    }
+    .about-card {
+        padding: 1.5rem;
+    }
+    .intro-card {
+        grid-row: span 2;
+    }
+    .about-card p,
+    .about-card li {
+        color: rgb(var(--gray));
+    }
+    .about-card ul {
+        margin: 0;
+        padding-left: 1.2rem;
+        white-space: pre-line;
+    }
+    @media (max-width: 820px) {
+        .about-grid {
+            grid-template-columns: 1fr;
+        }
+        .intro-card {
+            grid-row: auto;
+        }
+    }
+</style>
