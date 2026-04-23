@@ -1,0 +1,73 @@
+---
+import { getLocaleFromPath, getLanguageContentMode } from '../utils/i18n';
+
+interface Props {
+	lang: 'zh' | 'en';
+}
+
+const { lang } = Astro.props;
+const currentLocale = getLocaleFromPath(Astro.url.pathname);
+const mode = getLanguageContentMode(currentLocale, lang);
+const shouldRender = mode !== 'hidden';
+---
+
+{
+	shouldRender && (
+		<section
+			class:list={[
+				'localized-prose-block',
+				`localized-prose-block-${lang}`,
+				`localized-prose-block-${mode}`,
+				mode === 'primary' && 'is-bilingual locale-zh',
+				mode === 'secondary' && 'is-bilingual locale-en',
+			]}
+			data-lang={lang}
+			data-mode={mode}
+		>
+			<slot />
+		</section>
+	)
+}
+
+<style>
+	.localized-prose-block {
+		display: block;
+	}
+
+	.localized-prose-block + .localized-prose-block {
+		margin-top: 1.5rem;
+	}
+
+	.localized-prose-block-secondary {
+		margin-top: 1.8rem;
+		padding-top: 1.2rem;
+		border-top: 1px solid rgba(156, 176, 201, 0.24);
+		color: rgb(var(--gray));
+	}
+
+	.localized-prose-block-secondary :global(h2),
+	.localized-prose-block-secondary :global(h3),
+	.localized-prose-block-secondary :global(h4) {
+		color: rgb(var(--gray-dark));
+	}
+
+	.localized-prose-block-secondary :global(h2) {
+		font-size: 1.18em;
+	}
+
+	.localized-prose-block-secondary :global(h3) {
+		font-size: 1.02em;
+	}
+
+	.localized-prose-block-secondary :global(p),
+	.localized-prose-block-secondary :global(li),
+	.localized-prose-block-secondary :global(blockquote) {
+		font-size: 0.95em;
+		line-height: 1.72;
+	}
+
+	.localized-prose-block-secondary :global(ul),
+	.localized-prose-block-secondary :global(ol) {
+		opacity: 0.92;
+	}
+</style>

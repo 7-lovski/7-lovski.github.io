@@ -1,0 +1,283 @@
+---
+title:
+  zh: UE｜GAS 第三人称多人联机项目
+  en: UE | GAS-Based Third-Person Multiplayer Project
+description:
+  zh: 我在 Unreal Engine 5.6 中完成的第三人称多人联机项目，主要实现角色战斗、GAS 能力系统、EOS 联机流程和 Linux 专用服务器打包。
+  en: A third-person multiplayer project I built in Unreal Engine 5.6, focused on character combat, GAS-driven abilities, EOS networking, and Linux dedicated-server packaging.
+summary:
+  zh: 独立完成项目基础搭建、角色能力、战斗逻辑、UI 流程、EOS 联机、Windows 客户端打包和 LinuxServer 专用服务器打包。
+  en: Independently handled project setup, character abilities, combat logic, UI flow, EOS networking, Windows client packaging, and LinuxServer dedicated-server packaging.
+role:
+  zh: 个人项目｜玩法系统、角色战斗、联机流程与服务端打包
+  en: Individual Project | Gameplay systems, character combat, networking flow, and server packaging
+status:
+  zh: 项目案例
+  en: Case Study
+stack:
+  - zh: Unreal Engine 5.6
+    en: Unreal Engine 5.6
+  - zh: GAS
+    en: GAS
+  - zh: EOS
+    en: EOS
+  - zh: Multiplayer
+    en: Multiplayer
+  - zh: 动画混合 / IK
+    en: Animation Blend / IK
+  - zh: Linux 专用服务器
+    en: Linux Dedicated Server
+highlights:
+  - zh: 使用 GAS 实现角色属性、普通攻击、技能配置、升级系统和相关 UI。
+    en: Used GAS to implement character attributes, basic attacks, skill configuration, progression, and related UI.
+  - zh: 实现 Crunch 与 Phase 两名角色的战斗能力，并完成移动、瞄准、动画混合、IK、AI、小兵与对象池等系统。
+    en: Implemented combat abilities for Crunch and Phase, along with movement, aiming, animation blending, IK, AI, minions, and object-pooling systems.
+  - zh: 实现主菜单、角色选择、房间 / 会话搜索、本地联机和 EOS 登录联机流程。
+    en: Implemented the main menu, character selection, room / session search, local multiplayer, and EOS login / networking flow.
+  - zh: 完成 Windows 客户端与 LinuxServer 专用服务器打包，并测试远端地址连接。
+    en: Packaged the Windows client and LinuxServer dedicated server, then tested remote-address connection.
+mediaTitle:
+  zh: 项目画面与演示
+  en: Visuals and Demo
+mediaDescription:
+  zh: 后续可补充主菜单、角色选择、Crunch / Phase 战斗表现、EOS 登录与会话流程、Linux 专用服务器运行验证等截图或短视频素材。
+  en: Future media can include screenshots or short clips of the main menu, character selection, Crunch / Phase combat, EOS login and session flow, and Linux dedicated-server validation.
+---
+
+import { Fragment } from 'astro/jsx-runtime';
+import LocalizedProse from '../../components/LocalizedProse.astro';
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+## 项目概述
+
+</Fragment>
+<Fragment slot="en">
+
+## Project Overview
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+这是一个基于 Unreal Engine 5.6 开发的第三人称多人联机项目。我在项目中主要完成了角色战斗、GAS 能力系统、UI 流程、EOS 联机流程，以及 Windows 客户端和 Linux 专用服务器打包。
+
+</Fragment>
+<Fragment slot="en">
+
+This is a third-person multiplayer project developed with Unreal Engine 5.6. My work focused on character combat, the GAS ability system, UI flow, EOS networking, and packaging both the Windows client and Linux dedicated server.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+项目包含 Crunch 和 Phase 两名可操作角色。Crunch 侧重近战压制、攻击节奏和技能衔接；Phase 侧重远程瞄准、技能释放和命中反馈。我围绕这两名角色实现了对应的战斗能力、动画表现和 UI 反馈。
+
+</Fragment>
+<Fragment slot="en">
+
+The project includes two playable characters: Crunch and Phase. Crunch focuses on melee pressure, attack rhythm, and skill chaining, while Phase focuses on ranged aiming, ability release, and hit feedback. I implemented the related combat abilities, animation presentation, and UI feedback around these two characters.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+## 我的职责
+
+</Fragment>
+<Fragment slot="en">
+
+## Responsibilities
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+该项目主要由我独立完成。我负责的内容包括：
+
+- 搭建第三人称多人项目基础结构与主要游戏流程。
+- 基于 GAS 组织角色属性、普通攻击、技能配置、升级系统与相关 UI。
+- 实现 Crunch 与 Phase 两名角色的差异化战斗能力。
+- 补充移动、动画混合、IK 脚步适配、远程瞄准、小兵、AI 行为、对象池、商店和装备合成等系统。
+- 实现主菜单、角色选择、房间 / 会话搜索、本地联机和 EOS 联机流程。
+- 输出 Windows 客户端与 LinuxServer 专用服务器打包，并进行远端地址连接验证。
+
+</Fragment>
+<Fragment slot="en">
+
+This project was primarily developed as individual work. My responsibilities included:
+
+- Building the third-person multiplayer project foundation and main game flow.
+- Organizing attributes, basic attacks, skill configuration, progression, and related UI around GAS.
+- Implementing differentiated combat kits for Crunch and Phase.
+- Adding movement, animation blending, IK foot adaptation, ranged aiming, minions, AI behaviors, object pooling, shop flow, and equipment crafting.
+- Implementing the main menu, character selection, room / session search, local multiplayer, and EOS-based online flow.
+- Producing Windows client and LinuxServer dedicated-server builds, then validating remote-address connection.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+## 核心系统
+
+</Fragment>
+<Fragment slot="en">
+
+## Core Systems
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+### GAS 角色能力系统
+
+</Fragment>
+<Fragment slot="en">
+
+### GAS Character Ability System
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+我使用 GAS 搭建角色能力框架，并实现了角色属性、普通攻击、技能配置、升级流程和相关 UI。角色数值、技能释放和界面表现都围绕这套能力结构组织，方便后续继续添加新角色或新技能。
+
+</Fragment>
+<Fragment slot="en">
+
+I used GAS to build the character ability framework, then implemented attributes, basic attacks, skill configuration, progression, and related UI. Character stats, ability activation, and interface feedback are organized around this structure so new characters or skills can be added more easily later.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+在 Crunch 的实现中，我主要处理近战攻击、技能衔接和贴身战斗节奏；在 Phase 的实现中，我主要处理远程瞄准、技能释放、命中判定和反馈表现。两名角色共用同一套 GAS 基础结构，但在技能逻辑和战斗节奏上做了区分。
+
+</Fragment>
+<Fragment slot="en">
+
+For Crunch, I mainly handled melee attacks, ability chaining, and close-range combat rhythm. For Phase, I mainly handled ranged aiming, ability release, hit validation, and feedback presentation. Both characters share the same GAS foundation, while their skill logic and combat pacing remain distinct.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+### 战斗与对局支撑系统
+
+</Fragment>
+<Fragment slot="en">
+
+### Combat and Match Support Systems
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+除了角色技能本身，我还实现了多组对局支撑系统，包括角色移动、动画混合、IK 脚步适配、远程瞄准判定、小兵和 AI 行为、对象池、商店、装备合成，以及运送 / 捕获类玩法循环。
+
+</Fragment>
+<Fragment slot="en">
+
+Beyond the character abilities themselves, I implemented several match-support systems, including character movement, animation blending, IK foot adaptation, ranged aiming checks, minions and AI behavior, object pooling, shop flow, equipment crafting, and escort / capture-style gameplay loops.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+## 联机与发布
+
+</Fragment>
+<Fragment slot="en">
+
+## Networking and Release
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+联机部分我接入了 Epic Online Services（EOS），并实现了主菜单、角色选择、房间 / 会话搜索、本地联机、设备码登录和在线会话流程。打包后的客户端运行时可以加载 EOS SDK，并进入会话搜索与登录流程。
+
+</Fragment>
+<Fragment slot="en">
+
+For networking, I integrated Epic Online Services (EOS) and implemented the main menu, character selection, room / session search, local multiplayer, device-code login, and online session flow. The packaged client can load the EOS SDK and enter the session search and login flow at runtime.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+发布层面，我完成了 Windows 客户端打包和独立 LinuxServer 专用服务器打包。客户端包包含可运行的 Windows 可执行文件，服务端包包含 Linux 服务器入口与 EOS Linux 运行库。我也使用远端地址进行连接测试，验证客户端可以连接到服务端。
+
+</Fragment>
+<Fragment slot="en">
+
+On the release side, I packaged both the Windows client and the standalone LinuxServer dedicated server. The client package includes a runnable Windows executable, while the server package includes the Linux server entry point and EOS Linux runtime library. I also tested remote-address connection to verify that the client could connect to the server.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+## 项目成果
+
+</Fragment>
+<Fragment slot="en">
+
+## Outcome
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+最终，我完成了一个包含角色战斗、GAS 能力、对局支撑系统、EOS 联机流程、Windows 客户端打包和 Linux 专用服务器打包的第三人称多人项目案例。
+
+</Fragment>
+<Fragment slot="en">
+
+The final result is a third-person multiplayer case study that includes character combat, GAS abilities, match-support systems, EOS networking, Windows client packaging, and Linux dedicated-server packaging.
+
+</Fragment>
+</LocalizedProse>
+
+<LocalizedProse>
+<Fragment slot="zh">
+
+这个项目中我主要负责的是把多个系统真正做出来并串起来：角色能战斗，UI 能走流程，客户端能打包运行，EOS 能进入登录和会话流程，Linux 专用服务器也能独立输出并用于连接测试。
+
+</Fragment>
+<Fragment slot="en">
+
+My main work in this project was to implement and connect the systems end to end: characters can fight, the UI can drive the flow, the client can be packaged and launched, EOS can enter login and session flow, and the Linux dedicated server can be built separately and used for connection testing.
+
+</Fragment>
+</LocalizedProse>

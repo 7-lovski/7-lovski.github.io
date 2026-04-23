@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Layout Preview</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: #fffdf8;
+      --ink: #1f1d1a;
+      --muted: #6f675d;
+      --line: #d9cfbe;
+      --accent: #9b6b3d;
+      --accent-soft: #eadbc7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, #fff7ea 0, transparent 32%),
+        linear-gradient(180deg, #f7f2e8 0%, #efe8db 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 48px);
+      line-height: 1.04;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .recommend {
+      margin-top: 16px;
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #68421f;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .card {
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid rgba(154, 132, 108, 0.2);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(56, 42, 24, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .mock {
+      margin-top: 14px;
+      padding: 14px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      min-height: 380px;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #f3ecdf;
+      color: #7a6244;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .block, .line {
+      background: linear-gradient(180deg, #f7f2e8 0%, #ede4d5 100%);
+      border-radius: 12px;
+    }
+
+    .line {
+      height: 12px;
+      margin-bottom: 9px;
+    }
+
+    .block {
+      height: 72px;
+      margin-bottom: 12px;
+    }
+
+    .block.tall {
+      height: 118px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 34% 1fr;
+      gap: 12px;
+      height: 100%;
+    }
+
+    .sidebar, .maincol {
+      border-radius: 14px;
+      padding: 12px;
+      background: #fbf7f0;
+      border: 1px solid #e5dac8;
+    }
+
+    .sidebar .block { height: 48px; }
+    .maincol .block { height: 70px; }
+    .maincol .block.tall { height: 124px; }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .project-grid .block {
+      height: 92px;
+      margin: 0;
+    }
+
+    .notes {
+      margin-top: 26px;
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(154, 132, 108, 0.2);
+      border-radius: 20px;
+      padding: 18px 20px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .notes strong {
+      color: var(--ink);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .mock {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <p class="eyebrow">Resume Direction</p>
+      <h1>给“真正的简历页”选一个适合你的排版方向</h1>
+      <p class="subtitle">先不要纠结具体文案，先看整体结构。目标是既能放在网站里，又像一份真的能给招聘方看的简历。</p>
+      <div class="recommend">推荐先从 B. 双栏专业型 出发</div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>A. 单栏叙事型</h2>
+        <p>阅读路径稳定，最接近传统简历文档。适合信息完整、经历比较顺的情况。</p>
+        <div class="mock">
+          <div class="chip">Single Column</div>
+          <div class="line" style="width: 42%; height: 18px;"></div>
+          <div class="line" style="width: 68%;"></div>
+          <div class="block"></div>
+          <div class="block tall"></div>
+          <div class="block"></div>
+          <div class="block"></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>B. 双栏专业型</h2>
+        <p>左边放联系信息和技能，右边放经历与项目。更像成熟的职场简历，也最适合网页简历。</p>
+        <div class="mock">
+          <div class="chip">Two Column</div>
+          <div class="two-col">
+            <div class="sidebar">
+              <div class="line" style="width: 72%;"></div>
+              <div class="block"></div>
+              <div class="block"></div>
+              <div class="block"></div>
+            </div>
+            <div class="maincol">
+              <div class="line" style="width: 46%; height: 18px;"></div>
+              <div class="line" style="width: 64%;"></div>
+              <div class="block"></div>
+              <div class="block tall"></div>
+              <div class="block tall"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>C. 项目作品型</h2>
+        <p>更强调个人品牌和项目展示，适合创意类、前端或作品集导向，但不够“正式简历”。</p>
+        <div class="mock">
+          <div class="chip">Project First</div>
+          <div class="line" style="width: 48%; height: 18px;"></div>
+          <div class="line" style="width: 76%;"></div>
+          <div class="project-grid">
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+          </div>
+          <div class="block" style="margin-top: 12px;"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="notes">
+      <strong>建议：</strong>如果你的目标是“网站里也能像真正简历那样可信、清楚、专业”，优先选 <strong>B</strong>。
+      它兼顾正式感和网页可读性，后面我们还能把你的项目亮点放进右侧主区，让它不至于太死板。
+    </section>
+  </div>
+</body>
+</html>

@@ -21,6 +21,29 @@ export function withLocale(pathname: string, locale: Locale): string {
     return cleanPath === '/' ? `/${locale}/` : `/${locale}${cleanPath}`;
 }
 
+export function getContentPath(section: 'blog' | 'projects', slug: string, locale: Locale): string {
+	return withLocale(`/${section}/${slug}/`, locale);
+}
+
+export function shouldRenderLanguageContent(currentLocale: Locale, language: 'zh' | 'en'): boolean {
+	return currentLocale === 'bi' || currentLocale === language;
+}
+
+export function getLanguageContentMode(
+	currentLocale: Locale,
+	language: 'zh' | 'en',
+): 'hidden' | 'single' | 'primary' | 'secondary' {
+	if (currentLocale === 'bi') {
+		return language === 'zh' ? 'primary' : 'secondary';
+	}
+
+	if (currentLocale === language) {
+		return 'single';
+	}
+
+	return 'hidden';
+}
+
 export function getLocaleLabel(locale: Locale): string | { primary: string; secondary?: string } {
     if (locale === 'zh') return '语言：中文';
     if (locale === 'en') return 'Language: English';

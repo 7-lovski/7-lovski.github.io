@@ -5,7 +5,7 @@ import Header from './Header.astro';
 import FormattedDate from './FormattedDate.astro';
 import LocalizedText from './LocalizedText.astro';
 import { homeContent } from '../data/siteContent';
-import { withLocale, type Locale } from '../utils/i18n';
+import { getContentPath, withLocale, type Locale } from '../utils/i18n';
 
 interface Props {
     locale: Locale;
@@ -13,6 +13,11 @@ interface Props {
 }
 
 const { locale, posts } = Astro.props;
+
+const featuredProjectLinkText = {
+    zh: '查看详情',
+    en: 'View Case Study',
+};
 ---
 
 <Header />
@@ -60,18 +65,51 @@ const { locale, posts } = Astro.props;
             </a>
         </div>
 
-        <div class="project-grid">
+        <div class="project-grid card featured-project-list">
             {
-                homeContent.projects.map((project) => (
-                        <article class="project-card card">
-                            <LocalizedText locale={locale} text={project.name} tag="h3" />
-                            <LocalizedText locale={locale} text={project.description} tag="p" />
+                homeContent.projects.map((project) => {
+                    const href = project.slug ? getContentPath('projects', project.slug, locale) : null;
 
-                            <div class="pill-row project-stack">
-                                {project.stack.map((item) => <span class="pill">{item}</span>)}
+                    const content = (
+                        <>
+                            <div class="featured-project-head">
+                                <LocalizedText locale={locale} text={project.name} tag="h3" class="featured-project-title" />
                             </div>
+
+                            <div class="featured-project-body">
+                                <LocalizedText locale={locale} text={project.description} tag="p" class="featured-project-copy" />
+                            </div>
+
+                            <div class="featured-project-foot">
+                                <div class="pill-row project-stack">
+                                    {project.stack.map((item) => <span class="pill">{item}</span>)}
+                                </div>
+
+                                {
+                                    href && (
+                                        <span class="featured-project-link">
+                                            {locale === 'bi'
+                                                ? `${featuredProjectLinkText.zh} / ${featuredProjectLinkText.en}`
+                                                : locale === 'zh'
+                                                    ? featuredProjectLinkText.zh
+                                                    : featuredProjectLinkText.en}
+                                        </span>
+                                    )
+                                }
+                            </div>
+                        </>
+                    );
+
+                    return href ? (
+                        <a class="project-card card project-card-link" href={href}>
+                            {content}
+                        </a>
+                    ) : (
+                        <article class="project-card card">
+                            {content}
                         </article>
-                ))
+                    );
+                })
             }
         </div>
     </section>
@@ -88,7 +126,7 @@ const { locale, posts } = Astro.props;
             </a>
         </div>
 
-        <div class="post-grid">
+        <div class="post-grid card">
             {
                 posts.map((post) => (
                         <a class="post-card card" href={withLocale(`/blog/${post.id}/`, locale)}>
@@ -197,13 +235,37 @@ const { locale, posts } = Astro.props;
     .project-grid,
     .post-grid {
         display: grid;
-        gap: 1.1rem;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2rem;
+        padding: 1.35rem;
+        grid-template-columns: repeat(1,3fr);
+        align-items: stretch;
+    }
+
+    .featured-project-list {
+        grid-template-columns: repeat(1,3fr);
     }
 
     .project-card,
     .post-card {
         padding: 1.35rem;
+    }
+
+    .project-card {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(1rem, auto) minmax(1rem, auto) 1fr;
+        gap: 0;
+        min-height: 0;
+    }
+
+    .project-card-link {
+        color: inherit;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-card-link:hover {
+        transform: translateY(-2px);
     }
 
     .project-card p,
@@ -212,8 +274,61 @@ const { locale, posts } = Astro.props;
         color: rgb(var(--gray));
     }
 
+    :global(.featured-project-title) {
+        margin: 0;
+        font-size: clamp(1.28rem, 1.5vw, 1.55rem);
+        line-height: 1.18;
+        letter-spacing: -0.025em;
+    }
+
+    :global(.featured-project-title .locale-en) {
+        font-size: 0.82em;
+        line-height: 1.18;
+    }
+
+    .featured-project-copy,
+    .project-card :global(p.is-bilingual),
+    .project-card p {
+        line-height: 1.62;
+    }
+
+    .featured-project-head,
+    .featured-project-body,
+    .featured-project-foot {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .featured-project-head {
+        padding-bottom: 0.9rem;
+        overflow: hidden;
+    }
+
+    .featured-project-body {
+        padding-top: 0;
+        padding-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .featured-project-foot {
+        justify-content: flex-start;
+        align-self: stretch;
+        min-width: 0;
+    }
+
     .project-stack {
+        margin-top: 0;
+        padding-top: 0;
+        justify-content: flex-start;
+    }
+
+    .featured-project-link {
+        display: inline-flex;
         margin-top: 1rem;
+        color: var(--accent-dark);
+        font-size: 0.88rem;
+        font-weight: 700;
+        justify-content: flex-start;
     }
 
     .post-card {
@@ -231,6 +346,12 @@ const { locale, posts } = Astro.props;
         font-size: 0.9rem;
         font-weight: 700;
         color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+        .project-card {
+            grid-template-rows: auto auto auto;
+        }
     }
 
     @media (max-width: 900px) {

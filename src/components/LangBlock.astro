@@ -1,13 +1,13 @@
-﻿---
-import { getLocaleFromPath } from '../utils/i18n';
+---
+import LocalizedProseBlock from './LocalizedProseBlock.astro';
 
 interface Props {
-    lang: 'zh' | 'en';
+	lang: 'zh' | 'en';
 }
 
 const { lang } = Astro.props;
-const currentLocale = getLocaleFromPath(Astro.url.pathname);
-const shouldRender = currentLocale === 'bi' || currentLocale === lang;
 ---
 
-{shouldRender && <slot />}
+<LocalizedProseBlock lang={lang}>
+	<slot />
+</LocalizedProseBlock>

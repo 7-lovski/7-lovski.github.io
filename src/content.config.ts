@@ -31,4 +31,31 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const projects = defineCollection({
+	loader: glob({ base: './src/content/projects', pattern: '**/*.mdx' }),
+	schema: ({ image }) =>
+		z.object({
+			title: localizedText,
+			description: localizedText,
+			summary: localizedText,
+			role: localizedText,
+			status: localizedText,
+			repositoryUrl: z.string().url().optional(),
+			stack: z.array(localizedTag),
+			highlights: z.array(localizedText),
+			mediaTitle: localizedText.optional(),
+			mediaDescription: localizedText.optional(),
+			gallery: z
+				.array(
+					z.object({
+						image: image(),
+						alt: localizedText,
+						caption: localizedText.optional(),
+					}),
+				)
+				.optional(),
+			heroImage: z.optional(image()),
+		}),
+});
+
+export const collections = { blog, projects };

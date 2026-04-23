@@ -1,15 +1,27 @@
 ﻿---
+import { getCollection } from 'astro:content';
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
 import {projectsContent} from '../data/siteContent';
-import type {Locale} from '../utils/i18n';
+import { getContentPath, type Locale } from '../utils/i18n';
+import { getLocalizedField } from '../utils/content';
+import { normalizeRepositoryUrl } from '../utils/projects';
 
 interface Props {
     locale: Locale;
 }
 
 const {locale} = Astro.props;
+const projectDetailSlugs = new Set((await getCollection('projects')).map((entry) => entry.id));
+const detailLinkText = {
+	zh: '查看详情',
+	en: 'View Case Study',
+};
+const repositoryLinkText = {
+	zh: 'Git 仓库',
+	en: 'GitHub',
+};
 ---
 
 <Header/>
@@ -20,38 +32,83 @@ const {locale} = Astro.props;
         <LocalizedText locale={locale} text={projectsContent.description} tag="p" class="section-copy"/>
     </section>
 
-    <section class="projects-grid">
+    <section class="projects-grid card">
         {
-            projectsContent.items.map(
-                (item) => (
-                        <article class="card project-card">
-                            <LocalizedText locale={locale} text={item.title} tag="h2"/>
-                            <LocalizedText locale={locale} text={item.description} tag="p"/>
-                            <div class="pill-row">
-                                {
-                                    item.tags.map((tag) => {
-                                        const label =
-                                            locale === 'bi'
-                                                ? tag.zh === tag.en
-                                                    ? tag.zh
-                                                    : `${tag.zh} / ${tag.en}`
-                                                : locale === 'zh'
-                                                    ? tag.zh
-                                                    : tag.en;
+            projectsContent.items.map((item) => {
+                const href =
+                    item.slug && projectDetailSlugs.has(item.slug)
+                        ? getContentPath('projects', item.slug, locale)
+                        : null;
 
-                                        return <span class="pill">{label}</span>;
-                                    })
-                                }
+                return (
+                    <article class="card project-card">
+                        {
+                            href ? (
+                                <a class="project-title-link" href={href}>
+                                    <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
+                                </a>
+                            ) : (
+                                <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
+                            )
+                        }
+                        <LocalizedText locale={locale} text={item.description} tag="p"/>
+                        <div class="pill-row">
+                            {
+                                item.tags.map((tag) => {
+                                    const label =
+                                        locale === 'bi'
+                                            ? tag.zh === tag.en
+                                                ? tag.zh
+                                                : `${tag.zh} / ${tag.en}`
+                                            : locale === 'zh'
+                                                ? tag.zh
+                                                : tag.en;
 
-                            </div>
-                        </article>
-                )
-            )
+                                    return <span class="pill">{label}</span>;
+                                })
+                            }
+                        </div>
+
+                        {
+                            (href || item.repositoryUrl) && (
+                                <div class="project-actions">
+                                    {
+                                        href && (
+                                            <a class="detail-link" href={href}>
+                                                <LocalizedText locale={locale} text={detailLinkText} tag="span" />
+                                            </a>
+                                        )
+                                    }
+                                    {
+                                        item.repositoryUrl && (
+                                            <a
+                                                class="repo-link"
+                                                href={normalizeRepositoryUrl(item.repositoryUrl)}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                aria-label={locale === 'zh' ? 'Git 仓库' : 'GitHub Repository'}
+                                            >
+                                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05A9.3 9.3 0 0 1 12 6.84a9.3 9.3 0 0 1 2.5.35c1.9-1.32 2.74-1.05 2.74-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.23C22 6.58 17.52 2 12 2Z"
+                                                    />
+                                                </svg>
+                                                <span>{locale === 'bi' ? 'GitHub' : getLocalizedField(repositoryLinkText, locale)}</span>
+                                            </a>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+                    </article>
+                );
+            })
         }
     </section>
 </main>
 
-<Footer/>
+<Footer locale={locale}/>
 
 <style>
     .page-hero {
@@ -61,16 +118,85 @@ const {locale} = Astro.props;
     .projects-grid {
         margin-top: 2rem;
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(1, minmax(0, 1fr));
         gap: 1.2rem;
+        padding: 1.35rem;
     }
 
     .project-card {
         padding: 1.4rem;
     }
 
+    .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px rgba(35, 68, 110, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
     .project-card p {
         color: rgb(var(--gray));
+    }
+
+    :global(.project-card-title) {
+        margin: 0 0 0.6rem;
+        font-size: clamp(1.9rem, 2.4vw, 2.45rem);
+        line-height: 1.12;
+        letter-spacing: -0.035em;
+    }
+
+    :global(.project-card-title .locale-en) {
+        font-size: 0.8em;
+        line-height: 1.14;
+    }
+
+    .project-title-link {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .project-title-link:hover {
+        color: var(--accent-dark);
+    }
+
+    .project-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 50rem;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .detail-link {
+        color: var(--accent-dark);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .detail-link:hover {
+        text-decoration: underline;
+    }
+
+    .repo-link {
+        display: inline-flex;
+        gap: 0.45rem;
+        color: rgb(var(--gray-dark));
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color 0.18s ease, transform 0.18s ease;
+    }
+
+    .repo-link:hover {
+        color: var(--accent-dark);
+        transform: translateY(-1px);
+    }
+
+    .repo-link svg {
+        width: 1rem;
+        height: 1rem;
+        flex: 0 0 auto;
     }
 
     @media (max-width: 800px) {

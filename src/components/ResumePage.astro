@@ -1,58 +1,737 @@
-﻿---
+---
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
-import { resumeContent } from '../data/siteContent';
-import type { Locale } from '../utils/i18n';
+import { resumeContent, type DualText } from '../data/siteContent';
+import { getContentPath, type Locale } from '../utils/i18n';
 
 interface Props {
-    locale: Locale;
+	locale: Locale;
 }
 
 const { locale } = Astro.props;
+const coreProjects = resumeContent.projects.slice(0, 4);
+const additionalProjects = resumeContent.projects.slice(4);
+
+const skillGroups: { title: DualText; items: DualText[] }[] = [
+	{
+		title: { zh: '引擎', en: 'Engines' },
+		items: resumeContent.skills.slice(0, 2),
+	},
+	{
+		title: { zh: '联机', en: 'Networking' },
+		items: [resumeContent.skills[6], resumeContent.skills[7], resumeContent.skills[12]],
+	},
+	{
+		title: { zh: '系统', en: 'Systems' },
+		items: [
+			resumeContent.skills[2],
+			resumeContent.skills[3],
+			resumeContent.skills[4],
+			resumeContent.skills[5],
+			resumeContent.skills[8],
+			resumeContent.skills[9],
+			resumeContent.skills[10],
+			resumeContent.skills[11],
+		],
+	},
+	{
+		title: { zh: '工程', en: 'Workflow' },
+		items: [resumeContent.skills[13], resumeContent.skills[14], resumeContent.skills[15], resumeContent.skills[16]],
+	},
+];
+
+const layoutLabel =
+	locale === 'zh'
+		? { title: '排版切换', single: '单栏', double: '双栏' }
+		: locale === 'en'
+			? { title: 'Layout', single: 'Single Column', double: 'Two Columns' }
+			: { title: '排版 Layout', single: '单栏 Single', double: '双栏 Double' };
+
+const caseStudyLinkText =
+	locale === 'zh'
+		? '查看项目详情'
+		: locale === 'en'
+			? 'View case study'
+			: '查看项目详情 / View case study';
 ---
 
 <Header />
 
 <main>
-    <section class="page-hero">
-        <LocalizedText locale={locale} text={resumeContent.title} tag="h1" />
-        <LocalizedText locale={locale} text={resumeContent.description} tag="p" class="section-copy" />
-    </section>
+	<div class="resume-board" id="resume-board" data-layout="double">
+		<section class="page-hero">
+			<div class="card identity-card">
+				<LocalizedText locale={locale} text={resumeContent.title} tag="p" class="eyebrow resume-eyebrow" />
+				<LocalizedText locale={locale} text={resumeContent.identity.name} tag="p" class="resume-name" />
+				<LocalizedText locale={locale} text={resumeContent.identity.role} tag="p" class="resume-role" />
+				<LocalizedText locale={locale} text={resumeContent.description} tag="p" class="section-copy hero-description" />
+			</div>
+		</section>
 
-    <section class="resume-grid">
-        {
-            resumeContent.sections.map((section) => (
-                    <article class="card resume-card">
-                        <LocalizedText locale={locale} text={section.title} tag="h2" />
-                        <LocalizedText locale={locale} text={section.body} tag="p" />
-                    </article>
-            ))
-        }
-    </section>
+		<section class="resume-layout">
+			<aside class="resume-sidebar">
+				<article class="card section-card meta-card" data-scroll-anchor="skills">
+					<LocalizedText locale={locale} text={resumeContent.skillsTitle} tag="h2" class="section-title" />
+					<div class="skill-groups">
+						{
+							skillGroups.map((group) => (
+								<section class="skill-group">
+									<LocalizedText locale={locale} text={group.title} tag="h3" class="skill-group-title" />
+									<div class="skills-cloud">
+										{
+											group.items.map((skill) => (
+												<span class="skill-pill">
+													<LocalizedText locale={locale} text={skill} tag="span" />
+												</span>
+											))
+										}
+									</div>
+								</section>
+							))
+						}
+					</div>
+				</article>
+
+				<article class="card section-card meta-card" data-scroll-anchor="education">
+					<LocalizedText locale={locale} text={resumeContent.educationTitle} tag="h2" class="section-title" />
+					<div class="detail-block">
+						<LocalizedText locale={locale} text={resumeContent.education.school} tag="h3" class="detail-title" />
+						<LocalizedText locale={locale} text={resumeContent.education.degree} tag="p" class="detail-subtitle" />
+						<ul class="detail-list">
+							{
+								resumeContent.education.details.map((detail) => (
+									<LocalizedText locale={locale} text={detail} tag="li" />
+								))
+							}
+						</ul>
+					</div>
+				</article>
+
+				<article class="card section-card meta-card" data-scroll-anchor="society">
+					<LocalizedText locale={locale} text={resumeContent.societyTitle} tag="h2" class="section-title" />
+					<div class="detail-block">
+						<LocalizedText locale={locale} text={resumeContent.society.organization} tag="h3" class="detail-title" />
+						<LocalizedText locale={locale} text={resumeContent.society.role} tag="p" class="detail-subtitle" />
+						<ul class="detail-list">
+							{
+								resumeContent.society.details.map((detail) => (
+									<LocalizedText locale={locale} text={detail} tag="li" />
+								))
+							}
+						</ul>
+					</div>
+				</article>
+
+				<article class="card section-card compact-projects-card" data-column-tail="sidebar" data-scroll-anchor="additional-projects">
+					<LocalizedText locale={locale} text={resumeContent.additionalProjectsTitle} tag="h2" class="section-title subsection-title" />
+					<div class="project-list project-list-compact">
+						{
+							additionalProjects.map((project, index) => (
+								<section class="project-block project-block-compact" data-scroll-anchor={`extra-${index}`}>
+									{
+										project.slug ? (
+											<a class="project-title-link" href={getContentPath('projects', project.slug, locale)}>
+												<LocalizedText locale={locale} text={project.title} tag="h3" class="project-title project-title-compact" />
+											</a>
+										) : (
+											<LocalizedText locale={locale} text={project.title} tag="h3" class="project-title project-title-compact" />
+										)
+									}
+									<ul class="project-points project-points-compact">
+										{
+											project.bullets.slice(0, 1).map((bullet) => (
+												<LocalizedText locale={locale} text={bullet} tag="li" />
+											))
+										}
+									</ul>
+								</section>
+							))
+						}
+					</div>
+				</article>
+			</aside>
+
+			<section class="resume-main">
+				<article class="card section-card summary-card" data-scroll-anchor="summary">
+					<LocalizedText locale={locale} text={resumeContent.summaryTitle} tag="h2" class="section-title" />
+					<LocalizedText locale={locale} text={resumeContent.summary} tag="p" class="summary-copy" />
+				</article>
+
+				<article class="card section-card projects-card" data-column-tail="main">
+					<LocalizedText locale={locale} text={resumeContent.projectsTitle} tag="h2" class="section-title" />
+
+					<div class="project-list">
+						{
+							coreProjects.map((project, index) => (
+								<section class="project-block" data-scroll-anchor={`project-${index}`}>
+									{
+										project.slug ? (
+											<div class="project-heading">
+												<a class="project-title-link" href={getContentPath('projects', project.slug, locale)}>
+													<LocalizedText locale={locale} text={project.title} tag="h3" class="project-title" />
+												</a>
+												<a class="project-case-link" href={getContentPath('projects', project.slug, locale)}>
+													{caseStudyLinkText}
+												</a>
+											</div>
+										) : (
+											<LocalizedText locale={locale} text={project.title} tag="h3" class="project-title" />
+										)
+									}
+									<ul class="project-points">
+										{
+											project.bullets.map((bullet) => (
+												<LocalizedText locale={locale} text={bullet} tag="li" />
+											))
+										}
+									</ul>
+								</section>
+							))
+						}
+					</div>
+				</article>
+			</section>
+		</section>
+	</div>
+
+	<div class="layout-switcher" aria-label={layoutLabel.title}>
+		<span class="layout-switcher-title">{layoutLabel.title}</span>
+		<button type="button" class="layout-button" data-layout-target="single">{layoutLabel.single}</button>
+		<button type="button" class="layout-button is-active" data-layout-target="double">{layoutLabel.double}</button>
+	</div>
 </main>
 
 <Footer />
 
+<script is:inline>
+	const board = document.getElementById('resume-board');
+	const buttons = Array.from(document.querySelectorAll('.layout-button'));
+	const storageKey = 'resume-layout-mode';
+	let equalizeFrame = null;
+
+	function captureContentAnchor() {
+		if (!board) return null;
+		const viewportTop = 0;
+		const viewportBottom = window.innerHeight;
+		const viewportCenter = window.innerHeight * 0.45;
+		const anchors = Array.from(board.querySelectorAll('[data-scroll-anchor]')).filter(
+			(node) => node instanceof HTMLElement,
+		);
+
+		if (!anchors.length) return null;
+
+		let chosen = null;
+		let bestVisibleArea = -1;
+		let bestCenterDistance = Number.POSITIVE_INFINITY;
+
+		for (const anchor of anchors) {
+			const rect = anchor.getBoundingClientRect();
+			const visibleTop = Math.max(rect.top, viewportTop);
+			const visibleBottom = Math.min(rect.bottom, viewportBottom);
+			const visibleArea = Math.max(0, visibleBottom - visibleTop);
+			const center = rect.top + rect.height / 2;
+			const centerDistance = Math.abs(center - viewportCenter);
+
+			if (
+				visibleArea > bestVisibleArea ||
+				(visibleArea === bestVisibleArea && centerDistance < bestCenterDistance)
+			) {
+				bestVisibleArea = visibleArea;
+				bestCenterDistance = centerDistance;
+				chosen = anchor;
+			}
+		}
+
+		if (!(chosen instanceof HTMLElement)) return null;
+
+		const rect = chosen.getBoundingClientRect();
+		const ratio = rect.height > 0 ? Math.max(0, Math.min(1, (viewportCenter - rect.top) / rect.height)) : 0;
+
+		return {
+			id: chosen.dataset.scrollAnchor,
+			anchorY: viewportCenter,
+			ratio,
+		};
+	}
+
+	function restoreContentAnchor(anchorState) {
+		if (!board || !anchorState?.id) return;
+		const anchor = board.querySelector(`[data-scroll-anchor="${anchorState.id}"]`);
+		if (!(anchor instanceof HTMLElement)) return;
+
+		const rect = anchor.getBoundingClientRect();
+		const currentPoint = rect.top + rect.height * anchorState.ratio;
+		const delta = currentPoint - anchorState.anchorY;
+
+		if (Math.abs(delta) < 1) return;
+		window.scrollBy({ top: delta, behavior: 'auto' });
+	}
+
+	function resetColumnStretch() {
+		if (!board) return;
+		const sidebar = board.querySelector('.resume-sidebar');
+		const main = board.querySelector('.resume-main');
+		const sidebarLast = board.querySelector('[data-column-tail="sidebar"]');
+		const mainLast = board.querySelector('[data-column-tail="main"]');
+		if (sidebar instanceof HTMLElement) sidebar.style.height = '';
+		if (main instanceof HTMLElement) main.style.height = '';
+		if (sidebarLast instanceof HTMLElement) {
+			sidebarLast.style.minHeight = '';
+			sidebarLast.style.height = '';
+		}
+		if (mainLast instanceof HTMLElement) {
+			mainLast.style.minHeight = '';
+			mainLast.style.height = '';
+		}
+	}
+
+	function equalizeColumns() {
+		if (!board) return;
+
+		resetColumnStretch();
+
+		const isDouble = board.dataset.layout === 'double' && window.innerWidth > 900;
+		if (!isDouble) return;
+
+		const sidebar = board.querySelector('.resume-sidebar');
+		const main = board.querySelector('.resume-main');
+		const sidebarLast = board.querySelector('[data-column-tail="sidebar"]');
+		const mainLast = board.querySelector('[data-column-tail="main"]');
+
+		if (!(sidebar instanceof HTMLElement) || !(main instanceof HTMLElement)) return;
+		if (!(sidebarLast instanceof HTMLElement) || !(mainLast instanceof HTMLElement)) return;
+
+		const sidebarHeight = sidebar.getBoundingClientRect().height;
+		const mainHeight = main.getBoundingClientRect().height;
+		const diff = Math.round(Math.abs(sidebarHeight - mainHeight));
+
+		if (diff < 2) return;
+
+		if (sidebarHeight < mainHeight) {
+			sidebar.style.height = `${mainHeight}px`;
+		} else {
+			main.style.height = `${sidebarHeight}px`;
+		}
+	}
+
+	function scheduleEqualize() {
+		if (equalizeFrame) cancelAnimationFrame(equalizeFrame);
+		equalizeFrame = requestAnimationFrame(() => {
+			equalizeColumns();
+			equalizeFrame = null;
+		});
+	}
+
+	function setLayout(layout) {
+		if (!board) return;
+		const anchorState = captureContentAnchor();
+
+		board.dataset.layout = layout;
+		buttons.forEach((button) => {
+			button.classList.toggle('is-active', button.dataset.layoutTarget === layout);
+		});
+		try {
+			localStorage.setItem(storageKey, layout);
+		} catch {}
+
+		requestAnimationFrame(() => {
+			scheduleEqualize();
+			requestAnimationFrame(() => {
+				restoreContentAnchor(anchorState);
+			});
+		});
+	}
+
+	const savedLayout = (() => {
+		try {
+			return localStorage.getItem(storageKey);
+		} catch {
+			return null;
+		}
+	})();
+
+	if (savedLayout === 'single' || savedLayout === 'double') {
+		setLayout(savedLayout);
+	}
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const layout = button.dataset.layoutTarget;
+			if (layout === 'single' || layout === 'double') {
+				setLayout(layout);
+			}
+		});
+	});
+
+	window.addEventListener('resize', scheduleEqualize);
+	window.addEventListener('load', scheduleEqualize);
+
+	if (document.fonts?.ready) {
+		document.fonts.ready.then(scheduleEqualize);
+	}
+
+	if (window.ResizeObserver && board) {
+		const observer = new ResizeObserver(() => {
+			scheduleEqualize();
+		});
+
+		const sidebar = board.querySelector('.resume-sidebar');
+		const main = board.querySelector('.resume-main');
+		if (sidebar) observer.observe(sidebar);
+		if (main) observer.observe(main);
+	}
+</script>
+
 <style>
-    .page-hero {
-        margin-top: 1rem;
-    }
-    .resume-grid {
-        margin-top: 2rem;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.2rem;
-    }
-    .resume-card {
-        padding: 1.4rem;
-    }
-    .resume-card p {
-        color: rgb(var(--gray));
-    }
-    @media (max-width: 800px) {
-        .resume-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+	.page-hero {
+		margin-top: 0;
+	}
+
+	.resume-board {
+		margin-top: 1rem;
+		padding: 1.6rem;
+		border: 1px solid rgba(156, 176, 201, 0.3);
+		border-radius: 30px;
+		background:
+			linear-gradient(180deg, rgba(231, 239, 248, 0.66) 0%, rgba(239, 245, 252, 0.76) 100%);
+		box-shadow:
+			0 12px 28px rgba(35, 68, 110, 0.08),
+			inset 0 1px 0 rgba(255, 255, 255, 0.68);
+	}
+
+	.identity-card {
+		padding: 1.7rem 1.8rem;
+		display: flex;
+		flex-direction: column;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 250, 255, 0.92) 100%);
+	}
+
+	.resume-eyebrow {
+		margin-bottom: 0.7rem;
+	}
+
+	.resume-name {
+		margin: 0;
+		font-size: clamp(2rem, 3vw, 2.5rem);
+		font-weight: 800;
+		line-height: 1.04;
+		color: rgb(var(--black));
+	}
+
+	.resume-role {
+		margin: 0.8rem 0 0;
+		font-size: 0.98rem;
+		font-weight: 700;
+		line-height: 1.42;
+		color: var(--accent-dark);
+	}
+
+	.hero-description {
+		margin-top: 1rem;
+		max-width: 780px;
+	}
+
+	.resume-layout {
+		margin-top: 1.25rem;
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.resume-board[data-layout='double'] .resume-layout {
+		grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.42fr);
+		align-items: start;
+	}
+
+	.resume-board[data-layout='single'] .resume-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.resume-board[data-layout='single'] .resume-main {
+		order: 1;
+	}
+
+	.resume-board[data-layout='single'] .resume-sidebar {
+		order: 2;
+	}
+
+	.resume-sidebar,
+	.resume-main {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.resume-board[data-layout='double'] [data-column-tail] {
+		flex: 1 1 auto;
+	}
+
+	.section-card {
+		padding: 1.45rem 1.55rem;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 251, 255, 0.94) 100%);
+	}
+
+	.section-title {
+		margin-bottom: 1rem;
+		font-size: 0.92rem;
+		line-height: 1.18;
+	}
+
+	.section-card :global(.locale-en),
+	.resume-role :global(.locale-en) {
+		color: rgb(var(--gray));
+		opacity: 0.78;
+	}
+
+	.section-title :global(.locale-en) {
+		font-size: 0.78em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		opacity: 0.62;
+	}
+
+	.skill-groups {
+		display: grid;
+		gap: 0.95rem;
+	}
+
+	.skill-group {
+		display: grid;
+		gap: 0.45rem;
+	}
+
+	.skill-group-title {
+		margin: 0;
+		font-size: 0.88rem;
+		line-height: 1.2;
+		color: var(--accent-dark);
+	}
+
+	.skill-group-title :global(.locale-en) {
+		font-size: 0.86em;
+		opacity: 0.72;
+	}
+
+	.skills-cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+	}
+
+	.skill-pill {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.48rem 0.76rem;
+		border-radius: 999px;
+		background: var(--accent-soft);
+		color: var(--accent-dark);
+		font-size: 0.88rem;
+		font-weight: 700;
+		line-height: 1.15;
+	}
+
+	.skill-pill :global(.is-bilingual) {
+		display: inline-flex;
+		flex-direction: column;
+		gap: 0.08rem;
+	}
+
+	.skill-pill :global(.is-bilingual .locale-en) {
+		margin-top: 0;
+		font-size: 0.84em;
+	}
+
+	.summary-copy {
+		margin: 0;
+		color: rgb(var(--gray-dark));
+		line-height: 1.72;
+	}
+
+	.summary-copy :global(.locale-en) {
+		font-size: 0.88em;
+		line-height: 1.5;
+	}
+
+	.detail-title {
+		margin-bottom: 0.2rem;
+		font-size: 0.95rem;
+	}
+
+	.detail-subtitle {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 0.92rem;
+	}
+
+	.detail-list {
+		margin: 0.6rem 0 0;
+		padding-left: 1.1rem;
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.detail-list li {
+		margin: 0;
+		color: rgb(var(--gray-dark));
+		font-size: 0.93rem;
+		line-height: 1.45;
+	}
+
+	.detail-list :global(.is-bilingual .locale-en),
+	.project-points :global(.is-bilingual .locale-en),
+	.resume-role :global(.is-bilingual .locale-en) {
+		margin-top: 0.18rem;
+	}
+
+	.project-list {
+		display: grid;
+		gap: 1.35rem;
+	}
+
+	.project-block + .project-block {
+		padding-top: 1.3rem;
+		border-top: 1px solid rgba(158, 177, 201, 0.22);
+	}
+
+	.project-title {
+		margin-bottom: 0.2rem;
+		font-size: 1.08rem;
+		line-height: 1.35;
+	}
+
+	.project-heading {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.project-title-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.project-title-link:hover {
+		color: var(--accent-dark);
+	}
+
+	.project-case-link {
+		width: fit-content;
+		color: var(--accent-dark);
+		font-size: 0.88rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.project-case-link:hover {
+		text-decoration: underline;
+	}
+
+	.project-points {
+		margin: 0.85rem 0 0;
+		padding-left: 1.2rem;
+		display: grid;
+		gap: 0.55rem;
+	}
+
+	.project-points li {
+		margin: 0;
+		color: rgb(var(--gray-dark));
+	}
+
+	.subsection-title {
+		color: var(--accent-dark);
+	}
+
+	.project-list-compact {
+		gap: 0.9rem;
+	}
+
+	.project-block-compact + .project-block-compact {
+		padding-top: 0.95rem;
+	}
+
+	.project-title-compact {
+		font-size: 0.98rem;
+		line-height: 1.28;
+	}
+
+	.project-points-compact {
+		margin-top: 0.6rem;
+		gap: 0.35rem;
+	}
+
+	.project-points-compact li {
+		font-size: 0.92rem;
+		line-height: 1.5;
+	}
+
+	.layout-switcher {
+		position: sticky;
+		bottom: 1rem;
+		z-index: 15;
+		margin: 1rem auto 0;
+		width: fit-content;
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.7rem 0.85rem;
+		border: 1px solid rgba(156, 176, 201, 0.35);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.92);
+		box-shadow: 0 12px 28px rgba(35, 68, 110, 0.12);
+		backdrop-filter: blur(10px);
+	}
+
+	.layout-switcher-title {
+		padding-right: 0.3rem;
+		color: rgb(var(--gray-dark));
+		font-size: 0.88rem;
+		font-weight: 700;
+	}
+
+	.layout-button {
+		padding: 0.5rem 0.9rem;
+		border: 1px solid rgba(156, 176, 201, 0.35);
+		border-radius: 999px;
+		background: transparent;
+		color: rgb(var(--gray-dark));
+		font: inherit;
+		font-size: 0.88rem;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.layout-button.is-active {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: #fff;
+	}
+
+	@media (max-width: 900px) {
+		.resume-board[data-layout='double'] .resume-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.resume-board[data-layout='double'] .resume-main,
+		.resume-board[data-layout='double'] .resume-sidebar {
+			order: initial;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.resume-board {
+			padding: 1rem;
+			border-radius: 24px;
+		}
+
+		.layout-switcher {
+			gap: 0.4rem;
+			padding: 0.6rem 0.7rem;
+		}
+
+		.layout-switcher-title {
+			display: none;
+		}
+	}
 </style>

@@ -11,7 +11,7 @@ const locale = getLocaleFromPath(Astro.url.pathname);
 	<div class="footer-shell">
 		<div>
 			<p class="footer-title">7-lovski</p>
-			<LocalizedText locale={locale} text={footerContent.copy} tag="p" class="footer-copy" />
+			<LocalizedText locale={locale} text={footerContent.copy} tag="p" class={`footer-copy footer-copy-${locale}`} />
 		</div>
 
 		<div class="footer-links">
@@ -55,6 +55,14 @@ const locale = getLocaleFromPath(Astro.url.pathname);
 	:global(.footer-copy) {
 		margin: 0.4rem 0 0;
 		font-size: 0.95rem;
+	}
+
+	:global(.footer-copy-zh) {
+		font-size: 0.9rem;
+	}
+
+	:global(.footer-copy-bi .locale-zh) {
+		font-size: 0.94em;
 	}
 
 	.footer-links {

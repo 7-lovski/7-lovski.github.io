@@ -12,16 +12,19 @@ interface Props {
 
 const { locale, text, tag = 'p', class: className } = Astro.props;
 const Tag = tag;
+const zhText = text?.zh ?? '';
+const enText = text?.en ?? '';
+const isSameText = zhText.trim() === enText.trim();
 ---
 
 {
-    locale === 'bi' ? (
+    locale === 'bi' && !isSameText ? (
     <Tag class:list={[className, 'is-bilingual']}>
-        <span class="locale-zh">{text.zh}</span>
-        <span class="locale-en">{text.en}</span>
+        <span class="locale-zh">{zhText}</span>
+        <span class="locale-en">{enText}</span>
     </Tag>
         ) : (
-    <Tag class={className}>{locale === 'zh' ? text.zh : text.en}</Tag>
+    <Tag class={className}>{locale === 'en' ? enText || zhText : zhText || enText}</Tag>
         )
     }
 

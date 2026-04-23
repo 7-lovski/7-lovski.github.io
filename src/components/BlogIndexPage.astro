@@ -6,7 +6,7 @@ import FormattedDate from './FormattedDate.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
 import type { Locale } from '../utils/i18n';
-import { withLocale } from '../utils/i18n';
+import { getContentPath } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
 
 interface Props {
@@ -40,7 +40,7 @@ const pageDescription = {
             {
                 posts.map((post) => (
                         <li>
-                            <a href={withLocale(`/blog/${post.id}/`, locale)}>
+                            <a href={getContentPath('blog', post.id, locale)}>
                                 {post.data.heroImage && (
                                         <Image width={720} height={360} src={post.data.heroImage} alt="" />
                                 )}
