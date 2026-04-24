@@ -44,240 +44,281 @@ mediaDescription:
   en: Future media can include screenshots or short clips of the main menu, character selection, Crunch / Phase combat, EOS login and session flow, and Linux dedicated-server validation.
 ---
 
-import { Fragment } from 'astro/jsx-runtime';
-import LocalizedProse from '../../components/LocalizedProse.astro';
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 项目概述
-
-</Fragment>
-<Fragment slot="en">
-
-## Project Overview
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-这是一个基于 Unreal Engine 5.6 开发的第三人称多人联机项目。我在项目中主要完成了角色战斗、GAS 能力系统、UI 流程、EOS 联机流程，以及 Windows 客户端和 Linux 专用服务器打包。
-
-</Fragment>
-<Fragment slot="en">
-
-This is a third-person multiplayer project developed with Unreal Engine 5.6. My work focused on character combat, the GAS ability system, UI flow, EOS networking, and packaging both the Windows client and Linux dedicated server.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-项目包含 Crunch 和 Phase 两名可操作角色。Crunch 侧重近战压制、攻击节奏和技能衔接；Phase 侧重远程瞄准、技能释放和命中反馈。我围绕这两名角色实现了对应的战斗能力、动画表现和 UI 反馈。
-
-</Fragment>
-<Fragment slot="en">
-
-The project includes two playable characters: Crunch and Phase. Crunch focuses on melee pressure, attack rhythm, and skill chaining, while Phase focuses on ranged aiming, ability release, and hit feedback. I implemented the related combat abilities, animation presentation, and UI feedback around these two characters.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 我的职责
-
-</Fragment>
-<Fragment slot="en">
-
-## Responsibilities
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-该项目主要由我独立完成。我负责的内容包括：
-
-- 搭建第三人称多人项目基础结构与主要游戏流程。
-- 基于 GAS 组织角色属性、普通攻击、技能配置、升级系统与相关 UI。
-- 实现 Crunch 与 Phase 两名角色的差异化战斗能力。
-- 补充移动、动画混合、IK 脚步适配、远程瞄准、小兵、AI 行为、对象池、商店和装备合成等系统。
-- 实现主菜单、角色选择、房间 / 会话搜索、本地联机和 EOS 联机流程。
-- 输出 Windows 客户端与 LinuxServer 专用服务器打包，并进行远端地址连接验证。
-
-</Fragment>
-<Fragment slot="en">
-
-This project was primarily developed as individual work. My responsibilities included:
-
-- Building the third-person multiplayer project foundation and main game flow.
-- Organizing attributes, basic attacks, skill configuration, progression, and related UI around GAS.
-- Implementing differentiated combat kits for Crunch and Phase.
-- Adding movement, animation blending, IK foot adaptation, ranged aiming, minions, AI behaviors, object pooling, shop flow, and equipment crafting.
-- Implementing the main menu, character selection, room / session search, local multiplayer, and EOS-based online flow.
-- Producing Windows client and LinuxServer dedicated-server builds, then validating remote-address connection.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 核心系统
-
-</Fragment>
-<Fragment slot="en">
-
-## Core Systems
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-### GAS 角色能力系统
-
-</Fragment>
-<Fragment slot="en">
-
-### GAS Character Ability System
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-我使用 GAS 搭建角色能力框架，并实现了角色属性、普通攻击、技能配置、升级流程和相关 UI。角色数值、技能释放和界面表现都围绕这套能力结构组织，方便后续继续添加新角色或新技能。
-
-</Fragment>
-<Fragment slot="en">
-
-I used GAS to build the character ability framework, then implemented attributes, basic attacks, skill configuration, progression, and related UI. Character stats, ability activation, and interface feedback are organized around this structure so new characters or skills can be added more easily later.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-在 Crunch 的实现中，我主要处理近战攻击、技能衔接和贴身战斗节奏；在 Phase 的实现中，我主要处理远程瞄准、技能释放、命中判定和反馈表现。两名角色共用同一套 GAS 基础结构，但在技能逻辑和战斗节奏上做了区分。
-
-</Fragment>
-<Fragment slot="en">
-
-For Crunch, I mainly handled melee attacks, ability chaining, and close-range combat rhythm. For Phase, I mainly handled ranged aiming, ability release, hit validation, and feedback presentation. Both characters share the same GAS foundation, while their skill logic and combat pacing remain distinct.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-### 战斗与对局支撑系统
-
-</Fragment>
-<Fragment slot="en">
-
-### Combat and Match Support Systems
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-除了角色技能本身，我还实现了多组对局支撑系统，包括角色移动、动画混合、IK 脚步适配、远程瞄准判定、小兵和 AI 行为、对象池、商店、装备合成，以及运送 / 捕获类玩法循环。
-
-</Fragment>
-<Fragment slot="en">
-
-Beyond the character abilities themselves, I implemented several match-support systems, including character movement, animation blending, IK foot adaptation, ranged aiming checks, minions and AI behavior, object pooling, shop flow, equipment crafting, and escort / capture-style gameplay loops.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 联机与发布
-
-</Fragment>
-<Fragment slot="en">
-
-## Networking and Release
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-联机部分我接入了 Epic Online Services（EOS），并实现了主菜单、角色选择、房间 / 会话搜索、本地联机、设备码登录和在线会话流程。打包后的客户端运行时可以加载 EOS SDK，并进入会话搜索与登录流程。
-
-</Fragment>
-<Fragment slot="en">
-
-For networking, I integrated Epic Online Services (EOS) and implemented the main menu, character selection, room / session search, local multiplayer, device-code login, and online session flow. The packaged client can load the EOS SDK and enter the session search and login flow at runtime.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-发布层面，我完成了 Windows 客户端打包和独立 LinuxServer 专用服务器打包。客户端包包含可运行的 Windows 可执行文件，服务端包包含 Linux 服务器入口与 EOS Linux 运行库。我也使用远端地址进行连接测试，验证客户端可以连接到服务端。
-
-</Fragment>
-<Fragment slot="en">
-
-On the release side, I packaged both the Windows client and the standalone LinuxServer dedicated server. The client package includes a runnable Windows executable, while the server package includes the Linux server entry point and EOS Linux runtime library. I also tested remote-address connection to verify that the client could connect to the server.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 项目成果
-
-</Fragment>
-<Fragment slot="en">
-
-## Outcome
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-最终，我完成了一个包含角色战斗、GAS 能力、对局支撑系统、EOS 联机流程、Windows 客户端打包和 Linux 专用服务器打包的第三人称多人项目案例。
-
-</Fragment>
-<Fragment slot="en">
-
-The final result is a third-person multiplayer case study that includes character combat, GAS abilities, match-support systems, EOS networking, Windows client packaging, and Linux dedicated-server packaging.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-这个项目中我主要负责的是把多个系统真正做出来并串起来：角色能战斗，UI 能走流程，客户端能打包运行，EOS 能进入登录和会话流程，Linux 专用服务器也能独立输出并用于连接测试。
-
-</Fragment>
-<Fragment slot="en">
-
-My main work in this project was to implement and connect the systems end to end: characters can fight, the UI can drive the flow, the client can be packaged and launched, EOS can enter login and session flow, and the Linux dedicated server can be built separately and used for connection testing.
-
-</Fragment>
-</LocalizedProse>
+import LocalizedText from '../../components/LocalizedText.astro';
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Role</p>
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '我的职责',
+        en: 'What I was responsible for',
+      }}
+      tag="h2"
+      class="section-title"
+    />
+  </div>
+
+  <ul class="role-list">
+    <li>
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '• 搭建第三人称多人项目基础流程，把角色战斗、菜单和联机串起来。',
+          en: '• Built the third-person multiplayer foundation and connected combat, menu flow, and networking.',
+        }}
+        tag="p"
+      />
+    </li>
+    <li>
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '• 基于 GAS 组织角色属性、技能配置、升级系统和战斗反馈。',
+          en: '• Organized attributes, abilities, progression, and combat feedback around GAS.',
+        }}
+        tag="p"
+      />
+    </li>
+    <li>
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '• 完成 EOS 联机流程，以及 Windows 客户端和 LinuxServer 打包验证。',
+          en: '• Finished EOS session flow plus Windows client and LinuxServer packaging validation.',
+        }}
+        tag="p"
+      />
+    </li>
+  </ul>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-coral">
+        <p class="placeholder-card-label">
+          <LocalizedText
+            locale="bi"
+            text={{
+              zh: '【角色战斗 / GAS 蓝图截图占位】',
+              en: 'Character Combat / GAS Blueprint Placeholder',
+            }}
+            tag="span"
+          />
+        </p>
+        <span class="wip-tag">WIP 截图</span>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">System 01</p>
+        <LocalizedText
+          locale="bi"
+          text={{
+            zh: '角色战斗先站住',
+            en: 'Locking down the combat foundation first',
+          }}
+          tag="h2"
+          class="section-title"
+        />
+      </div>
+
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '我先用 GAS 把角色属性、普通攻击、技能配置和升级流程整理成一套基础结构，避免后面每加一个角色都重写一遍。',
+          en: 'I started by shaping attributes, basic attacks, ability configuration, and progression into one GAS-based foundation so each new character would not become a rewrite.',
+        }}
+        tag="p"
+      />
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: 'Crunch 和 Phase 共用同一套底层，但战斗节奏完全分开。一个偏近战压制和连招，一个偏远程瞄准、释放和命中反馈。',
+          en: 'Crunch and Phase share the same backbone, but their pacing is deliberately separated: one leans into melee pressure and chaining, the other into ranged aiming, release timing, and hit feedback.',
+        }}
+        tag="p"
+      />
+    </div>
+  </div>
+</section>
+
+<blockquote class="dev-note">
+  <LocalizedText
+    locale="bi"
+    text={{
+      zh: 'GAS 的 Prediction 在 LAN 和 EOS 下表现不完全一致，真正开始联机测试之后才发现有些反馈时机会偏掉，这块调了很久。',
+      en: 'GAS prediction did not feel identical between LAN and EOS sessions. I only saw some feedback timing drift once real multiplayer tests started, and it took a while to tune.',
+    }}
+    tag="p"
+  />
+</blockquote>
+
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">System 02</p>
+        <LocalizedText
+          locale="bi"
+          text={{
+            zh: '联机流程不能只是“能连上”',
+            en: 'Networking needed more than a successful connection',
+          }}
+          tag="h2"
+          class="section-title"
+        />
+      </div>
+
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '我把主菜单、角色选择、房间搜索、本地联机和 EOS 登录流程串成了一条完整路径，尽量让这页展示的不是某个单点功能，而是玩家真的能走完的流程。',
+          en: 'I connected the main menu, character select, session search, local multiplayer, and EOS login into one usable path so the project would read as a playable flow instead of isolated features.',
+        }}
+        tag="p"
+      />
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '对我来说，这部分最重要的不是界面有多复杂，而是 UI、SDK 和会话状态切换之间不会互相打架。',
+          en: 'The hard part was not making a flashy interface. It was keeping UI state, SDK behavior, and session transitions from fighting each other.',
+        }}
+        tag="p"
+      />
+    </div>
+
+    <div class="narrative-visual">
+      <div class="placeholder-card is-yellow">
+        <p class="placeholder-card-label">
+          <LocalizedText
+            locale="bi"
+            text={{
+              zh: '【联机会话界面占位】',
+              en: 'Networking Session UI Placeholder',
+            }}
+            tag="span"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-mint">
+        <p class="placeholder-card-label">
+          <LocalizedText
+            locale="bi"
+            text={{
+              zh: '【Linux 专用服务器 / 远端连接验证占位】',
+              en: 'Linux Dedicated Server / Remote Connection Placeholder',
+            }}
+            tag="span"
+          />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">System 03</p>
+        <LocalizedText
+          locale="bi"
+          text={{
+            zh: '最后要能打包、能连、能复现',
+            en: 'The last step was making the whole thing shippable',
+          }}
+          tag="h2"
+          class="section-title"
+        />
+      </div>
+
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '我分别输出了 Windows 客户端和 LinuxServer 专用服务器包，并做了远端地址连接测试。做到这里，这个项目才真正从“功能集合”变成“可以演示的案例”。',
+          en: 'I packaged the Windows client and the Linux dedicated server separately, then validated remote-address connection. That was the point where the project finally felt like a case study instead of a pile of features.',
+        }}
+        tag="p"
+      />
+      <LocalizedText
+        locale="bi"
+        text={{
+          zh: '这一步也逼着我回头检查很多细节，例如启动流程、依赖打包和不同运行环境下的稳定性。',
+          en: 'That packaging step also forced a second pass on small but real issues such as startup flow, runtime dependencies, and stability across environments.',
+        }}
+        tag="p"
+      />
+    </div>
+  </div>
+</section>
+
+<details class="tech-details">
+  <summary>
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '展开技术实现细节',
+        en: 'Expand technical implementation details',
+      }}
+      tag="span"
+    />
+  </summary>
+
+  <div class="tech-details-body">
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '除了核心战斗链路，我还补了不少支撑系统，包括角色移动、动画混合、IK 脚步适配、远程瞄准判定、小兵和 AI 行为、对象池、商店、装备合成，以及运送 / 捕获类玩法循环。',
+        en: 'Beyond the core combat loop, I also built a range of support systems including movement, animation blending, IK foot placement, ranged aiming checks, minions and AI behavior, object pooling, shop flow, equipment crafting, and escort / capture-style loops.',
+      }}
+      tag="p"
+    />
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '这些内容单看都不算“主角”，但它们决定了整个项目是不是只停留在演示一个技能，还是能支撑一整局多人对战流程。',
+        en: 'None of those pieces are the headline feature by themselves, but together they decide whether the project is just showing one mechanic or actually supporting a multiplayer match loop.',
+      }}
+      tag="p"
+    />
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '后续如果补充真实素材，我会优先放主菜单、角色选择、Crunch / Phase 战斗表现、EOS 登录和 Linux 专用服务器验证的截图或短视频。',
+        en: 'If I add real media later, the first things I want to capture are the main menu, character select, Crunch / Phase combat, EOS login flow, and Linux dedicated-server validation.',
+      }}
+      tag="p"
+    />
+  </div>
+</details>
+
+<section class="outcome-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Outcome</p>
+    <LocalizedText
+      locale="bi"
+      text={{
+        zh: '最后的结果',
+        en: 'What this project became',
+      }}
+      tag="h2"
+      class="section-title"
+    />
+  </div>
+
+  <LocalizedText
+    locale="bi"
+    text={{
+      zh: '最后我确实把角色战斗、GAS、EOS 联机和服务端打包都串起来了，但这个项目给我最大的收获不是“功能做完了”，而是我更清楚哪些系统在单机里看起来成立，到了真实联机和打包阶段才算真正站得住。',
+      en: 'In the end, I did connect character combat, GAS, EOS networking, and server packaging into one working case study. The bigger takeaway for me was learning which systems only look finished in a local prototype and which ones actually hold up once networking and packaging become real.',
+    }}
+    tag="p"
+  />
+</section>
