@@ -1,7 +1,9 @@
 ﻿---
+import { Image } from 'astro:assets';
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
+import AvatarImage from '../assets/头像.jpg';
 import { aboutContent } from '../data/siteContent';
 import type { Locale } from '../utils/i18n';
 
@@ -22,7 +24,10 @@ const { locale } = Astro.props;
 
     <section class="about-grid">
         <article class="card about-card intro-card">
-            <LocalizedText locale={locale} text={aboutContent.intro.title} tag="h2" />
+            <div class="intro-head">
+                <LocalizedText locale={locale} text={aboutContent.intro.title} tag="h2" />
+                <Image width={160} height={160} src={AvatarImage} alt="柒年Lovski avatar" class="avatar-image" />
+            </div>
             {
                 aboutContent.intro.text.map((paragraph) => (
                     <LocalizedText locale={locale} text={paragraph} tag="p" />
@@ -66,6 +71,26 @@ const { locale } = Astro.props;
     .intro-card {
         grid-row: span 2;
     }
+    .intro-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .intro-head h2 {
+        margin: 0;
+        min-width: 0;
+    }
+    .avatar-image {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 14px 28px rgba(20, 43, 74, 0.16);
+        flex: 0 0 auto;
+    }
     .about-card p,
     .about-card li {
         color: rgb(var(--gray));
@@ -81,6 +106,10 @@ const { locale } = Astro.props;
         }
         .intro-card {
             grid-row: auto;
+        }
+        .avatar-image {
+            width: 84px;
+            height: 84px;
         }
     }
 </style>

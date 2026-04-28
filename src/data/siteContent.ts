@@ -290,8 +290,8 @@ export const aboutContent = {
 		title: { zh: '自我介绍', en: 'Introduction' },
 		text: [
 			{
-				zh: '我是柒年Lovski，一名专注于 Gameplay 与联机系统开发的游戏开发者，这个网站是我整理项目、记录学习、展示成长过程的地方。',
-				en: 'I am 7-Lovski, a game developer focused on Gameplay and networking systems. This website is where I organize projects, record learning, and show my growth process.',
+				zh: '我是柒年Lovski，一名游戏开发者，这个网站是我整理项目、记录学习、展示成长过程的地方。',
+				en: 'I am 7-Lovski, a game developer. This website is where I organize projects, record learning, and show my growth process.',
 			},
 			{
 				zh: '我热爱用代码构建有趣的交互体验，从英雄技能、敌人AI，到多人大厅和专用服务器，专注于 Unreal Engine 的 Gameplay Ability System 和 Online Subsystem 联机方案，同时也具备 Unity 项目开发经验。',
