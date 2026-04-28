@@ -1,211 +1,133 @@
 ---
 title:
-  zh: UE｜GAS 第三人称多人联机项目
-  en: UE | GAS-Based Third-Person Multiplayer Project
+  zh: UE MOBA 原型 — 捕获推进
+  en: UE MOBA Prototype — Capture Push
 description:
-  zh: 我在 Unreal Engine 5.6 中完成的第三人称多人联机项目，主要实现角色战斗、GAS 能力系统、EOS 联机流程和 Linux 专用服务器打包。
-  en: A third-person multiplayer project I built in Unreal Engine 5.6, focused on character combat, GAS-driven abilities, EOS networking, and Linux dedicated-server packaging.
+  zh: 基于 UE5 + GAS + EOS + Docker 的第三人称网络MOBA游戏原型
+  en: A third-person online MOBA game prototype based on UE5 + GAS + EOS + Docker
 summary:
-  zh: 独立完成项目基础搭建、角色能力、战斗逻辑、UI 流程、EOS 联机、Windows 客户端打包和 LinuxServer 专用服务器打包。
-  en: Independently handled project setup, character abilities, combat logic, UI flow, EOS networking, Windows client packaging, and LinuxServer dedicated-server packaging.
+  zh: >-
+    这是一款完全由个人开发的第三人称多人MOBA游戏原型，旨在深入掌握虚幻引擎的实时网络对战技术栈。项目以"捕获推进"为核心玩法——玩家需护送地图中央的捕获器至敌方核心处完成占领，融合了英雄对抗、小兵AI与装备经济体系。
+  en: >-
+    This is a fully solo-developed third-person multiplayer MOBA game prototype, aimed at deeply mastering Unreal Engine's real-time networked PvP technology stack. The project uses "capture push" as its core gameplay: players need to escort the capturer in the center of the map to the enemy core to complete occupation, combining hero combat, minion AI, and an equipment economy system.
 role:
-  zh: 个人项目｜玩法系统、角色战斗、联机流程与服务端打包
-  en: Individual Project | Gameplay systems, character combat, networking flow, and server packaging
+  zh: 独立开发｜玩法系统、GAS 实践、AI 小兵、动画、联机会话与 Docker 部署
+  en: Independent Development | Gameplay Systems, GAS Practice, Minion AI, Animation, Online Sessions, and Docker Deployment
 status:
   zh: 项目案例
   en: Case Study
 stack:
-  - zh: Unreal Engine 5.6
-    en: Unreal Engine 5.6
+  - zh: C++
+    en: C++
+  - zh: Unreal Engine 5
+    en: Unreal Engine 5
   - zh: GAS
     en: GAS
   - zh: EOS
     en: EOS
-  - zh: Multiplayer
-    en: Multiplayer
-  - zh: 动画混合 / IK
-    en: Animation Blend / IK
-  - zh: Linux 专用服务器
-    en: Linux Dedicated Server
+  - zh: Docker
+    en: Docker
+  - zh: Behavior Tree
+    en: Behavior Tree
+  - zh: Animation
+    en: Animation
 highlights:
-  - zh: 使用 GAS 实现角色属性、普通攻击、技能配置、升级系统和相关 UI。
-    en: Used GAS to implement character attributes, basic attacks, skill configuration, progression, and related UI.
-  - zh: 实现 Crunch 与 Phase 两名角色的战斗能力，并完成移动、瞄准、动画混合、IK、AI、小兵与对象池等系统。
-    en: Implemented combat abilities for Crunch and Phase, along with movement, aiming, animation blending, IK, AI, minions, and object-pooling systems.
-  - zh: 实现主菜单、角色选择、房间 / 会话搜索、本地联机和 EOS 登录联机流程。
-    en: Implemented the main menu, character selection, room / session search, local multiplayer, and EOS login / networking flow.
-  - zh: 完成 Windows 客户端与 LinuxServer 专用服务器打包，并测试远端地址连接。
-    en: Packaged the Windows client and LinuxServer dedicated server, then tested remote-address connection.
+  - zh: 对战规模：框架支持 1v1 至 5v5（可配置），当前开放 2v2。
+    en: >-
+      Match scale: the framework supports 1v1 to 5v5 (configurable), currently opened as 2v2.
+  - zh: 胜利条件：一方将捕获器推进至敌方核心区域并完成占领，过程中需持续护送与保护。
+    en: >-
+      Win condition: one side pushes the capturer to the enemy core area and completes occupation, requiring continuous escort and protection during the process.
+  - zh: AI 小兵：双方基地周期性派出小兵沿固定路线推进，参与战斗与推线。
+    en: >-
+      AI minions: both bases periodically send out minions that advance along fixed routes, participating in combat and lane pushing.
+  - zh: 经济系统：通过击杀敌方英雄/小兵获取金币，在商店购买装备，合成高级装备，并使用装备主动技能扭转战局。
+    en: >-
+      Economy system: players gain gold by killing enemy heroes/minions, buy equipment in the shop, synthesize advanced equipment, and use active equipment skills to turn the battle around.
 mediaTitle:
   zh: 项目画面与演示
   en: Visuals and Demo
 mediaDescription:
-  zh: 后续可补充主菜单、角色选择、Crunch / Phase 战斗表现、EOS 登录与会话流程、Linux 专用服务器运行验证等截图或短视频素材。
-  en: Future media can include screenshots or short clips of the main menu, character selection, Crunch / Phase combat, EOS login and session flow, and Linux dedicated-server validation.
+  zh: 页面展示 Crunch 战斗表现、会话入口流程，以及商店与装备界面。
+  en: The page shows Crunch combat, the session entry flow, and the shop and equipment UI.
 ---
 
 import LocalizedText from '../../components/LocalizedText.astro';
 
 <section class="role-section">
   <div class="section-heading-wrap">
-    <p class="section-kicker">Role</p>
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '我的职责',
-        en: 'What I was responsible for',
-      }}
-      tag="h2"
-      class="section-title"
-    />
+    <p class="section-kicker">Overview</p>
+    <LocalizedText locale="bi" text={{ zh: '项目概述', en: 'Project Overview' }} tag="h2" class="section-title" />
   </div>
 
   <ul class="role-list">
-    <li>
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '• 搭建第三人称多人项目基础流程，把角色战斗、菜单和联机串起来。',
-          en: '• Built the third-person multiplayer foundation and connected combat, menu flow, and networking.',
-        }}
-        tag="p"
-      />
-    </li>
-    <li>
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '• 基于 GAS 组织角色属性、技能配置、升级系统和战斗反馈。',
-          en: '• Organized attributes, abilities, progression, and combat feedback around GAS.',
-        }}
-        tag="p"
-      />
-    </li>
-    <li>
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '• 完成 EOS 联机流程，以及 Windows 客户端和 LinuxServer 打包验证。',
-          en: '• Finished EOS session flow plus Windows client and LinuxServer packaging validation.',
-        }}
-        tag="p"
-      />
-    </li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 这是一款完全由个人开发的第三人称多人MOBA游戏原型，旨在深入掌握虚幻引擎的实时网络对战技术栈。项目以"捕获推进"为核心玩法——玩家需护送地图中央的捕获器至敌方核心处完成占领，融合了英雄对抗、小兵AI与装备经济体系。', en: '• This is a fully solo-developed third-person multiplayer MOBA game prototype, aimed at deeply mastering Unreal Engine’s real-time networked PvP technology stack. The project uses "capture push" as its core gameplay: players need to escort the capturer in the center of the map to the enemy core to complete occupation, combining hero combat, minion AI, and an equipment economy system.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 游戏框架支持 1v1 至 5v5 的对战规模，当前通过角色假体系统（每个英雄拥有原版与假体两个变体，技能完全相同，仅基础属性数值与外观网格体不同）在2个英雄模板下提供4个可选角色，支持 2v2 对战。', en: '• The game framework supports a 1v1 to 5v5 match scale. Currently, through the character prosthetic system (each hero has an original and a prosthetic variant, with completely identical skills and only different base attribute values and appearance meshes), 4 selectable characters are provided under 2 hero templates, supporting 2v2 matches.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 实现了完整的多阶段联机流程，以及基于云端专用服务器的广域网对战体验。', en: '• Implemented a complete multi-stage online flow and a WAN battle experience based on a cloud dedicated server.' }} tag="p" /></li>
   </ul>
 </section>
 
 <section class="narrative-block">
   <div class="narrative-grid">
     <div class="narrative-visual">
-      <div class="placeholder-card is-coral">
-        <p class="placeholder-card-label">
-          <LocalizedText
-            locale="bi"
-            text={{
-              zh: '【角色战斗 / GAS 蓝图截图占位】',
-              en: 'Character Combat / GAS Blueprint Placeholder',
-            }}
-            tag="span"
-          />
-        </p>
-        <span class="wip-tag">WIP 截图</span>
-      </div>
+      <figure class="project-screenshot">
+        <img src="/projects/ue-gas-multiplayer/combat-crunch-ability.png" alt="Crunch melee ability with fire trail in the multiplayer arena" />
+        <figcaption>
+          <LocalizedText locale="bi" text={{ zh: 'Crunch 近战技能表现：攻击动作、特效反馈、血量 / 蓝量与技能栏状态同时展示。', en: 'Crunch melee ability showcase: attack animation, VFX feedback, health / mana, and ability-bar state shown together.' }} tag="span" />
+        </figcaption>
+      </figure>
     </div>
 
     <div class="narrative-copy">
       <div class="section-heading-wrap">
-        <p class="section-kicker">System 01</p>
-        <LocalizedText
-          locale="bi"
-          text={{
-            zh: '角色战斗先站住',
-            en: 'Locking down the combat foundation first',
-          }}
-          tag="h2"
-          class="section-title"
-        />
+        <p class="section-kicker">Gameplay</p>
+        <LocalizedText locale="bi" text={{ zh: '核心玩法', en: 'Core Gameplay' }} tag="h2" class="section-title" />
       </div>
 
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '我先用 GAS 把角色属性、普通攻击、技能配置和升级流程整理成一套基础结构，避免后面每加一个角色都重写一遍。',
-          en: 'I started by shaping attributes, basic attacks, ability configuration, and progression into one GAS-based foundation so each new character would not become a rewrite.',
-        }}
-        tag="p"
-      />
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: 'Crunch 和 Phase 共用同一套底层，但战斗节奏完全分开。一个偏近战压制和连招，一个偏远程瞄准、释放和命中反馈。',
-          en: 'Crunch and Phase share the same backbone, but their pacing is deliberately separated: one leans into melee pressure and chaining, the other into ranged aiming, release timing, and hit feedback.',
-        }}
-        tag="p"
-      />
+      <LocalizedText locale="bi" text={{ zh: '对战规模：框架支持 1v1 至 5v5（可配置），当前开放 2v2。', en: 'Match scale: the framework supports 1v1 to 5v5 (configurable), currently opened as 2v2.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '胜利条件：一方将捕获器推进至敌方核心区域并完成占领，过程中需持续护送与保护。', en: 'Win condition: one side pushes the capturer to the enemy core area and completes occupation, requiring continuous escort and protection during the process.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: 'AI 小兵：双方基地周期性派出小兵沿固定路线推进，参与战斗与推线。', en: 'AI minions: both bases periodically send out minions that advance along fixed routes, participating in combat and lane pushing.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '经济系统：通过击杀敌方英雄/小兵获取金币，在商店购买装备，合成高级装备，并使用装备主动技能扭转战局。', en: 'Economy system: players gain gold by killing enemy heroes/minions, buy equipment in the shop, synthesize advanced equipment, and use active equipment skills to turn the battle around.' }} tag="p" />
     </div>
   </div>
 </section>
-
-<blockquote class="dev-note">
-  <LocalizedText
-    locale="bi"
-    text={{
-      zh: 'GAS 的 Prediction 在 LAN 和 EOS 下表现不完全一致，真正开始联机测试之后才发现有些反馈时机会偏掉，这块调了很久。',
-      en: 'GAS prediction did not feel identical between LAN and EOS sessions. I only saw some feedback timing drift once real multiplayer tests started, and it took a while to tune.',
-    }}
-    tag="p"
-  />
-</blockquote>
 
 <section class="narrative-block is-reversed">
   <div class="narrative-grid">
     <div class="narrative-copy">
       <div class="section-heading-wrap">
-        <p class="section-kicker">System 02</p>
-        <LocalizedText
-          locale="bi"
-          text={{
-            zh: '联机流程不能只是“能连上”',
-            en: 'Networking needed more than a successful connection',
-          }}
-          tag="h2"
-          class="section-title"
-        />
+        <p class="section-kicker">GAS</p>
+        <LocalizedText locale="bi" text={{ zh: '英雄与假体系统（GAS 实践）', en: 'Hero and Prosthetic System (GAS Practice)' }} tag="h2" class="section-title" />
       </div>
 
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '我把主菜单、角色选择、房间搜索、本地联机和 EOS 登录流程串成了一条完整路径，尽量让这页展示的不是某个单点功能，而是玩家真的能走完的流程。',
-          en: 'I connected the main menu, character select, session search, local multiplayer, and EOS login into one usable path so the project would read as a playable flow instead of isolated features.',
-        }}
-        tag="p"
-      />
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '对我来说，这部分最重要的不是界面有多复杂，而是 UI、SDK 和会话状态切换之间不会互相打架。',
-          en: 'The hard part was not making a flashy interface. It was keeping UI state, SDK behavior, and session transitions from fighting each other.',
-        }}
-        tag="p"
-      />
+      <LocalizedText locale="bi" text={{ zh: '通过"同技能、异数值"的设计，在控制开发成本的同时扩充可选角色池：', en: 'Through the "same skills, different values" design, the selectable character pool is expanded while controlling development cost:' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: 'Crunch 系（机器人战士）：Crunch（原版）为标准近战压制型，基础属性均衡；Crunch 假体为不同外观网格体，基础属性偏向更高生命/更低攻击（或反之），技能组与原版完全相同。', en: 'Crunch line (robot warrior): Crunch (original) is a standard melee pressure type with balanced base attributes; Crunch prosthetic uses a different appearance mesh, with base attributes leaning toward higher health/lower attack (or the reverse), and the skill set is completely identical to the original.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: 'Phase 系（人类女性法师）：Phase（原版）为标准远程控制型，基础属性均衡；Phase 假体为不同外观网格体，基础属性偏移（如更高法伤/更低生命），技能组与原版完全相同。', en: 'Phase line (human female mage): Phase (original) is a standard ranged control type with balanced base attributes; Phase prosthetic uses a different appearance mesh, with shifted base attributes (such as higher magic damage/lower health), and the skill set is completely identical to the original.' }} tag="p" />
     </div>
 
     <div class="narrative-visual">
-      <div class="placeholder-card is-yellow">
-        <p class="placeholder-card-label">
-          <LocalizedText
-            locale="bi"
-            text={{
-              zh: '【联机会话界面占位】',
-              en: 'Networking Session UI Placeholder',
-            }}
-            tag="span"
-          />
-        </p>
-      </div>
+      <figure class="project-screenshot is-wide">
+        <img src="/projects/ue-gas-multiplayer/shop-equipment-flow.png" alt="In-game shop and equipment interface with item icons, inventory slots, and use and sell buttons" />
+        <figcaption>
+          <LocalizedText locale="bi" text={{ zh: '商店与装备界面：道具购买、背包格子、使用 / 出售按钮和装备合成节点。', en: 'Shop and equipment UI: item purchase, inventory slots, use / sell buttons, and equipment synthesis nodes.' }} tag="span" />
+        </figcaption>
+      </figure>
     </div>
   </div>
+</section>
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Abilities</p>
+    <LocalizedText locale="bi" text={{ zh: '技能体系', en: 'Ability System' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 每个角色拥有4个主动技能 + 可选装备主动技能，涵盖以下控制效果：', en: '• Each character has 4 active skills + optional active equipment skills, covering the following control effects:' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 位移：冲锋、传送等自身位移', en: '• Movement: self-movement such as charge and teleport' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 强制位移：击退、击飞、牵引（根运动 + Ability Task 驱动）', en: '• Forced movement: knockback, launch, and pull (driven by root motion + Ability Task)' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 控制状态：减速、冻结', en: '• Control states: slow and freeze' }} tag="p" /></li>
+  </ul>
 </section>
 
 <section class="narrative-block">
@@ -213,112 +135,129 @@ import LocalizedText from '../../components/LocalizedText.astro';
     <div class="narrative-visual">
       <div class="placeholder-card is-mint">
         <p class="placeholder-card-label">
-          <LocalizedText
-            locale="bi"
-            text={{
-              zh: '【Linux 专用服务器 / 远端连接验证占位】',
-              en: 'Linux Dedicated Server / Remote Connection Placeholder',
-            }}
-            tag="span"
-          />
+          <LocalizedText locale="bi" text={{ zh: 'GAS / Gameplay Effect / Ability Task', en: 'GAS / Gameplay Effect / Ability Task' }} tag="span" />
         </p>
       </div>
     </div>
 
     <div class="narrative-copy">
       <div class="section-heading-wrap">
-        <p class="section-kicker">System 03</p>
-        <LocalizedText
-          locale="bi"
-          text={{
-            zh: '最后要能打包、能连、能复现',
-            en: 'The last step was making the whole thing shippable',
-          }}
-          tag="h2"
-          class="section-title"
-        />
+        <p class="section-kicker">Implementation</p>
+        <LocalizedText locale="bi" text={{ zh: '技术实现', en: 'Technical Implementation' }} tag="h2" class="section-title" />
       </div>
 
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '我分别输出了 Windows 客户端和 LinuxServer 专用服务器包，并做了远端地址连接测试。做到这里，这个项目才真正从“功能集合”变成“可以演示的案例”。',
-          en: 'I packaged the Windows client and the Linux dedicated server separately, then validated remote-address connection. That was the point where the project finally felt like a case study instead of a pile of features.',
-        }}
-        tag="p"
-      />
-      <LocalizedText
-        locale="bi"
-        text={{
-          zh: '这一步也逼着我回头检查很多细节，例如启动流程、依赖打包和不同运行环境下的稳定性。',
-          en: 'That packaging step also forced a second pass on small but real issues such as startup flow, runtime dependencies, and stability across environments.',
-        }}
-        tag="p"
-      />
+      <LocalizedText locale="bi" text={{ zh: '原版与假体共享完全相同的 Ability 类 和 Attribute Set，仅通过不同的初始属性值（DataTable 或 CurveTable 配置）实现战术定位的差异化；网格体在 Character 蓝图中指定。', en: 'The original and prosthetic variants share completely identical Ability classes and Attribute Sets, and only use different initial attribute values (configured by DataTable or CurveTable) to implement differentiated tactical positioning; meshes are specified in the Character Blueprint.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '通过 Gameplay Effect 实现控制状态的网络同步，配合 Duration / Instant / Infinite 策略精确表现持续减速、瞬时击退击飞，以及叠加触发的冻结。', en: 'Gameplay Effects are used to implement network synchronization of control states, with Duration / Instant / Infinite strategies accurately representing persistent slow, instant knockback/launch, and stack-triggered freeze.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '强制位移与角色位移技能均通过根运动与 Ability Task 驱动，在客户端预测与服务器校验间取得平衡。', en: 'Forced movement and character movement skills are both driven by root motion and Ability Tasks, balancing client prediction and server validation.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '属性集管理生命、法力、攻击力等，通过 OnRep 同步，利用 Prediction 优化客户端响应。', en: 'The Attribute Set manages health, mana, attack power, etc., synchronizes through OnRep, and uses Prediction to optimize client response.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '冷却与消耗由 GameplayEffect 的 Cost 与 Cooldown 策略统一管理，UI 通过 ASC 委托实时更新。', en: 'Cooldowns and costs are managed uniformly by GameplayEffect Cost and Cooldown strategies, and the UI updates in real time through ASC delegates.' }} tag="p" />
     </div>
   </div>
 </section>
 
-<details class="tech-details">
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Economy</p>
+        <LocalizedText locale="bi" text={{ zh: '装备与经济系统', en: 'Equipment and Economy System' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '实现了完整的商店界面，支持装备分类浏览、购买与出售。', en: 'Implemented a complete shop interface, supporting equipment category browsing, buying, and selling.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '装备合成树：基础装备可合成为高级装备，合成配方通过 DataTable 配置，支持多级合成。', en: 'Equipment synthesis tree: basic equipment can be synthesized into advanced equipment, with synthesis recipes configured through DataTable and support for multi-level synthesis.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '装备主动技能：部分高级装备附带的主动技能，同样基于 GAS Ability 实现（如护盾、加速、范围伤害等），与英雄技能共用冷却与消耗框架。', en: 'Active equipment skills: active skills attached to some advanced equipment are also implemented based on GAS Ability (such as shield, acceleration, area damage, etc.), sharing the cooldown and cost framework with hero skills.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '金币通过击杀结算，由 GameMode 统一管理经济统计，PlayerState 持有金币数并通过属性复制同步至客户端 UI。', en: 'Gold is settled through kills. GameMode uniformly manages economy statistics, and PlayerState holds the gold amount and synchronizes it to the client UI through property replication.' }} tag="p" />
+    </div>
+
+    <div class="narrative-visual">
+      <div class="placeholder-card is-yellow">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '商店 / 装备合成树 / 装备主动技能', en: 'Shop / Equipment Synthesis Tree / Active Equipment Skills' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<details class="tech-details" open>
   <summary>
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '展开技术实现细节',
-        en: 'Expand technical implementation details',
-      }}
-      tag="span"
-    />
+    <LocalizedText locale="bi" text={{ zh: 'AI 小兵系统与动画优化', en: 'AI Minion System and Animation Optimization' }} tag="span" />
   </summary>
 
   <div class="tech-details-body">
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '除了核心战斗链路，我还补了不少支撑系统，包括角色移动、动画混合、IK 脚步适配、远程瞄准判定、小兵和 AI 行为、对象池、商店、装备合成，以及运送 / 捕获类玩法循环。',
-        en: 'Beyond the core combat loop, I also built a range of support systems including movement, animation blending, IK foot placement, ranged aiming checks, minions and AI behavior, object pooling, shop flow, equipment crafting, and escort / capture-style loops.',
-      }}
-      tag="p"
-    />
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '这些内容单看都不算“主角”，但它们决定了整个项目是不是只停留在演示一个技能，还是能支撑一整局多人对战流程。',
-        en: 'None of those pieces are the headline feature by themselves, but together they decide whether the project is just showing one mechanic or actually supporting a multiplayer match loop.',
-      }}
-      tag="p"
-    />
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '后续如果补充真实素材，我会优先放主菜单、角色选择、Crunch / Phase 战斗表现、EOS 登录和 Linux 专用服务器验证的截图或短视频。',
-        en: 'If I add real media later, the first things I want to capture are the main menu, character select, Crunch / Phase combat, EOS login flow, and Linux dedicated-server validation.',
-      }}
-      tag="p"
-    />
+    <LocalizedText locale="bi" text={{ zh: '小兵在基地周期性生产，沿预设路径推进，自动攻击敌方单位。', en: 'Minions are periodically produced at the base, advance along preset paths, and automatically attack enemy units.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: '对象池管理：因小兵高频生产与销毁，实现了通用对象池组件，避免频繁的 Actor 创建/销毁开销，支持动态扩容与回收。', en: 'Object pool management: because minions are produced and destroyed frequently, a general object pool component was implemented to avoid frequent Actor creation/destruction overhead, supporting dynamic expansion and recycling.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: '行为树 AI：小兵的行为由行为树驱动——巡逻沿路点移动、索敌进入战斗、丢失目标后回归巡逻；使用 EQS 或黑板键管理目标选择，状态切换清晰。', en: 'Behavior Tree AI: minion behavior is driven by a behavior tree: patrol along waypoints, search for enemies and enter combat, and return to patrol after losing the target; EQS or blackboard keys are used to manage target selection, with clear state switching.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: '小兵同样使用 GAS 处理伤害与 Buff，保证与英雄系统的统一性。', en: 'Minions also use GAS to handle damage and Buffs, ensuring consistency with the hero system.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: '上下半身动画分离：上半身施法/攻击动画与下半身移动动画通过骨骼混合节点独立控制，实现跑动中施法的自然表现。', en: 'Upper/lower body animation separation: upper-body casting/attack animations and lower-body movement animations are controlled independently through bone blend nodes, creating natural casting while running.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: '状态切换混合：基于 AnimBP 的状态机管理 Idle / Run / Attack / Cast / Hit 等状态间的平滑过渡。', en: 'State transition blending: an AnimBP-based state machine manages smooth transitions between Idle / Run / Attack / Cast / Hit and other states.' }} tag="p" />
+    <LocalizedText locale="bi" text={{ zh: 'IK 脚步地形自适应：双骨骼 IK 解算脚部位置，使角色在斜坡与不平整地面也能正确落脚，配合步伐距离限制防止滑步。', en: 'IK foot terrain adaptation: two-bone IK solves foot position so characters can place their feet correctly on slopes and uneven ground, with step-distance limits to prevent foot sliding.' }} tag="p" />
   </div>
 </details>
+
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Networking</p>
+        <LocalizedText locale="bi" text={{ zh: '联机会话与大厅流程（EOS 集成）', en: 'Online Session and Lobby Flow (EOS Integration)' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '基于 Epic Online Services 实现完整的联机界面与流程：', en: 'Implemented a complete online interface and flow based on Epic Online Services:' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '大厅界面：登录后进入大厅总览，显示在线好友与可用会话列表。', en: 'Lobby interface: after login, enter the lobby overview, showing online friends and the available session list.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '会话总览：通过 Online Subsystem EOS 封装异步节点，实现查找会话的搜索过滤器。', en: 'Session overview: asynchronous nodes are wrapped through Online Subsystem EOS to implement search filters for finding sessions.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '创建会话：自定义房间名、地图、最大玩家数，创建后会话信息同步至 EOS 服务器。', en: 'Create session: customize room name, map, and max player count; after creation, session information is synchronized to the EOS server.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '加入会话：从列表选择房间加入，或通过好友邀请直接加入。', en: 'Join session: select a room from the list to join, or join directly through a friend invite.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '房间 & 角色选择：进入会话房间后展示当前玩家列表，每位玩家从 Crunch 原版/假体、Phase 原版/假体中选择角色并确认准备；房主可修改设置并开始游戏。', en: 'Room & character selection: after entering the session room, the current player list is shown. Each player selects a character from Crunch original/prosthetic and Phase original/prosthetic and confirms ready; the host can modify settings and start the game.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '利用 NetDriver 的 EOS P2P 处理 NAT 穿透，稳定性需求下迁移至专用服务器模式。', en: 'EOS P2P in NetDriver is used to handle NAT traversal, and the project migrates to dedicated server mode when stability is required.' }} tag="p" />
+    </div>
+
+    <div class="narrative-visual">
+      <figure class="project-screenshot is-wide">
+        <img src="/projects/ue-gas-multiplayer/session-lobby-menu.png" alt="Crunch lobby menu with create lobby, join session, player name input, and session list panel" />
+        <figcaption>
+          <LocalizedText locale="bi" text={{ zh: '会话入口界面：创建房间、加入会话、玩家名称输入和会话列表状态集中在同一流程里。', en: 'Session entry UI: create room, join session, player-name input, and session-list state are concentrated in one flow.' }} tag="span" />
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-teal">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '专用服务器 / Docker / 云主机部署', en: 'Dedicated Server / Docker / Cloud Deployment' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Deployment</p>
+        <LocalizedText locale="bi" text={{ zh: '专用服务器与 Docker 部署', en: 'Dedicated Server and Docker Deployment' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '编译 UE 的 Linux Dedicated Server 目标，打包服务器文件。', en: 'Compile UE’s Linux Dedicated Server target and package the server files.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '编写 Dockerfile，基于 Ubuntu 镜像拷贝内容、安装依赖，暴露游戏与查询端口，启动脚本指定地图与参数。', en: 'Write a Dockerfile, copy content based on an Ubuntu image, install dependencies, expose game and query ports, and use the startup script to specify the map and parameters.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '云主机通过 docker-compose 管理实例，配置端口映射与自动重启，客户端通过公共 IP 加入。', en: 'The cloud host manages instances through docker-compose, configures port mapping and automatic restart, and clients join through the public IP.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '完成从"本地双开测试"到"公网多人联机"的完整部署流程。', en: 'Completed the full deployment flow from "local dual-client testing" to "public-network multiplayer".' }} tag="p" />
+    </div>
+  </div>
+</section>
 
 <section class="outcome-section">
   <div class="section-heading-wrap">
     <p class="section-kicker">Outcome</p>
-    <LocalizedText
-      locale="bi"
-      text={{
-        zh: '最后的结果',
-        en: 'What this project became',
-      }}
-      tag="h2"
-      class="section-title"
-    />
+    <LocalizedText locale="bi" text={{ zh: '个人收获', en: 'Personal Takeaways' }} tag="h2" class="section-title" />
   </div>
 
-  <LocalizedText
-    locale="bi"
-    text={{
-      zh: '最后我确实把角色战斗、GAS、EOS 联机和服务端打包都串起来了，但这个项目给我最大的收获不是“功能做完了”，而是我更清楚哪些系统在单机里看起来成立，到了真实联机和打包阶段才算真正站得住。',
-      en: 'In the end, I did connect character combat, GAS, EOS networking, and server packaging into one working case study. The bigger takeaway for me was learning which systems only look finished in a local prototype and which ones actually hold up once networking and packaging become real.',
-    }}
-    tag="p"
-  />
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 系统性掌握 GAS 的 Ability 制作、GameplayEffect 网络同步、强制位移处理，以及通过属性差异化假体低成本扩充角色池的架构思路。', en: '• Systematically mastered GAS Ability creation, GameplayEffect network synchronization, forced movement handling, and the architectural idea of using attribute-differentiated prosthetics to expand the character pool at low cost.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 深入理解 UE 的 Client-Server 模型、RPC 与属性复制，尤其在 MOBA 玩法下对多个独立系统（技能/装备/AI）同步的协调。', en: '• Deeply understood UE’s Client-Server model, RPC, and property replication, especially the synchronization coordination of multiple independent systems (skills/equipment/AI) under MOBA gameplay.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 实践了行为树 AI 与对象池的组合应用，理解高频生成场景下的性能优化思路。', en: '• Practiced the combined application of Behavior Tree AI and object pooling, and understood performance optimization ideas in high-frequency spawning scenarios.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 完成动画系统的工程实践，掌握分层混合、IK 解算等提升角色表现的关键技术。', en: '• Completed engineering practice for the animation system, mastering key techniques that improve character presentation such as layered blending and IK solving.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 获得从 EOS 配置到多阶段联机流程的全链路线上服务集成经验，以及 Docker 化服务器的运维能力。', en: '• Gained full-chain online service integration experience from EOS configuration to multi-stage online flow, as well as Dockerized server operations capability.' }} tag="p" /></li>
+  </ul>
 </section>

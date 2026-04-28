@@ -1,7 +1,7 @@
 ﻿---
 import type { HTMLTag } from 'astro/types';
 import type { DualText } from '../data/siteContent';
-import type { Locale } from '../utils/i18n';
+import { getLocaleFromPath, type Locale } from '../utils/i18n';
 
 interface Props {
     locale: Locale;
@@ -15,16 +15,18 @@ const Tag = tag;
 const zhText = text?.zh ?? '';
 const enText = text?.en ?? '';
 const isSameText = zhText.trim() === enText.trim();
+const routeLocale = getLocaleFromPath(Astro.url.pathname);
+const effectiveLocale = locale === 'bi' && routeLocale !== 'bi' ? routeLocale : locale;
 ---
 
 {
-    locale === 'bi' && !isSameText ? (
+    effectiveLocale === 'bi' && !isSameText ? (
     <Tag class:list={[className, 'is-bilingual']}>
         <span class="locale-zh">{zhText}</span>
         <span class="locale-en">{enText}</span>
     </Tag>
         ) : (
-    <Tag class={className}>{locale === 'en' ? enText || zhText : zhText || enText}</Tag>
+    <Tag class={className}>{effectiveLocale === 'en' ? enText || zhText : zhText || enText}</Tag>
         )
     }
 

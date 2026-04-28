@@ -1,0 +1,86 @@
+---
+title:
+  zh: Steam 联机插件开发
+  en: Steam Networking Plugin Development
+description:
+  zh: 基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件。
+  en: A Steam networking plugin built on Unreal Engine Online Subsystem.
+summary:
+  zh: 这是一个基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件。目标是研究 UE 与 Steam 的联机对接流程，并将其封装为可复用的插件，方便后续直接集成到其他项目中。
+  en: This is a Steam networking plugin built on Unreal Engine Online Subsystem. The goal was to study the networking integration flow between UE and Steam, then package it as a reusable plugin for direct integration into future projects.
+role:
+  zh: 独立开发｜Steam 联机插件封装
+  en: Independent Development | Steam Networking Plugin Packaging
+status:
+  zh: 项目案例
+  en: Case Study
+stack:
+  - zh: Unreal Engine
+    en: Unreal Engine
+  - zh: C++
+    en: C++
+  - zh: Online Subsystem
+    en: Online Subsystem
+  - zh: Steam
+    en: Steam
+highlights:
+  - zh: 基于 UE 的 Online Subsystem 框架研究并实现 Steam 联机功能。
+    en: Researched and implemented Steam networking functionality based on UE Online Subsystem.
+  - zh: 支持会话创建、搜索与加入。
+    en: Supports session creation, search, and join.
+  - zh: 将联机逻辑封装为可复用插件，可直接集成到其他 UE 项目中。
+    en: Encapsulates networking logic as a reusable plugin that can be directly integrated into other UE projects.
+mediaTitle:
+  zh: 插件流程与联机验证
+  en: Plugin Flow and Networking Validation
+mediaDescription:
+  zh: 后续可补充插件模块结构、蓝图接口、会话创建 / 搜索 / 加入流程，以及 Steam 联机测试截图。
+  en: Future media can include plugin module structure, Blueprint interfaces, session creation / search / join flow, and Steam networking test screenshots.
+---
+
+import LocalizedText from '../../components/LocalizedText.astro';
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Overview</p>
+    <LocalizedText locale="bi" text={{ zh: '项目概述', en: 'Project Overview' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 这是一个基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件。目标是研究 UE 与 Steam 的联机对接流程，并将其封装为可复用的插件，方便后续直接集成到其他项目中。', en: '• This is a Steam networking plugin built on Unreal Engine Online Subsystem. The goal was to study the networking integration flow between UE and Steam, then package it as a reusable plugin for direct integration into future projects.' }} tag="p" /></li>
+  </ul>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-teal">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: 'Online Subsystem / Steam / Session Interface', en: 'Online Subsystem / Steam / Session Interface' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Implementation</p>
+        <LocalizedText locale="bi" text={{ zh: '技术实现', en: 'Technical Implementation' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '• 基于 Online Subsystem Steam 模块，配置 Steam App ID 与凭证，完成初始化与登录验证。', en: '• Based on the Online Subsystem Steam module, configured Steam App ID and credentials, then completed initialization and login verification.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 实现会话的创建、搜索与加入流程，通过 Session Interface 封装异步调用，上层调用时无需关心底层 Steam 接口细节。', en: '• Implemented session creation, search, and join flow. Asynchronous calls are wrapped through Session Interface so upper-level callers do not need to care about underlying Steam interface details.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 将联机相关代码抽离为独立插件，包含模块初始化、会话管理、回调处理等，暴露简洁的蓝图与 C++ 接口供项目层调用。', en: '• Extracted networking-related code into an independent plugin, including module initialization, session management, and callback handling, exposing concise Blueprint and C++ interfaces for the project layer.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="outcome-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Result</p>
+    <LocalizedText locale="bi" text={{ zh: '结果', en: 'Result' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 插件完成后可直接在 UE 项目中启用，省去每次新项目重新配置 Steam 模块的重复工作。', en: '• After completion, the plugin can be directly enabled in UE projects, removing the repeated work of reconfiguring the Steam module for each new project.' }} tag="p" /></li>
+  </ul>
+</section>

@@ -1,0 +1,195 @@
+---
+title:
+  zh: Unity｜类银河恶魔城横版通关项目
+  en: Unity | Metroidvania-Style Side-Scrolling Action Project
+description:
+  zh: 一款从零搭建的横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和存档流程。
+  en: A side-scrolling action game demo built from scratch, including character actions, combat skills, enemy AI, progression systems, and save flow.
+summary:
+  zh: 这是一款从零搭建的类银河恶魔城横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和存档流程。
+  en: This is a Metroidvania-style side-scrolling action game demo built from scratch, including character actions, combat skills, enemy AI, progression systems, and save flow.
+role:
+  zh: 独立开发｜角色动作、战斗系统、敌人 AI、成长系统与 JSON 存档
+  en: Independent Development | Character Actions, Combat System, Enemy AI, Progression System, and JSON Save
+status:
+  zh: 项目案例
+  en: Case Study
+stack:
+  - zh: Unity
+    en: Unity
+  - zh: C#
+    en: C#
+  - zh: 状态机
+    en: State Machine
+  - zh: 技能树
+    en: Skill Tree
+  - zh: JSON 存档
+    en: JSON Save
+highlights:
+  - zh: 角色拥有移动、跳跃、攀墙、冲刺、连击等基础动作，基于状态机统一管理 Player 与 Enemy 的行为逻辑。
+    en: The character has basic actions such as movement, jumping, wall climbing, dashing, and combos, with Player and Enemy behavior logic unified through state machines.
+  - zh: 战斗系统包含弹反、投剑、水晶、黑洞、影子分身等能力，支持多技能交互，并附加冰/火/雷三系属性伤害。
+    en: The combat system includes parry, sword throw, crystal, black hole, shadow clone, and other abilities, supports multi-skill interactions, and adds ice/fire/lightning elemental damage.
+  - zh: 拥有多类敌人与双阶段精英怪、树形技能树、链表结构装备属性系统，以及 JSON 存档、检查点与场景切换。
+    en: Includes multiple enemy types, a two-phase elite enemy, a tree-structured skill tree, a linked-list equipment stat system, JSON save, checkpoints, and scene transitions.
+mediaTitle:
+  zh: 项目画面与玩法验证
+  en: Visuals and Gameplay Validation
+mediaDescription:
+  zh: 后续可补充角色连招、冲刺 / 攀墙、弹反、投剑、三系法术、影子分身、技能树、装备面板、精英怪双阶段战斗和存档检查点流程的截图或短视频。
+  en: Future media can include clips or screenshots for combos, dash / wall climb, parry, sword throw, three elemental spells, shadow clone, skill tree, equipment panel, two-phase elite combat, and checkpoint save flow.
+---
+
+import LocalizedText from '../../components/LocalizedText.astro';
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Overview</p>
+    <LocalizedText locale="bi" text={{ zh: '项目概述', en: 'Project Overview' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 这是一款从零搭建的类银河恶魔城横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和存档流程。', en: '• This is a Metroidvania-style side-scrolling action game demo built from scratch, including character actions, combat skills, enemy AI, progression systems, and save flow.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 项目从角色移动和跳跃的手感开始做，陆续加入了攀墙、冲刺、连击、弹反、投剑、法术水晶、影子分身、黑洞等能力，后面又补了敌人、精英怪、技能树、装备属性和检查点存档。全部做完之后，它成了一个能打的横版通关游戏 Demo。', en: '• The project started from the feel of character movement and jumping, then gradually added wall climbing, dashing, combos, parry, sword throw, spell crystal, shadow clone, black hole, and other abilities. Later, enemies, elite enemies, skill tree, equipment stats, and checkpoint save were added. After all modules were completed, it became a playable side-scrolling game demo.' }} tag="p" /></li>
+  </ul>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-coral">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '角色动作 / Entity 状态机 / 输入响应', en: 'Character Actions / Entity State Machine / Input Response' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Control</p>
+        <LocalizedText locale="bi" text={{ zh: '角色动作与状态机', en: 'Character Actions and State Machine' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '角色拥有移动、跳跃、攀墙、冲刺、连击等基础动作，输入响应和动画切换经过反复调优，保证手感连贯。', en: 'The character has basic actions such as movement, jumping, wall climbing, dashing, and combos. Input response and animation switching were repeatedly tuned to keep the feel smooth.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: 'Player、Enemy 等 Entity 共用一套状态机逻辑，移动、受击、攻击、死亡等状态被拆分清楚，不同角色之间不重复写判断条件，新增行为时更容易定位入口和退出条件。', en: 'Player, Enemy, and other Entities share one state-machine logic. States such as movement, hit reaction, attack, and death are clearly separated, avoiding repeated condition checks across characters and making entry and exit conditions easier to locate when adding new behaviors.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Combat</p>
+        <LocalizedText locale="bi" text={{ zh: '战斗与角色能力', en: 'Combat and Character Abilities' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '战斗系统包含近战连击和多个主动技能，技能之间存在交互与派生关系：', en: 'The combat system includes melee combos and multiple active skills, with interactions and derivative relationships between skills:' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '近战基础：多段连击与弹反构成底层战斗节奏，与主动技能形成交替循环。', en: 'Melee foundation: multi-hit combos and parry form the underlying combat rhythm, alternating with active skills.' }} tag="p" />
+    </div>
+
+    <div class="narrative-visual">
+      <div class="placeholder-card is-yellow">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '连击 / 弹反 / 投剑 / 水晶 / 黑洞 / 分身', en: 'Combo / Parry / Sword Throw / Crystal / Black Hole / Clone' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Skill Interactions</p>
+    <LocalizedText locale="bi" text={{ zh: '技能交互', en: 'Skill Interactions' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 黑洞 + 分身联动：黑洞释放后，范围内的敌人被暂停，期间影子分身可对静止目标进行集火攻击。两者各自独立可用，组合使用时形成"控制→爆发"的战术闭环。', en: '• Black hole + clone linkage: after the black hole is released, enemies within its range are paused, during which shadow clones can focus fire on static targets. Both can be used independently, and when combined they form a "control -> burst" tactical loop.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 法术水晶与传送锚点：默认形态下，法术水晶造成范围伤害。通过技能树解锁"传送锚点"后，水晶不再具有攻击功能，转为传送锚点，角色可随时瞬移至水晶位置。同一技能在不同技能树分支下获得完全不同的战术定位——用伤害换机动性。', en: '• Spell crystal and teleport anchor: by default, the spell crystal deals area damage. After unlocking "teleport anchor" through the skill tree, the crystal no longer attacks and becomes a teleport anchor, allowing the character to teleport to its location at any time. The same skill gains a completely different tactical role under different skill-tree branches: trading damage for mobility.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 投剑三分支：投剑作为基础远程技能，通过技能树可解锁三种变体：回旋、贯穿、弹跳。三分支共享基础投剑的冷却与消耗，仅切换弹道行为和命中逻辑。', en: '• Three sword-throw branches: as a basic ranged skill, sword throw can unlock three variants through the skill tree: spin, pierce, and bounce. The three branches share the base sword-throw cooldown and cost, only switching trajectory behavior and hit logic.' }} tag="p" /></li>
+  </ul>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-mint">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '冰 / 火 / 雷 属性伤害', en: 'Ice / Fire / Lightning Elemental Damage' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Elements</p>
+        <LocalizedText locale="bi" text={{ zh: '属性伤害系统', en: 'Elemental Damage System' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '攻击可附带冰、火、雷三种属性伤害：冰：减速；火：持续灼烧；雷：连锁传导至附近目标。', en: 'Attacks can carry ice, fire, and lightning elemental damage: ice slows, fire applies burning over time, and lightning chains to nearby targets.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '属性伤害附加在连击、投剑、水晶等攻击手段上，可与任意技能组合触发。', en: 'Elemental damage is attached to attacks such as combos, sword throw, and crystal, and can trigger in combination with any skill.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Enemies</p>
+        <LocalizedText locale="bi" text={{ zh: '敌人与精英怪', en: 'Enemies and Elite Enemy' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '多类普通敌人基于同一套 Entity 状态机，管理巡逻、追击、攻击、受击、死亡等行为。', en: 'Multiple standard enemy types are based on the same Entity state machine, managing patrol, chase, attack, hit reaction, death, and other behaviors.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '精英敌人采用双阶段设计，以血量或阶段条件触发攻击方式切换，用于验证 Boss 型敌人的状态切换、战斗节奏变化和技能压力。', en: 'The elite enemy uses a two-phase design, switching attack patterns based on health or phase conditions to validate boss-style state transitions, combat rhythm changes, and skill pressure.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '所有敌人在地图内直接参与战斗测试，与关卡流程衔接。', en: 'All enemies directly participate in combat tests inside the map and connect with the level flow.' }} tag="p" />
+    </div>
+
+    <div class="narrative-visual">
+      <div class="placeholder-card is-teal">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '普通敌人 / 双阶段精英怪 / 地图战斗测试', en: 'Standard Enemies / Two-Phase Elite / Map Combat Test' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-coral">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '技能树 / 装备属性 / JSON 存档 / 检查点', en: 'Skill Tree / Equipment Stats / JSON Save / Checkpoints' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Progression</p>
+        <LocalizedText locale="bi" text={{ zh: '成长、装备与存档', en: 'Progression, Equipment, and Save' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '技能树：树形结构，支持前置解锁和分支选择，投剑三分支、水晶传送锚点等均通过技能树节点切换形态。', en: 'Skill tree: tree structure supporting prerequisite unlocks and branch choices. The three sword-throw branches and crystal teleport anchor are all switched through skill-tree nodes.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '装备与属性系统：属性集合使用链表结构组织，便于装备、技能和临时效果之间的数值叠加。', en: 'Equipment and stat system: stat collections use a linked-list structure, making it easier to stack values between equipment, skills, and temporary effects.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '存档系统：JSON 格式读写，含简单加密，配合检查点触发自动保存。', en: 'Save system: reads and writes JSON format with simple encryption, and triggers auto-save through checkpoints.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '场景切换与设置：支持关卡间流转及音量、按键配置。', en: 'Scene switching and settings: supports level transitions plus volume and key configuration.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '以上模块接入后，角色成长与地图推进可被保存并恢复，项目具备了从开始到通关的完整体验闭环。', en: 'After these modules were connected, character progression and map progress could be saved and restored, giving the project a complete experience loop from start to completion.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="outcome-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Outcome</p>
+    <LocalizedText locale="bi" text={{ zh: '个人收获', en: 'Personal Takeaways' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 横版动作游戏的手感来自大量细节调优——状态切换时机、输入窗口、动画过渡比功能数量更重要。', en: '• The feel of a side-scrolling action game comes from many detail adjustments - state transition timing, input windows, and animation transitions matter more than the number of features.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 状态机驱动的 Entity 逻辑让角色、敌人、精英怪的行为管理更清晰，扩展时心智负担明显降低。', en: '• State-machine-driven Entity logic makes behavior management for the player, enemies, and elite enemies clearer, significantly reducing mental overhead during extension.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 技能交互设计让单个技能的价值在组合中放大，远比堆砌独立技能更有深度。', en: '• Skill interaction design amplifies the value of individual skills through combinations and has more depth than stacking independent skills.' }} tag="p" /></li>
+  </ul>
+</section>

@@ -1,0 +1,146 @@
+---
+title:
+  zh: Unity｜校园生活模拟职业生涯规划小游戏
+  en: Unity | Campus Life Career Planning Simulation Game
+description:
+  zh: 这是一款校园生活模拟与职业生涯规划主题的 Unity 小游戏。
+  en: A Unity mini-game themed around campus life simulation and career planning.
+summary:
+  zh: 这是一款校园生活模拟与职业生涯规划主题的 Unity 小游戏。在团队中负责部分编辑器工具的开发，以及角色图鉴、结算、回顾等页面的界面搭建与流程逻辑。
+  en: This is a Unity mini-game themed around campus life simulation and career planning. In the team, I was responsible for part of the editor tool development, as well as UI construction and flow logic for character codex, settlement, review, and related pages.
+role:
+  zh: 团队项目｜编辑器工具与 UI 开发
+  en: Team Project | Editor Tooling and UI Development
+status:
+  zh: 项目案例
+  en: Case Study
+stack:
+  - zh: Unity
+    en: Unity
+  - zh: C#
+    en: C#
+  - zh: ScriptableObject
+    en: ScriptableObject
+  - zh: Excel 读表
+    en: Excel Import
+highlights:
+  - zh: 基于 ScriptableObject 制作枚举快速生成工具，减少手动创建和关联配置的重复工作。
+    en: Built an enum quick-generation tool based on ScriptableObject to reduce repeated manual creation and configuration linking.
+  - zh: 完成 Excel 读取并写入 ScriptableObject 的读表工具，支持策划在 Excel 中维护数据后一键导入。
+    en: Completed an Excel import tool that reads data and writes it into ScriptableObject assets, supporting one-click import after designers maintain data in Excel.
+  - zh: 实现角色图鉴、角色详情、结算、回顾等页面的界面搭建与流程逻辑。
+    en: Implemented UI construction and flow logic for character codex, character detail, settlement, and review pages.
+mediaTitle:
+  zh: 项目画面与流程验证
+  en: Visuals and Flow Validation
+mediaDescription:
+  zh: 后续可补充角色图鉴、角色详情、结算页面、回顾页面，以及 Excel 导入与 ScriptableObject 配置工具的截图。
+  en: Future media can include screenshots of the character codex, character detail, settlement page, review page, Excel import tool, and ScriptableObject configuration tools.
+---
+
+import LocalizedText from '../../components/LocalizedText.astro';
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Overview</p>
+    <LocalizedText locale="bi" text={{ zh: '项目概述', en: 'Project Overview' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 这是一款校园生活模拟与职业生涯规划主题的 Unity 小游戏。在团队中负责部分编辑器工具的开发，以及角色图鉴、结算、回顾等页面的界面搭建与流程逻辑。', en: '• This is a Unity mini-game themed around campus life simulation and career planning. In the team, I was responsible for part of the editor tool development, as well as UI construction and flow logic for character codex, settlement, review, and related pages.' }} tag="p" /></li>
+  </ul>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-mint">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: 'ScriptableObject / 枚举配置 / 编辑器工具', en: 'ScriptableObject / Enum Config / Editor Tooling' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Editor Tool</p>
+        <LocalizedText locale="bi" text={{ zh: '编辑器工具', en: 'Editor Tooling' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '枚举快速生成工具', en: 'Enum Quick-Generation Tool' }} tag="h3" class="section-subtitle" />
+      <LocalizedText locale="bi" text={{ zh: '• 基于 ScriptableObject 制作，用于快速生成项目中用到的各类枚举配置。', en: '• Built with ScriptableObject and used to quickly generate enum configurations needed in the project.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 策划或程序选定枚举类型后，工具自动创建对应的 ScriptableObject 资源并填充默认字段，省去逐个手动创建和关联的步骤。', en: '• After a designer or programmer selects an enum type, the tool automatically creates the corresponding ScriptableObject asset and fills default fields, removing the need to manually create and link them one by one.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Excel Import</p>
+        <LocalizedText locale="bi" text={{ zh: 'Excel 读表工具', en: 'Excel Import Tool' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '• 完成从 Excel 读取数据并写入 ScriptableObject 的导入工具。', en: '• Completed an import tool that reads data from Excel and writes it into ScriptableObject assets.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 策划在 Excel 表中维护角色信息、事件数据等内容，通过工具一键导入为 ScriptableObject，数据修改后重新导入即可更新，避免直接操作资源文件造成的误改和版本冲突。', en: '• Designers maintain character information, event data, and other content in Excel, then import them into ScriptableObject assets with one click. After data changes, re-importing updates the assets and avoids accidental edits or version conflicts caused by directly modifying resource files.' }} tag="p" />
+    </div>
+
+    <div class="narrative-visual">
+      <div class="placeholder-card is-yellow">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: 'Excel → ScriptableObject → Runtime', en: 'Excel -> ScriptableObject -> Runtime' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-teal">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '角色图鉴 / 角色详情 / 结算 / 回顾', en: 'Character Codex / Detail / Settlement / Review' }} tag="span" />
+        </p>
+      </div>
+    </div>
+
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">UI Flow</p>
+        <LocalizedText locale="bi" text={{ zh: 'UI 与流程逻辑', en: 'UI and Flow Logic' }} tag="h2" class="section-title" />
+      </div>
+
+      <LocalizedText locale="bi" text={{ zh: '负责以下页面的界面搭建与逻辑实现：', en: 'Responsible for UI construction and logic implementation for the following pages:' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 角色图鉴：展示所有可收集角色的缩略图列表，支持分类筛选和未解锁状态的显示。', en: '• Character codex: displays thumbnail lists for all collectible characters, with category filtering and locked-state display.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 角色详情：展示单个角色的完整信息（属性、背景、解锁条件），从图鉴页跳转进入。', en: '• Character detail: displays full information for a single character, including attributes, background, and unlock conditions, entered from the codex page.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 结算页面：一轮游戏结束后的结果汇总，根据当次数据动态展示得分、解锁内容等。', en: '• Settlement page: summarizes results after a game round and dynamically displays score, unlocked content, and other data from that run.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '• 回顾页面：展示历史游戏记录，支持查看过往各轮的结算数据和成长轨迹。', en: '• Review page: displays historical game records and supports checking settlement data and growth trajectory from previous runs.' }} tag="p" />
+    </div>
+  </div>
+</section>
+
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">UI Manager</p>
+    <LocalizedText locale="bi" text={{ zh: '页面调度', en: 'Page Scheduling' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 各页面之间的跳转逻辑、数据传递和返回流程均由 UIManager 统一调度，保证流程可回溯且不产生循环引用。', en: '• Page transitions, data passing, and return flow between pages are all scheduled by UIManager, ensuring the process is traceable and does not create circular references.' }} tag="p" /></li>
+  </ul>
+</section>
+
+<section class="outcome-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Outcome</p>
+    <LocalizedText locale="bi" text={{ zh: '个人收获', en: 'Personal Takeaways' }} tag="h2" class="section-title" />
+  </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 理解了编辑器工具在小型团队中的实际价值——一个好的导入工具可以大幅减少策划和程序之间的沟通成本和重复劳动。', en: '• Understood the practical value of editor tools in a small team: a good import tool can greatly reduce communication cost and repeated work between designers and programmers.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 掌握了 ScriptableObject 作为数据中间层的用法，以及 Excel → SO → Runtime 的数据管线搭建。', en: '• Learned how to use ScriptableObject as a data middle layer and how to build an Excel -> SO -> Runtime data pipeline.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 在多页面 UI 系统中，对页面栈管理、数据传递方式和生命周期控制有了实际经验。', en: '• Gained practical experience with page stack management, data passing, and lifecycle control in a multi-page UI system.' }} tag="p" /></li>
+  </ul>
+</section>

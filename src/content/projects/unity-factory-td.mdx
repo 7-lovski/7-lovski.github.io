@@ -4,13 +4,13 @@ title:
   en: Unity | Tower-Defense Gameplay Development for a Factory + TD Project
 description:
   zh: 负责项目中塔防模块的功能实现，完成多类防御塔玩法开发，并参与能力系统方案调整。
-  en: Owned the tower-defense module implementation, built multiple defensive tower behaviors, and contributed to ability-system iteration.
+  en: Responsible for implementing the tower-defense module, completing multiple defensive tower gameplay features, and participating in ability-system solution adjustments.
 summary:
-  zh: 在工厂 + 塔防项目中负责塔防模块开发，完成多类防御塔玩法、攻击表现与能力系统衔接，并补充过穿、分裂等战斗效果扩展。
-  en: In a factory-plus-TD project, I was responsible for the tower-defense module, including multiple tower gameplay types, attack presentation, ability-system integration, and combat-effect extensions such as penetration and split behavior.
+  zh: 这是一款融合工厂建造与塔防玩法的团队项目。我独立负责其中的塔防模块，从防御塔的玩法实现到能力系统的技术选型，再到战斗效果扩展，走完了完整的功能开发闭环。
+  en: This is a team project combining factory building and tower-defense gameplay. I independently handled the tower-defense module, completing the full feature-development loop from tower gameplay implementation to ability-system technical selection and combat-effect expansion.
 role:
   zh: 项目成员｜塔防模块功能实现与玩法扩展
-  en: Team Project | Tower-defense module implementation and gameplay expansion
+  en: Team Member | Tower-Defense Module Implementation and Gameplay Expansion
 status:
   zh: 项目案例
   en: Case Study
@@ -28,150 +28,148 @@ stack:
     en: Combat Feedback
 highlights:
   - zh: 负责项目中塔防模块的功能实现，完成多类防御塔玩法开发。
-    en: Owned the implementation of the tower-defense module and delivered multiple defensive tower gameplay behaviors.
+    en: Responsible for implementing the tower-defense module and completing multiple defensive tower gameplay features.
   - zh: 实现子弹、激光、卫星障碍物、防御冲击波等塔类功能，并完成索敌与常态逻辑切换。
-    en: Implemented projectiles, lasers, satellite obstacles, defensive shockwaves, and tower state switching between targeting and idle logic.
+    en: Implemented projectile, laser, satellite obstacle, and defensive shockwave tower features, and completed switching between targeting and normal-state logic.
   - zh: 参与能力系统方案设计与调整，基于项目组轻量化能力系统重构发射与测试能力。
-    en: Contributed to ability-system iteration and refactored firing and test abilities on top of the team’s lightweight framework.
+    en: Participated in ability-system solution design and adjustment, and refactored firing and testing abilities based on the team's lightweight ability system.
   - zh: 完成子弹过穿、分裂等效果开发，补充塔防模块的战斗表现与功能扩展。
-    en: Added projectile penetration and split effects to improve combat expression and extend gameplay behavior coverage.
+    en: Completed projectile penetration and split effect development, adding combat presentation and functional expansion to the tower-defense module.
 mediaTitle:
   zh: 项目画面与玩法验证
   en: Visuals and Gameplay Validation
 mediaDescription:
   zh: 这里预留给后续补充的塔防布阵画面、防御塔效果演示、敌人路径与战斗反馈截图。当前先保留结构位，后续可以逐步加入不同塔类型和能力表现的对比素材。
-  en: This section is reserved for future layout captures, tower-behavior demonstrations, enemy path visuals, and combat-feedback screenshots. For now it remains a structural placeholder, with room to add comparisons between different tower types and ability effects later.
+  en: This section is reserved for future tower-defense layout screenshots, tower effect demonstrations, enemy paths, and combat feedback captures. The structure is kept for now so comparison materials for different tower types and ability effects can be added later.
 ---
 
-import { Fragment } from 'astro/jsx-runtime';
-import LocalizedProse from '../../components/LocalizedProse.astro';
+import LocalizedText from '../../components/LocalizedText.astro';
 
-<LocalizedProse>
-<Fragment slot="zh">
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Overview</p>
+    <LocalizedText locale="bi" text={{ zh: '项目概述', en: 'Project Overview' }} tag="h2" class="section-title" />
+  </div>
 
-## 项目介绍
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 这是一款融合工厂建造与塔防玩法的团队项目。我独立负责其中的塔防模块，从防御塔的玩法实现到能力系统的技术选型，再到战斗效果扩展，走完了完整的功能开发闭环。', en: '• This is a team project combining factory building and tower-defense gameplay. I independently handled the tower-defense module, completing the full feature-development loop from tower gameplay implementation to ability-system technical selection and combat-effect expansion.' }} tag="p" /></li>
+  </ul>
+</section>
 
-</Fragment>
-<Fragment slot="en">
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-mint">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '塔防模块 / 多类防御塔 / 攻击表现', en: 'Tower Defense Module / Multiple Tower Types / Attack Presentation' }} tag="span" />
+        </p>
+      </div>
+    </div>
 
-## Project Overview
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Role</p>
+        <LocalizedText locale="bi" text={{ zh: '我的职责', en: 'My Responsibilities' }} tag="h2" class="section-title" />
+      </div>
 
-</Fragment>
-</LocalizedProse>
+      <LocalizedText locale="bi" text={{ zh: '独立负责项目中塔防模块的全部功能实现', en: 'Independently responsible for all functionality implementation of the tower-defense module.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '完成多类防御塔的玩法开发与攻击表现', en: 'Completed gameplay development and attack presentation for multiple defensive tower types.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '参与能力系统方案设计，评估并推动技术选型调整', en: 'Participated in ability-system solution design, evaluated and promoted technical selection adjustments.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '扩展战斗效果，补充过穿、分裂等功能', en: 'Expanded combat effects and added features such as penetration and split behavior.' }} tag="p" />
+    </div>
+  </div>
+</section>
 
-<LocalizedProse>
-<Fragment slot="zh">
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Towers</p>
+        <LocalizedText locale="bi" text={{ zh: '防御塔功能实现', en: 'Defensive Tower Implementation' }} tag="h2" class="section-title" />
+      </div>
 
-这个项目中，我主要负责塔防模块的功能实现，围绕不同防御塔的玩法、攻击表现和功能扩展推进具体开发。
+      <LocalizedText locale="bi" text={{ zh: '实现了四类防御塔，每种拥有独立的攻击逻辑与表现：', en: 'Implemented four types of defensive towers, each with independent attack logic and presentation:' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '子弹类：直线弹道，命中后触发基础伤害', en: 'Projectile type: straight trajectory, triggers base damage on hit.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '激光类：射线持续伤害，需保持目标锁定', en: 'Laser type: ray-based continuous damage that requires target lock.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '卫星障碍物：环绕防御点旋转，碰撞敌方单位造成伤害', en: 'Satellite obstacle: rotates around the defense point and damages enemy units on collision.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '防御冲击波：周期性范围脉冲，击退或削弱周围敌人', en: 'Defensive shockwave: periodic area pulse that knocks back or weakens nearby enemies.' }} tag="p" />
+    </div>
 
-</Fragment>
-<Fragment slot="en">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-yellow">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '子弹 / 激光 / 卫星障碍物 / 防御冲击波', en: 'Projectile / Laser / Satellite Obstacle / Defensive Shockwave' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-In this project, I was mainly responsible for implementing the tower-defense module, focusing on tower gameplay behaviors, attack presentation, and functional expansion.
+<section class="narrative-block">
+  <div class="narrative-grid">
+    <div class="narrative-visual">
+      <div class="placeholder-card is-teal">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '索敌逻辑 → 攻击触发 → 冷却/常态切换', en: 'Targeting Logic -> Attack Trigger -> Cooldown / Normal-State Switching' }} tag="span" />
+        </p>
+      </div>
+    </div>
 
-</Fragment>
-</LocalizedProse>
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Flow</p>
+        <LocalizedText locale="bi" text={{ zh: '防御塔状态流转', en: 'Tower State Flow' }} tag="h2" class="section-title" />
+      </div>
 
-<LocalizedProse>
-<Fragment slot="zh">
+      <LocalizedText locale="bi" text={{ zh: '每类防御塔均包含完整的 索敌 → 攻击触发 → 冷却/常态切换 的状态流转，确保多塔共存时行为清晰且可扩展。', en: 'Each tower type includes the full state flow of targeting -> attack trigger -> cooldown / normal-state switching, ensuring clear and extensible behavior when multiple tower types coexist.' }} tag="p" />
+    </div>
+  </div>
+</section>
 
-## 我的职责
+<section class="narrative-block is-reversed">
+  <div class="narrative-grid">
+    <div class="narrative-copy">
+      <div class="section-heading-wrap">
+        <p class="section-kicker">Ability System</p>
+        <LocalizedText locale="bi" text={{ zh: '能力系统：从类 GAS 到轻量化方案', en: 'Ability System: From GAS-Like Design to Lightweight Solution' }} tag="h2" class="section-title" />
+      </div>
 
-</Fragment>
-<Fragment slot="en">
+      <LocalizedText locale="bi" text={{ zh: '最初参考 UE 的 Gameplay Ability System，尝试在 Unity 中自研一套类 GAS 的能力框架，以统一管理防御塔的发射、效果与状态。', en: 'Initially, I referenced UE Gameplay Ability System and attempted to build a GAS-like ability framework in Unity to uniformly manage tower firing, effects, and states.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '实际推进中发现系统复杂度远超项目需求：GAS 的标签管理、效果堆叠等设计对单机塔防项目过于繁重，且会增加团队其他成员的理解与维护成本。', en: 'During actual development, I found the system complexity far exceeded project needs: GAS-style tag management, effect stacking, and similar designs were too heavy for a single-player tower-defense project and increased understanding and maintenance costs for other team members.' }} tag="p" />
+      <LocalizedText locale="bi" text={{ zh: '经评估后主动提议启用该方案，转向项目组已有的轻量化能力系统，保留核心的"发射-命中-效果"链路，剥离不必要的抽象层。', en: 'After evaluation, I proactively proposed enabling that solution and switching to the team’s existing lightweight ability system, keeping the core "fire-hit-effect" chain while removing unnecessary abstraction layers.' }} tag="p" />
+    </div>
 
-## Responsibilities
+    <div class="narrative-visual">
+      <div class="placeholder-card is-coral">
+        <p class="placeholder-card-label">
+          <LocalizedText locale="bi" text={{ zh: '类 GAS → 轻量化能力系统', en: 'GAS-Like Framework -> Lightweight Ability System' }} tag="span" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-</Fragment>
-</LocalizedProse>
+<section class="role-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Extensions</p>
+    <LocalizedText locale="bi" text={{ zh: '能力扩展', en: 'Ability Extensions' }} tag="h2" class="section-title" />
+  </div>
 
-<LocalizedProse>
-<Fragment slot="zh">
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 基于轻量化方案重构了防御塔的发射与测试能力，使新塔类可以快速接入，并顺利扩展了 子弹过穿（穿透目标后继续飞行）与 子弹分裂（命中后生成子子弹）等效果。', en: '• Based on the lightweight solution, I refactored the firing and testing abilities of defensive towers, allowing new tower types to be quickly integrated, and smoothly extended effects such as projectile penetration (continuing to fly after passing through targets) and projectile split (generating child bullets after hit).' }} tag="p" /></li>
+  </ul>
+</section>
 
-我负责项目中塔防模块的功能实现，完成了多类防御塔玩法开发。
+<section class="outcome-section">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Outcome</p>
+    <LocalizedText locale="bi" text={{ zh: '个人收获', en: 'Personal Takeaways' }} tag="h2" class="section-title" />
+  </div>
 
-</Fragment>
-<Fragment slot="en">
-
-I owned the implementation of the tower-defense module and developed multiple defensive tower gameplay types.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-我实现了子弹、激光、卫星障碍物、防御冲击波等塔类功能，并完成了索敌与常态逻辑之间的切换处理。
-
-</Fragment>
-<Fragment slot="en">
-
-I implemented tower features including projectiles, lasers, satellite obstacles, and defensive shockwaves, together with switching logic between targeting and idle states.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 能力系统与扩展
-
-</Fragment>
-<Fragment slot="en">
-
-## Ability System and Extensions
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-我参与了能力系统方案的设计与调整，并基于项目组已有的轻量化能力系统重构发射与测试能力。
-
-</Fragment>
-<Fragment slot="en">
-
-I participated in ability-system design and iteration, and refactored firing and test abilities on top of the team’s lightweight ability framework.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-在此基础上，我补充了子弹过穿、分裂等效果开发，进一步完善了塔防模块的战斗表现与功能扩展。
-
-</Fragment>
-<Fragment slot="en">
-
-On top of that, I added projectile penetration and split effects to further improve combat presentation and extend the gameplay capabilities of the tower-defense module.
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-## 结果
-
-</Fragment>
-<Fragment slot="en">
-
-## Result
-
-</Fragment>
-</LocalizedProse>
-
-<LocalizedProse>
-<Fragment slot="zh">
-
-通过这部分开发，我完成了塔防模块从基础功能到战斗效果扩展的一整段实现，也积累了在团队项目中围绕现有系统继续补玩法、补表现、补功能的实践经验。
-
-</Fragment>
-<Fragment slot="en">
-
-Through this work, I completed a full stretch of implementation for the tower-defense module, from core functionality to combat-effect expansion, and gained practical experience extending gameplay, presentation, and functionality within an existing team project framework.
-
-</Fragment>
-</LocalizedProse>
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '• 掌握了 Unity 塔防玩法的核心实现：索敌、弹道、范围判定、多塔协同。', en: '• Mastered the core implementation of Unity tower-defense gameplay: targeting, trajectories, range checks, and multi-tower coordination.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 获得了一次完整的技术选型教训：系统设计需要匹配项目实际规模与团队人力，而非追求架构的"完整性"——这是从学生思维转向工程思维的重要一课。', en: '• Gained a complete technical selection lesson: system design needs to match the actual project scale and team manpower, rather than pursuing architectural "completeness" - an important lesson in moving from student thinking to engineering thinking.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 学会了在已有系统架构上进行扩展开发的技巧：读懂现有方案→适配新需求→反馈改进。', en: '• Learned techniques for extension development on an existing system architecture: understand the existing solution -> adapt to new requirements -> feed back improvements.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 积累了团队协作中管理模块边界与功能交接的实践经验。', en: '• Accumulated practical experience managing module boundaries and feature handoff in team collaboration.' }} tag="p" /></li>
+  </ul>
+</section>

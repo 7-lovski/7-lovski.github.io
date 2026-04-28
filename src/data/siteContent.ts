@@ -6,6 +6,7 @@ export type DualText = {
 export type ResumeProject = {
 	slug?: string;
 	title: DualText;
+	stack?: DualText[];
 	bullets: DualText[];
 };
 
@@ -128,14 +129,14 @@ export const homeContent = {
 		{
 			slug: 'ue-gas-multiplayer',
 			name: {
-				zh: 'UE｜基于 GAS 与联机能力的第三人称多人项目',
-				en: 'UE | Third-Person Multiplayer Project with GAS and Networking',
+				zh: 'UE MOBA 原型 — 捕获推进',
+				en: 'UE MOBA Prototype — Capture Push',
 			},
 			description: {
-				zh: '从零搭建 Unreal Engine 第三人称多人项目，独立完成核心玩法、角色系统与多人联机功能开发。',
-				en: 'Built a third-person multiplayer project in Unreal Engine from scratch and independently developed its core gameplay, character systems, and multiplayer functionality.',
+				zh: '基于 UE5 + GAS + EOS + Docker 的第三人称网络 MOBA 游戏原型，核心玩法为护送捕获器推进至敌方核心。',
+				en: 'A third-person online MOBA prototype built with UE5, GAS, EOS, and Docker, centered on escorting a capturer into the enemy core.',
 			},
-			stack: ['Unreal Engine', 'GAS', 'Multiplayer', 'EOS'],
+			stack: ['Unreal Engine 5', 'GAS', 'EOS', 'Docker'],
 		},
 		{
 			slug: 'unity-factory-td',
@@ -144,21 +145,10 @@ export const homeContent = {
 				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
 			},
 			description: {
-				zh: '负责项目中塔防模块的功能实现，完成多类防御塔玩法开发，并参与能力系统方案调整。',
-				en: 'Owned the tower-defense module implementation, built multiple defensive tower behaviors, and contributed to ability-system iteration.',
+				zh: '融合工厂建造与塔防玩法的团队项目，独立负责塔防模块功能实现，完成多类防御塔、攻击表现与能力系统衔接。',
+				en: 'A team project combining factory building and tower-defense gameplay. Independently handled tower-defense module implementation, multiple tower types, attack presentation, and ability-system integration.',
 			},
-			stack: ['Unity', 'Tower Defense', 'Ability System', 'Combat Feedback'],
-		},
-		{
-			name: {
-				zh: '交互式练习项目',
-				en: 'Interactive Practice Project',
-			},
-			description: {
-				zh: '一个预留给未来作品展示的项目卡片，用来逐步补充真实内容。',
-				en: 'A placeholder project card reserved for future demos, experiments, and real work samples.',
-			},
-			stack: ['Prototype', 'UI', 'Iteration'],
+			stack: ['Unity', 'C#', 'Tower Defense', 'Lightweight Ability System'],
 		},
 	],
 	postsTitle: {
@@ -184,18 +174,18 @@ export const projectsContent = {
 		{
 			slug: 'ue-gas-multiplayer',
 			title: {
-				zh: 'UE｜基于 GAS 与联机能力的第三人称多人项目',
-				en: 'UE | Third-Person Multiplayer Project with GAS and Networking',
+				zh: 'UE MOBA 原型 — 捕获推进',
+				en: 'UE MOBA Prototype — Capture Push',
 			},
 			description: {
-				zh: '从零搭建 Unreal Engine 第三人称多人项目，独立完成核心玩法、角色系统与多人联机功能开发。',
-				en: 'Built a third-person multiplayer project in Unreal Engine from scratch and independently developed its core gameplay, character systems, and multiplayer functionality.',
+				zh: '基于 UE5 + GAS + EOS + Docker 的第三人称网络 MOBA 游戏原型，核心玩法为护送捕获器推进至敌方核心。',
+				en: 'A third-person online MOBA prototype built with UE5, GAS, EOS, and Docker, centered on escorting a capturer into the enemy core.',
 			},
 			tags: [
-				{ zh: 'Unreal Engine', en: 'Unreal Engine' },
+				{ zh: 'Unreal Engine 5', en: 'Unreal Engine 5' },
 				{ zh: 'GAS', en: 'GAS' },
-				{ zh: '多人联机', en: 'Multiplayer' },
 				{ zh: 'EOS', en: 'EOS' },
+				{ zh: 'Docker', en: 'Docker' },
 			],
 		},
 		{
@@ -206,26 +196,82 @@ export const projectsContent = {
 				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
 			},
 			description: {
-				zh: '负责项目中塔防模块的功能实现，完成多类防御塔玩法开发，并参与能力系统方案调整。',
-				en: 'Owned the tower-defense module implementation, built multiple defensive tower behaviors, and contributed to ability-system iteration.',
+				zh: '融合工厂建造与塔防玩法的团队项目，独立负责塔防模块功能实现，完成多类防御塔、攻击表现与能力系统衔接。',
+				en: 'A team project combining factory building and tower-defense gameplay. Independently handled tower-defense module implementation, multiple tower types, attack presentation, and ability-system integration.',
 			},
 			tags: [
 				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
 				{ zh: '塔防', en: 'Tower Defense' },
-				{ zh: '能力系统', en: 'Ability System' },
-				{ zh: '战斗表现', en: 'Combat Feel' },
+				{ zh: '轻量化能力系统', en: 'Lightweight Ability System' },
 			],
 		},
 		{
-			title: { zh: '交互练习项目', en: 'Interactive Practice Project' },
+			slug: 'unity-metroidvania-action',
+			title: {
+				zh: '类银河恶魔城横版通关',
+				en: 'Metroidvania-Style Side-Scrolling Completion Demo',
+			},
 			description: {
-				zh: '预留给未来作品、实验或小型工具展示的项目卡片。',
-				en: 'A placeholder slot for future demos, experiments, or small tools worth showing.',
+				zh: '从零搭建横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和 JSON 存档流程。',
+				en: 'Built a side-scrolling action game demo from scratch, including character actions, combat skills, enemy AI, progression systems, and JSON save flow.',
 			},
 			tags: [
-				{ zh: '原型', en: 'Prototype' },
-				{ zh: '迭代', en: 'Iteration' },
-				{ zh: '学习', en: 'Learning' },
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: '状态机', en: 'State Machine' },
+				{ zh: '技能树', en: 'Skill Tree' },
+				{ zh: 'JSON 存档', en: 'JSON Save' },
+			],
+		},
+		{
+			slug: 'unity-campus-career-sim',
+			title: {
+				zh: '校园生活模拟 · 职业生涯规划',
+				en: 'Campus Life Simulation · Career Planning',
+			},
+			description: {
+				zh: '校园生活模拟与职业生涯规划主题的 Unity 小游戏，负责部分编辑器工具开发，以及角色图鉴、结算、回顾等页面的界面搭建与流程逻辑。',
+				en: 'A Unity mini-game themed around campus life simulation and career planning. Responsible for part of the editor tooling, plus UI construction and flow logic for character codex, settlement, review, and related pages.',
+			},
+			tags: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: 'ScriptableObject', en: 'ScriptableObject' },
+				{ zh: 'Excel 读表', en: 'Excel Import' },
+			],
+		},
+		{
+			slug: 'ue-steam-networking-plugin',
+			title: {
+				zh: 'Steam 联机插件开发',
+				en: 'Steam Networking Plugin Development',
+			},
+			description: {
+				zh: '基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件，支持会话创建、搜索与加入，并封装为可复用插件。',
+				en: 'A Steam networking plugin built on Unreal Engine Online Subsystem, supporting session creation, search, and join, packaged as a reusable plugin.',
+			},
+			tags: [
+				{ zh: 'Unreal Engine', en: 'Unreal Engine' },
+				{ zh: 'C++', en: 'C++' },
+				{ zh: 'Online Subsystem', en: 'Online Subsystem' },
+				{ zh: 'Steam', en: 'Steam' },
+			],
+		},
+		{
+			slug: 'unity-cockpit-simulation-evaluation',
+			title: {
+				zh: '驾驶舱模拟交互评估系统',
+				en: 'Cockpit Simulation Interaction Evaluation System',
+			},
+			description: {
+				zh: '用于驾驶舱人机交互评估的模拟系统，参与部分功能开发，负责若干交互事件的逻辑实现。',
+				en: 'A simulation system for cockpit human-computer interaction evaluation. Participated in part of the feature development and implemented logic for several interaction events.',
+			},
+			tags: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: '模拟仿真', en: 'Simulation' },
 			],
 		},
 	] as ProjectSummary[],
@@ -380,138 +426,155 @@ export const resumeContent = {
 		{
 			slug: 'ue-gas-multiplayer',
 			title: {
-				zh: 'UE｜基于 GAS 与联机能力的第三人称多人项目',
-				en: 'UE | Third-Person Multiplayer Project with GAS and Networking',
+				zh: '第三人称网络MOBA游戏原型 | 独立开发',
+				en: 'Third-Person Online MOBA Game Prototype | Independent Developer',
 			},
+			stack: [
+				{ zh: 'Unreal Engine 5', en: 'Unreal Engine 5' },
+				{ zh: 'C++', en: 'C++' },
+				{ zh: 'GAS', en: 'GAS' },
+				{ zh: 'EOS', en: 'EOS' },
+				{ zh: 'Docker', en: 'Docker' },
+			],
 			bullets: [
 				{
-					zh: '从零搭建 Unreal Engine 第三人称多人项目，独立完成核心玩法、角色系统与多人联机功能开发。',
-					en: 'Built a third-person multiplayer project in Unreal Engine from scratch and independently developed its core gameplay, character systems, and multiplayer functionality.',
+					zh: '独立完成一款"捕获推进"玩法MOBA原型：护送地图中央捕获器至敌方核心，融合英雄对抗、小兵AI与装备经济体系。',
+					en: 'Independently completed a capture-push MOBA prototype: players escort a central map capturer to the enemy core, combining hero combat, minion AI, and an equipment economy system.',
 				},
 				{
-					zh: '基于 GAS 实现角色属性、普通攻击、技能配表、升级系统及相关 UI，完成近战角色 Crunch 与远程角色 Phase 的战斗能力设计与落地。',
-					en: 'Implemented character attributes, basic attacks, skill configuration, progression, and related UI with GAS, including combat kits for the melee character Crunch and the ranged character Phase.',
+					zh: '基于 GAS 实现 Crunch（机器人战士）与 Phase（人类法师）及其假体变体（共享技能、差异数值与外观），技能涵盖位移、击退、击飞、减速、冻结、牵引等效果，配套商店、装备合成树与装备主动技能。',
+					en: 'Implemented Crunch (robot warrior), Phase (human mage), and their prosthetic variants with GAS, sharing abilities while varying stats and visuals. Ability effects include dashes, knockback, launch, slow, freeze, and pull, supported by a shop, equipment synthesis tree, and active equipment skills.',
 				},
 				{
-					zh: '完成角色移动、动画混合、IK 脚步自适应、远程瞄准判定、小兵与 AI 行为、对象池、商店与装备合成，以及核心运送/捕获玩法等系统开发。',
-					en: 'Developed character movement, animation blending, IK foot adaptation, ranged aiming logic, minions and AI behaviors, object pooling, shop and equipment crafting, and the project’s escort-and-capture core gameplay loop.',
+					zh: '小兵系统采用对象池管理并搭配行为树 AI；角色动画实现了状态切换混合、上下半身分离及 IK 地形自适应。',
+					en: 'Managed the minion system with object pooling and behavior-tree AI. Implemented character animation features including state-transition blending, upper/lower body separation, and IK-based terrain adaptation.',
 				},
 				{
-					zh: '实现角色选择、房间、本地联机与基于 Epic Online Services（EOS）的联机流程，并使用 Docker 配置 Linux 专用服务器与云端接口，支持多角色多人游玩。',
-					en: 'Implemented character selection, room flow, local multiplayer, and networking based on Epic Online Services (EOS), then configured Linux dedicated servers and cloud-facing interfaces with Docker to support multi-character multiplayer sessions.',
+					zh: '基于 EOS + Online Subsystem 实现大厅登录、会话管理、房间角色选择的全流程联机；通过 Docker 部署专用服务器至云主机，支持广域网对战。',
+					en: 'Built the full networking flow for lobby login, session management, and room-based character selection with EOS + Online Subsystem. Deployed a Dockerized dedicated server to a cloud host to support WAN matches.',
 				},
 			],
 		},
 		{
 			slug: 'unity-factory-td',
 			title: {
-				zh: 'Unity｜工厂 + 塔防项目中的塔防玩法开发',
-				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
+				zh: '工厂 + 塔防 | 塔防模块开发',
+				en: 'Factory + Tower Defense | Tower-Defense Module Development',
 			},
+			stack: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: '能力系统', en: 'Ability System' },
+				{ zh: '战斗表现', en: 'Combat Feedback' },
+			],
 			bullets: [
 				{
-					zh: '负责项目中塔防模块的功能实现，完成多类防御塔玩法开发。',
-					en: 'Owned the implementation of the tower-defense module and developed multiple tower gameplay behaviors.',
+					zh: '在团队项目中独立负责塔防模块，实现子弹、激光、卫星障碍物、防御冲击波等多类防御塔，完成索敌逻辑与攻击状态的切换处理。',
+					en: 'Independently responsible for the tower-defense module in a team project, implementing multiple defensive towers such as projectiles, lasers, satellite obstacles, and defensive shockwaves, and completing switching between targeting logic and attack states.',
 				},
 				{
-					zh: '实现子弹、激光、卫星障碍物、防御冲击波等塔类功能，并完成索敌与常态逻辑切换。',
-					en: 'Implemented tower features including projectile firing, lasers, satellite obstacles, defensive shockwaves, and state switching between targeting and idle behaviors.',
+					zh: '尝试自研类 GAS 能力系统，评估复杂度与团队维护成本后推动启用轻量化替代方案，基于新方案重构发射与测试能力，并扩展过穿、分裂等战斗效果。',
+					en: 'Attempted to build a GAS-like ability system, then after evaluating complexity and team maintenance cost, promoted enabling a lightweight alternative. Based on the new solution, refactored firing and testing abilities and extended combat effects such as penetration and split behavior.',
 				},
 				{
-					zh: '参与能力系统方案设计与调整，基于项目组轻量化能力系统重构发射与测试能力。',
-					en: 'Participated in ability-system design decisions and refactored firing and testing abilities on top of the team’s lightweight ability framework.',
-				},
-				{
-					zh: '完成子弹过穿、分裂等效果开发，补充塔防模块的战斗表现与功能扩展。',
-					en: 'Added projectile penetration and split effects to expand combat feedback and tower-defense behavior coverage.',
+					zh: '积累了技术方案评估、在现有架构上进行玩法扩展与团队协作的实践经验。',
+					en: 'Gained practical experience in technical solution evaluation, gameplay extension on an existing architecture, and team collaboration.',
 				},
 			],
 		},
 		{
+			slug: 'unity-metroidvania-action',
 			title: {
-				zh: 'Unity｜类银河恶魔城横版通关项目',
-				en: 'Unity | Metroidvania-Style Side-Scrolling Action Project',
+				zh: '类银河恶魔城横版通关 | 独立开发',
+				en: 'Metroidvania-Style Side-Scrolling Completion Demo | Independent Developer',
 			},
+			stack: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: '状态机', en: 'State Machine' },
+				{ zh: '技能树', en: 'Skill Tree' },
+				{ zh: 'JSON 存档', en: 'JSON Save' },
+			],
 			bullets: [
 				{
-					zh: '从零搭建横版通关项目，完成角色基础移动、动画表现及基于状态机的 Entity 通用逻辑管理。',
-					en: 'Built a side-scrolling action project from scratch, including character movement, animation presentation, and a state-machine-driven Entity base logic structure.',
+					zh: '一款从零搭建的横版动作游戏 Demo，角色拥有移动、跳跃、攀墙、冲刺、连击等基础动作，基于状态机统一管理 Player 与 Enemy 的行为逻辑。',
+					en: 'A side-scrolling action game demo built from scratch. The character has basic actions such as movement, jumping, wall climbing, dashing, and combos, with Player and Enemy behavior logic unified through state machines.',
 				},
 				{
-					zh: '实现跳跃、攀墙、冲刺、连击、弹反、投剑、法术水晶、影子分身等角色能力，并扩展冰/火/雷三类法术伤害与效果。',
-					en: 'Implemented abilities such as jumping, wall climbing, dashing, combo attacks, parry, sword throwing, crystal-based spells, and shadow clones, together with ice, fire, and lightning damage types and effects.',
+					zh: '战斗系统包含弹反、投剑、水晶、黑洞、影子分身等能力，支持黑洞+分身联动、水晶伤害/传送形态切换、投剑回旋/贯穿/弹跳三分支等多技能交互，附加冰/火/雷三系属性伤害。',
+					en: 'The combat system includes parry, sword throw, crystal, black hole, shadow clone, and other abilities. It supports multi-skill interactions such as black hole + clone linkage, crystal damage/teleport form switching, and three sword-throw branches: spin, pierce, and bounce, with ice/fire/lightning elemental damage.',
 				},
 				{
-					zh: '完成多类普通敌人与双阶段精英敌人开发，支持基础地图内的战斗与行为测试。',
-					en: 'Developed multiple standard enemies and a two-phase elite enemy to support combat and behavior testing inside a prototype map.',
-				},
-				{
-					zh: '开发链表结构属性集合、树形技能树、装备与属性系统、JSON 存档读写及简单加密、检查点、场景切换和设置功能，完善项目整体流程。',
-					en: 'Built a linked-list-based attribute collection, tree-structured skill tree, equipment and stat systems, JSON save/load with simple obfuscation, checkpoints, scene transitions, and settings to complete the overall gameplay flow.',
+					zh: '拥有多类敌人与双阶段精英怪、树形技能树、链表结构装备属性系统，以及 JSON 存档、检查点与场景切换，可从头推进至通关。',
+					en: 'Includes multiple enemy types, a two-phase elite enemy, a tree-structured skill tree, a linked-list equipment stat system, JSON save, checkpoints, and scene transitions, allowing progression from start to completion.',
 				},
 			],
 		},
 		{
+			slug: 'unity-campus-career-sim',
 			title: {
-				zh: 'Unity｜校园生活模拟职业生涯规划小游戏',
+				zh: '校园生活模拟 · 职业生涯规划 | 编辑器工具与 UI 开发',
 				en: 'Unity | Campus Life Career Planning Simulation Game',
 			},
+			stack: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: 'ScriptableObject', en: 'ScriptableObject' },
+				{ zh: 'Excel 读表', en: 'Excel Import' },
+			],
 			bullets: [
 				{
-					zh: '参与校园生活模拟职业生涯规划小游戏开发，负责部分编辑器工具、界面功能与流程逻辑实现。',
-					en: 'Contributed to a campus-life career planning simulation project, focusing on editor tooling, interface features, and flow logic implementation.',
+					zh: '在团队项目中负责部分编辑器工具与 UI 功能，基于 ScriptableObject 制作枚举快速生成工具，减少手动创建和关联配置的重复工作。',
+					en: 'In a team project, responsible for part of the editor tooling and UI features. Built an enum quick-generation tool based on ScriptableObject to reduce repeated manual creation and configuration linking.',
 				},
 				{
-					zh: '开发基于 ScriptableObject 的配置辅助工具，包括枚举生成工具与自动写入 SO 数据的读表工具。',
-					en: 'Created ScriptableObject-based content tools, including an enum-driven generator and a data-table import tool for automatically writing into SO assets.',
+					zh: '完成 Excel 读取并写入 ScriptableObject 的读表工具，支持策划在 Excel 中维护数据后一键导入。',
+					en: 'Completed an Excel import tool that reads data and writes it into ScriptableObject assets, allowing designers to maintain data in Excel and import it with one click.',
 				},
 				{
-					zh: '完成角色图鉴、角色详情、结算、回顾等界面及相关判断逻辑开发。',
-					en: 'Implemented character codex, character detail, settlement, and review screens together with their supporting decision logic.',
-				},
-				{
-					zh: '支持项目配置流程与前端展示衔接，补充玩法结果展示与信息回顾模块。',
-					en: 'Connected content configuration workflows with front-end presentation and completed result-display and review modules.',
+					zh: '实现角色图鉴、角色详情、结算、回顾等页面的界面搭建与流程逻辑，串联各页面间的跳转和数据传递。',
+					en: 'Implemented UI construction and flow logic for character codex, character detail, settlement, and review pages, connecting page transitions and data passing between screens.',
 				},
 			],
 		},
 		{
+			slug: 'ue-steam-networking-plugin',
 			title: {
-				zh: 'UE｜基于 Online Subsystem 的 Steam 联机插件开发',
-				en: 'UE | Steam Networking Plugin Based on Online Subsystem',
+				zh: 'Steam 联机插件开发 | 独立开发',
+				en: 'Steam Networking Plugin Development | Independent Developer',
 			},
+			stack: [
+				{ zh: 'Unreal Engine', en: 'Unreal Engine' },
+				{ zh: 'C++', en: 'C++' },
+				{ zh: 'Online Subsystem', en: 'Online Subsystem' },
+				{ zh: 'Steam', en: 'Steam' },
+			],
 			bullets: [
 				{
-					zh: '基于 Unreal Engine Online Subsystem 研究并实现 Steam 联机功能，独立完成相关插件开发。',
-					en: 'Researched and implemented Steam networking through Unreal Engine Online Subsystem and independently completed the related plugin.',
+					zh: '基于 UE 的 Online Subsystem 框架研究并实现 Steam 联机功能，独立完成插件开发，支持会话创建、搜索与加入。',
+					en: 'Based on UE Online Subsystem, researched and implemented Steam networking functionality. Independently completed plugin development, supporting session creation, search, and join.',
 				},
 				{
-					zh: '梳理多人联机场景下控制器与属性复制在服务器和客户端之间的关系，验证基础联机同步逻辑。',
-					en: 'Studied how controllers and replicated attributes interact between server and clients in multiplayer scenarios, and validated the core synchronization logic.',
-				},
-				{
-					zh: '实现基于 Steam 服务的角色关卡传送流程，并完成功能封装与插件化整理，便于后续复用。',
-					en: 'Implemented character-level travel through Steam services and packaged the workflow into a reusable plugin for future use.',
+					zh: '将联机逻辑封装为可复用插件，可直接集成到其他 UE 项目中，省去重复配置 Steam 模块的步骤。',
+					en: 'Encapsulated networking logic as a reusable plugin that can be directly integrated into other UE projects, reducing repeated Steam module configuration work.',
 				},
 			],
 		},
 		{
+			slug: 'unity-cockpit-simulation-evaluation',
 			title: {
-				zh: 'Unity｜驾驶舱模拟交互评估系统',
-				en: 'Unity | Cockpit Interaction Evaluation Simulation System',
+				zh: '驾驶舱模拟交互评估系统 | 部分功能开发',
+				en: 'Cockpit Simulation Interaction Evaluation System | Partial Feature Development',
 			},
+			stack: [
+				{ zh: 'Unity', en: 'Unity' },
+				{ zh: 'C#', en: 'C#' },
+				{ zh: '模拟仿真', en: 'Simulation' },
+			],
 			bullets: [
 				{
-					zh: '参与驾驶舱模拟交互评估系统的部分功能开发。',
-					en: 'Participated in part of the feature development for a cockpit interaction evaluation simulation system.',
-				},
-				{
-					zh: '完成火车经过事件与道路收窄事件的实现，并补充对应交互逻辑。',
-					en: 'Implemented the passing-train event and road-narrowing event, together with their related interaction logic.',
-				},
-				{
-					zh: '参与仿真场景内事件功能的基础构建与验证，积累早期项目开发经验。',
-					en: 'Helped build and verify scenario events inside the simulation environment, gaining early project-development experience.',
+					zh: '参与驾驶舱模拟交互评估系统的部分功能开发，负责多个交互事件的逻辑实现。',
+					en: 'Participated in part of the feature development for a cockpit simulation interaction evaluation system, responsible for implementing logic for multiple interaction events.',
 				},
 			],
 		},

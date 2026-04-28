@@ -35,7 +35,17 @@ const resolvedTitle = getLocalizedField(title, locale);
 const resolvedDescription = getLocalizedField(description, locale);
 const resolvedRepositoryUrl = repositoryUrl ? normalizeRepositoryUrl(repositoryUrl) : undefined;
 const resolvedRepositoryLabel = repositoryUrl ? getRepositoryName(repositoryUrl) : undefined;
-const isNarrativeCaseStudy = Astro.url.pathname.includes('/ue-gas-multiplayer/');
+const isNarrativeCaseStudy =
+	Astro.url.pathname.includes('/ue-gas-multiplayer/') ||
+	Astro.url.pathname.includes('/unity-factory-td/') ||
+	Astro.url.pathname.includes('/unity-metroidvania-action/') ||
+	Astro.url.pathname.includes('/unity-campus-career-sim/') ||
+	Astro.url.pathname.includes('/ue-steam-networking-plugin/') ||
+	Astro.url.pathname.includes('/unity-cockpit-simulation-evaluation/');
+// Video wiring is intentionally disabled for now.
+// To re-enable it, restore the line below and remove the fallback assignment.
+// const narrativeVideoSrc = isNarrativeCaseStudy ? '/media/ue-gas-multiplayer-demo.mp4' : undefined;
+const narrativeVideoSrc = undefined;
 
 const labels = {
 	back: { zh: '返回项目页', en: 'Back to projects' },
@@ -48,6 +58,7 @@ const labels = {
 	heroPlaceholder: { zh: '【游戏实机画面占位】', en: 'Gameplay Footage Placeholder' },
 	heroPlaceholderNote: { zh: '这里会放一段视频或循环 GIF。', en: 'A short video or looping GIF will live here.' },
 	playDemo: { zh: '播放示意', en: 'Play Demo' },
+	// videoUnsupported: { zh: '当前浏览器不支持视频播放。', en: 'Your browser does not support embedded video.' },
 };
 ---
 
@@ -71,6 +82,19 @@ const labels = {
 						<section class="case-study-hero card">
 							<div class="case-study-hero-media">
 								{
+									/* Video branch kept here for quick restore:
+									narrativeVideoSrc ? (
+										<video
+											class="case-study-hero-video"
+											src={narrativeVideoSrc}
+											controls
+											muted
+											playsinline
+											preload="metadata"
+										>
+											<LocalizedText locale={locale} text={labels.videoUnsupported} tag="span" />
+										</video>
+									) : */
 									heroImage ? (
 										<Image width={1400} height={900} src={heroImage} alt="" class="case-study-hero-image" />
 									) : (
@@ -357,7 +381,7 @@ const labels = {
 	}
 
 	.case-study-hero {
-		padding: 1.5rem;
+		padding: 0 0 1.5rem;
 		background:
 			linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 250, 255, 0.92) 100%);
 	}
@@ -378,6 +402,14 @@ const labels = {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	.case-study-hero-video {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		background: #000;
 	}
 
 	.hero-placeholder {
@@ -481,7 +513,7 @@ const labels = {
 	}
 
 	.case-study-hero-body {
-		padding-top: 1.2rem;
+		padding: 1.2rem 1.5rem 0;
 	}
 
 	.narrative-description {
@@ -866,6 +898,45 @@ const labels = {
 		opacity: 0.86;
 	}
 
+	.project-prose-narrative :global(.project-screenshot) {
+		margin: 0;
+		overflow: hidden;
+		border: 1px solid rgba(158, 177, 201, 0.28);
+		border-radius: 18px;
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: 0 18px 48px rgba(17, 24, 39, 0.12);
+	}
+
+	.project-prose-narrative :global(.project-screenshot img) {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		background: #111827;
+	}
+
+	.project-prose-narrative :global(.project-screenshot.is-wide img) {
+		object-position: center;
+	}
+
+	.project-prose-narrative :global(.project-screenshot.is-inline) {
+		margin-top: 1.25rem;
+	}
+
+	.project-prose-narrative :global(.project-screenshot figcaption) {
+		padding: 0.85rem 1rem 0.95rem;
+		font-size: 0.86rem;
+		line-height: 1.55;
+		color: rgb(var(--gray));
+	}
+
+	.project-prose-narrative :global(.project-screenshot figcaption .locale-en) {
+		display: block;
+		margin-top: 0.22rem;
+		font-size: 0.92em;
+		color: rgb(var(--gray));
+	}
+
 	.project-prose-narrative :global(.wip-tag) {
 		position: absolute;
 		top: 0.7rem;
@@ -924,7 +995,6 @@ const labels = {
 
 	.project-prose-narrative :global(.tech-details-body) {
 		margin-top: 1.4rem;
-		max-width: 48rem;
 	}
 
 	.project-prose-narrative :global(.tech-details-body p) {
@@ -1012,7 +1082,7 @@ const labels = {
 		}
 
 		.case-study-hero {
-			padding: 1rem;
+			padding: 0 0 1rem;
 		}
 
 		.case-study-hero-media,
@@ -1030,6 +1100,10 @@ const labels = {
 
 		.project-summary-intro {
 			padding: 1rem;
+		}
+
+		.case-study-hero-body {
+			padding: 1rem 1rem 0;
 		}
 
 		.project-prose-narrative :global(.role-section),
