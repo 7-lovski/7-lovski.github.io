@@ -126,19 +126,27 @@ const featuredProjectLinkText = {
             </a>
         </div>
 
-        <div class="post-grid card">
-            {
-                posts.map((post) => (
-                        <a class="post-card card" href={withLocale(`/blog/${post.id}/`, locale)}>
-                            <p class="post-date">
-                                <FormattedDate date={post.data.pubDate} />
-                            </p>
-                            <h3>{post.data.title}</h3>
-                            <p>{post.data.description}</p>
-                        </a>
-                ))
-            }
-        </div>
+        {
+            posts.length > 0 ? (
+                <div class="post-grid card">
+                    {
+                        posts.map((post) => (
+                                <a class="post-card card" href={withLocale(`/blog/${post.id}/`, locale)}>
+                                    <p class="post-date">
+                                        <FormattedDate date={post.data.pubDate} />
+                                    </p>
+                                    <h3>{post.data.title}</h3>
+                                    <p>{post.data.description}</p>
+                                </a>
+                        ))
+                    }
+                </div>
+            ) : (
+                <div class="post-grid card post-empty-card">
+                    <p>{locale === 'en' ? 'No posts yet.' : locale === 'zh' ? '暂时还没有文章。' : '暂时还没有文章。 / No posts yet.'}</p>
+                </div>
+            )
+        }
     </section>
 </main>
 
@@ -334,6 +342,14 @@ const featuredProjectLinkText = {
     .post-card {
         text-decoration: none;
         color: inherit;
+    }
+
+    .post-empty-card {
+        color: rgb(var(--gray));
+    }
+
+    .post-empty-card p {
+        margin: 0;
     }
 
     .post-card:hover {

@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import BlogIndexPage from '../../components/BlogIndexPage.astro';
+import { getBlogPosts } from '../../utils/blog';
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getBlogPosts()).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---

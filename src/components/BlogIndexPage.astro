@@ -25,6 +25,11 @@ const pageDescription = {
     zh: '写作记录与文章归档',
     en: 'Writing archive and notes',
 };
+
+const emptyText = {
+    zh: '暂时还没有文章。',
+    en: 'No posts yet.',
+};
 ---
 
 <Header />
@@ -36,24 +41,30 @@ const pageDescription = {
     </section>
 
     <section>
-        <ul class="post-list">
-            {
-                posts.map((post) => (
-                        <li>
-                            <a href={getContentPath('blog', post.id, locale)}>
-                                {post.data.heroImage && (
-                                        <Image width={720} height={360} src={post.data.heroImage} alt="" />
-                                )}
-                                <h2 class="title">{getLocalizedField(post.data.title, locale)}</h2>
-                                <p class="date">
-                                    <FormattedDate date={post.data.pubDate} />
-                                </p>
-                                <p class="desc">{getLocalizedField(post.data.description, locale)}</p>
-                            </a>
-                        </li>
-                ))
-            }
-        </ul>
+        {
+            posts.length > 0 ? (
+                <ul class="post-list">
+                    {
+                        posts.map((post) => (
+                                <li>
+                                    <a href={getContentPath('blog', post.id, locale)}>
+                                        {post.data.heroImage && (
+                                                <Image width={720} height={360} src={post.data.heroImage} alt="" />
+                                        )}
+                                        <h2 class="title">{getLocalizedField(post.data.title, locale)}</h2>
+                                        <p class="date">
+                                            <FormattedDate date={post.data.pubDate} />
+                                        </p>
+                                        <p class="desc">{getLocalizedField(post.data.description, locale)}</p>
+                                    </a>
+                                </li>
+                        ))
+                    }
+                </ul>
+            ) : (
+                <LocalizedText locale={locale} text={emptyText} tag="p" class="empty-state" />
+            )
+        }
     </section>
 </main>
 
@@ -109,6 +120,14 @@ const pageDescription = {
 
     .desc {
         margin: 0;
+        color: rgb(var(--gray));
+    }
+
+    .empty-state {
+        padding: 1.2rem;
+        border: 1px solid rgba(164, 182, 204, 0.28);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.82);
         color: rgb(var(--gray));
     }
 

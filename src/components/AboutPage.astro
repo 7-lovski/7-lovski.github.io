@@ -23,7 +23,11 @@ const { locale } = Astro.props;
     <section class="about-grid">
         <article class="card about-card intro-card">
             <LocalizedText locale={locale} text={aboutContent.intro.title} tag="h2" />
-            <LocalizedText locale={locale} text={aboutContent.intro.text} tag="p" />
+            {
+                aboutContent.intro.text.map((paragraph) => (
+                    <LocalizedText locale={locale} text={paragraph} tag="p" />
+                ))
+            }
         </article>
 
         <article class="card about-card">

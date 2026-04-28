@@ -287,11 +287,25 @@ export const aboutContent = {
 		en: 'Use this page for a fuller introduction, your current focus, and why this site exists.',
 	},
 	intro: {
-		title: { zh: '简短介绍', en: 'Short Introduction' },
-		text: {
-			zh: '你好，我是柒年Lovksi。这个网站是我整理项目、记录学习、展示成长过程的地方。',
-			en: 'Hello, I am 7-Lovski. This site is a place to organize projects, publish learning notes, and show steady growth.',
-		},
+		title: { zh: '自我介绍', en: 'Introduction' },
+		text: [
+			{
+				zh: '我是柒年Lovski，一名专注于 Gameplay 与联机系统开发的游戏开发者，这个网站是我整理项目、记录学习、展示成长过程的地方。',
+				en: 'I am 7-Lovski, a game developer focused on Gameplay and networking systems. This website is where I organize projects, record learning, and show my growth process.',
+			},
+			{
+				zh: '我热爱用代码构建有趣的交互体验，从英雄技能、敌人AI，到多人大厅和专用服务器，专注于 Unreal Engine 的 Gameplay Ability System 和 Online Subsystem 联机方案，同时也具备 Unity 项目开发经验。',
+				en: 'I enjoy using code to build interesting interactive experiences, from hero abilities and enemy AI to multiplayer lobbies and dedicated servers. I focus on Unreal Engine Gameplay Ability System and Online Subsystem networking solutions, while also having Unity project development experience.',
+			},
+			{
+				zh: '我独立开发过第三人称 MOBA 游戏原型，实现过完整的技能体系与广域网联机对战；也在团队项目中负责塔防战斗模块，推动过从自研能力系统到轻量化方案的架构决策。我喜欢拆解玩法机制，并把它们变成可运行的代码。',
+				en: 'I have independently developed a third-person MOBA game prototype with a complete ability system and WAN multiplayer matches. I also handled the tower-defense combat module in a team project and helped drive an architecture decision from a self-developed ability system to a lightweight solution. I like breaking down gameplay mechanics and turning them into working code.',
+			},
+			{
+				zh: '目前我正在寻找游戏开发实习机会，方向为 UE 客户端 / Gameplay 开发。',
+				en: 'I am currently looking for a game development internship, focused on UE client-side / Gameplay development.',
+			},
+		],
 	},
 	focus: {
 		title: { zh: '当前关注', en: 'Current Focus' },
