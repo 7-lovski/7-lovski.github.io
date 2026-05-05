@@ -3,6 +3,38 @@ import { type CollectionEntry, render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
 import { getBlogPosts } from '../../../utils/blog';
 
+const seriesPosts = [
+	{
+		id: 'ue-online-subsystem-steam-eos-multiplayer',
+		title: 'UE OnlineSubsystem 多人联机实践：Steam、EOS 与会话系统完整拆解',
+	},
+	{
+		id: 'ue-dedicated-server-docker-python-coordinator',
+		title: 'UE Dedicated Server 部署实践：Docker、WSL/Ubuntu 与 Python Coordinator',
+	},
+];
+
+function getSeriesLinks(postId: string) {
+	const index = seriesPosts.findIndex((entry) => entry.id === postId);
+	if (index === -1) return {};
+
+	const previous = seriesPosts[index - 1];
+	const next = seriesPosts[index + 1];
+
+	return {
+		seriesPrevious: previous && {
+			href: `/zh/blog/${previous.id}/`,
+			label: '上一篇',
+			title: previous.title,
+		},
+		seriesNext: next && {
+			href: `/zh/blog/${next.id}/`,
+			label: '下一篇',
+			title: next.title,
+		},
+	};
+}
+
 export async function getStaticPaths() {
 	const posts = await getBlogPosts();
 	return posts.map((post) => ({
@@ -14,9 +46,10 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const seriesLinks = getSeriesLinks(post.id);
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} headings={headings} {...seriesLinks}>
 	<Content />
 </BlogPost>

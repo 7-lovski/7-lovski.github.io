@@ -1,0 +1,30 @@
+---
+interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
+
+interface Props {
+	headings?: Heading[];
+	locale?: string;
+}
+
+const { headings = [], locale = 'zh' } = Astro.props;
+const visibleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+const tocLabel = '\u76ee\u5f55';
+const contentsLabel = locale === 'en' ? 'Contents' : tocLabel;
+---
+
+{visibleHeadings.length > 0 && (
+	<aside class="article-toc" aria-label={contentsLabel}>
+		<p>{contentsLabel}</p>
+		<ol>
+			{visibleHeadings.map((heading) => (
+				<li class={`depth-${heading.depth}`}>
+					<a href={`#${heading.slug}`}>{heading.text}</a>
+				</li>
+			))}
+		</ol>
+	</aside>
+)}

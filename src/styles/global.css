@@ -168,6 +168,272 @@ code {
     box-shadow: var(--box-shadow);
 }
 
+.article-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 4rem;
+}
+
+.technical-prose {
+    min-width: 0;
+}
+
+.technical-prose h2,
+.technical-prose h3 {
+    scroll-margin-top: 5rem;
+}
+
+.technical-prose :not(pre) > code {
+    color: #0f4f8f;
+}
+
+.technical-prose pre {
+    margin: 1.35rem 0;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(158, 177, 201, 0.42);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(31, 61, 109, 0.07);
+    overflow-x: auto;
+    line-height: 1.55;
+}
+
+.technical-prose pre code {
+    display: block;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 0.9rem;
+    line-height: inherit;
+}
+
+.technical-prose table {
+    display: block;
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    overflow-x: auto;
+    border: 1px solid rgba(158, 177, 201, 0.42);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 28px rgba(31, 61, 109, 0.06);
+}
+
+.technical-prose th,
+.technical-prose td {
+    min-width: 9rem;
+    padding: 0.72rem 0.9rem;
+    border-bottom: 1px solid rgba(158, 177, 201, 0.28);
+    border-right: 1px solid rgba(158, 177, 201, 0.22);
+    text-align: left;
+    vertical-align: top;
+}
+
+.technical-prose th {
+    background: #edf4fb;
+    color: rgb(var(--black));
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.technical-prose td {
+    color: rgb(var(--gray-dark));
+    font-size: 0.96rem;
+}
+
+.technical-prose tr:last-child td {
+    border-bottom: 0;
+}
+
+.technical-prose th:last-child,
+.technical-prose td:last-child {
+    border-right: 0;
+}
+
+.technical-prose blockquote {
+    margin: 1.35rem 0;
+    padding: 0.95rem 1rem 0.95rem 1.15rem;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    background: rgba(232, 240, 251, 0.72);
+    color: rgb(var(--gray-dark));
+}
+
+.technical-prose blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+.technical-prose .mermaid {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid rgba(158, 177, 201, 0.42);
+    border-radius: 8px;
+    background: #ffffff;
+    overflow-x: auto;
+}
+
+.code-fold {
+    margin: 1.5rem 0;
+    border: 1px solid rgba(158, 177, 201, 0.42);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 28px rgba(31, 61, 109, 0.06);
+    overflow: hidden;
+}
+
+.code-fold summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.15rem;
+    list-style: none;
+    padding: 0.85rem 1rem;
+    background: #edf4fb;
+    cursor: pointer;
+}
+
+.code-fold summary::-webkit-details-marker {
+    display: none;
+}
+
+.code-fold summary::before {
+    content: "+";
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    color: var(--accent-dark);
+    font-weight: 800;
+}
+
+.code-fold[open] summary::before {
+    content: "-";
+}
+
+.code-fold-title {
+    grid-column: 1;
+    color: rgb(var(--black));
+    font-size: 0.96rem;
+    font-weight: 800;
+}
+
+.code-fold-description {
+    grid-column: 1;
+    color: rgb(var(--gray));
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.code-fold-body {
+    padding: 1rem;
+}
+
+.code-fold-body > :first-child {
+    margin-top: 0;
+}
+
+.code-fold-body > :last-child {
+    margin-bottom: 0;
+}
+
+.series-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.series-nav-card {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid rgba(158, 177, 201, 0.42);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.88);
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(31, 61, 109, 0.06);
+}
+
+.series-nav-card.is-next {
+    text-align: right;
+}
+
+.series-nav-card:hover {
+    border-color: rgba(53, 92, 154, 0.45);
+    background: #ffffff;
+    color: rgb(var(--gray-dark));
+    transform: translateY(-1px);
+}
+
+.series-nav-card span {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.series-nav-card strong {
+    color: rgb(var(--black));
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.article-description {
+    margin: -0.2rem 0 2rem;
+    color: rgb(var(--gray));
+    font-size: 1.08rem;
+    line-height: 1.7;
+}
+
+.article-toc {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.82);
+    padding: 1rem;
+}
+
+.article-toc p {
+    margin: 0 0 0.75rem;
+    color: rgb(var(--black));
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.article-toc ol {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.article-toc li {
+    margin: 0;
+}
+
+.article-toc .depth-3 {
+    padding-left: 0.85rem;
+}
+
+.article-toc a {
+    display: block;
+    color: rgb(var(--gray));
+    font-size: 0.92rem;
+    line-height: 1.35;
+    text-decoration: none;
+}
+
+.article-toc a:hover {
+    color: var(--accent-dark);
+}
+
 @media (max-width: 720px) {
     body {
         font-size: 17px;
@@ -175,6 +441,42 @@ code {
 
     main {
         width: min(1120px, calc(100% - 1.2rem));
+    }
+
+    .technical-prose pre,
+    .technical-prose .mermaid,
+    .code-fold-body {
+        padding: 0.85rem;
+    }
+
+    .technical-prose th,
+    .technical-prose td {
+        min-width: 8rem;
+        padding: 0.62rem 0.7rem;
+    }
+
+    .series-nav {
+        grid-template-columns: 1fr;
+    }
+
+    .series-nav-card.is-next {
+        text-align: left;
+    }
+}
+
+@media (min-width: 1040px) {
+    .article-shell {
+        grid-template-columns: 240px minmax(0, 720px);
+        align-items: start;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .article-toc {
+        position: sticky;
+        top: 1.5rem;
+        max-height: calc(100vh - 3rem);
+        overflow: auto;
     }
 }
 

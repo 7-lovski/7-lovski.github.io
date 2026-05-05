@@ -1,0 +1,34 @@
+---
+interface SeriesLink {
+	href: string;
+	label: string;
+	title: string;
+}
+
+interface Props {
+	previous?: SeriesLink;
+	next?: SeriesLink;
+	locale?: string;
+}
+
+const { previous, next, locale = 'zh' } = Astro.props;
+const hasLinks = Boolean(previous || next);
+const navLabel = locale === 'en' ? 'Series navigation' : '\u7cfb\u5217\u5bfc\u822a';
+---
+
+{hasLinks && (
+	<nav class="series-nav" aria-label={navLabel}>
+		{previous && (
+			<a class="series-nav-card" href={previous.href}>
+				<span>{previous.label}</span>
+				<strong>{previous.title}</strong>
+			</a>
+		)}
+		{next && (
+			<a class="series-nav-card is-next" href={next.href}>
+				<span>{next.label}</span>
+				<strong>{next.title}</strong>
+			</a>
+		)}
+	</nav>
+)}

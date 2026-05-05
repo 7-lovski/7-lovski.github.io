@@ -1,0 +1,19 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+	open?: boolean;
+}
+
+const { title, description, open = false } = Astro.props;
+---
+
+<details class="code-fold" open={open}>
+	<summary>
+		<span class="code-fold-title">{title}</span>
+		{description && <span class="code-fold-description">{description}</span>}
+	</summary>
+	<div class="code-fold-body">
+		<slot />
+	</div>
+</details>

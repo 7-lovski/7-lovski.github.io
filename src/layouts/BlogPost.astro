@@ -5,12 +5,30 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import SeriesNav from '../components/SeriesNav.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 import { getLocaleFromPath } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface ArticleHeading {
+	depth: number;
+	slug: string;
+	text: string;
+}
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+interface SeriesLink {
+	href: string;
+	label: string;
+	title: string;
+}
+
+type Props = CollectionEntry<'blog'>['data'] & {
+	headings?: ArticleHeading[];
+	seriesPrevious?: SeriesLink;
+	seriesNext?: SeriesLink;
+};
+
+const { title, description, pubDate, updatedDate, heroImage, headings = [], seriesPrevious, seriesNext } = Astro.props;
 const locale = getLocaleFromPath(Astro.url.pathname);
 
 const resolvedTitle = getLocalizedField(title, locale);
@@ -68,22 +86,27 @@ const resolvedDescription = getLocalizedField(description, locale);
 		<div class="hero-image">
 			{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 		</div>
-		<div class="prose">
-			<div class="title">
-				<div class="date">
-					<FormattedDate date={pubDate} />
-					{
-						updatedDate && (
-							<div class="last-updated-on">
-								Last updated on <FormattedDate date={updatedDate} />
-							</div>
-						)
-					}
+		<div class="article-shell">
+			<TableOfContents headings={headings} locale={locale} />
+			<div class="prose technical-prose">
+				<div class="title">
+					<div class="date">
+						<FormattedDate date={pubDate} />
+						{
+							updatedDate && (
+								<div class="last-updated-on">
+									Last updated on <FormattedDate date={updatedDate} />
+								</div>
+							)
+						}
+					</div>
+					<h1>{resolvedTitle}</h1>
+					<p class="article-description">{resolvedDescription}</p>
+					<hr />
 				</div>
-				<h1>{resolvedTitle}</h1>
-				<hr />
+				<slot />
+				<SeriesNav previous={seriesPrevious} next={seriesNext} locale={locale} />
 			</div>
-			<slot />
 		</div>
 	</article>
 </main>
