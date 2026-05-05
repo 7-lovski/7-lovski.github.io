@@ -7,7 +7,6 @@ import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
 import type { Locale } from '../utils/i18n';
 import { getContentPath } from '../utils/i18n';
-import { getLocalizedField } from '../utils/content';
 
 interface Props {
     locale: Locale;
@@ -51,11 +50,11 @@ const emptyText = {
                                         {post.data.heroImage && (
                                                 <Image width={720} height={360} src={post.data.heroImage} alt="" />
                                         )}
-                                        <h2 class="title">{getLocalizedField(post.data.title, locale)}</h2>
+                                        <LocalizedText locale={locale} text={post.data.title} tag="h2" class="title" />
                                         <p class="date">
                                             <FormattedDate date={post.data.pubDate} />
                                         </p>
-                                        <p class="desc">{getLocalizedField(post.data.description, locale)}</p>
+                                        <LocalizedText locale={locale} text={post.data.description} tag="p" class="desc" />
                                     </a>
                                 </li>
                         ))
@@ -111,6 +110,13 @@ const emptyText = {
         color: rgb(var(--black));
     }
 
+    .title :global(.locale-en) {
+        margin-top: 0.28rem;
+        font-size: 0.62em;
+        line-height: 1.35;
+        color: rgb(var(--gray));
+    }
+
     .date {
         margin: 0 0 0.5rem;
         color: rgb(var(--gray));
@@ -121,6 +127,12 @@ const emptyText = {
     .desc {
         margin: 0;
         color: rgb(var(--gray));
+    }
+
+    .desc :global(.locale-en) {
+        margin-top: 0.28rem;
+        font-size: 0.9em;
+        line-height: 1.55;
     }
 
     .empty-state {

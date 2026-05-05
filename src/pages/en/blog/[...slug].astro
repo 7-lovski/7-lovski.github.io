@@ -6,11 +6,17 @@ import { getBlogPosts } from '../../../utils/blog';
 const seriesPosts = [
 	{
 		id: 'ue-online-subsystem-steam-eos-multiplayer',
-		title: 'UE OnlineSubsystem Multiplayer Practice: Steam, EOS, and Sessions',
+		title: {
+			zh: 'UE OnlineSubsystem 多人联机实践：Steam、EOS 与会话系统完整拆解',
+			en: 'UE OnlineSubsystem Multiplayer Practice: Steam, EOS, and Sessions',
+		},
 	},
 	{
 		id: 'ue-dedicated-server-docker-python-coordinator',
-		title: 'UE Dedicated Server Deployment: Docker, WSL/Ubuntu, and a Python Coordinator',
+		title: {
+			zh: 'UE Dedicated Server 部署实践：Docker、WSL/Ubuntu 与 Python Coordinator',
+			en: 'UE Dedicated Server Deployment Practice: Docker, WSL/Ubuntu, and a Python Coordinator',
+		},
 	},
 ];
 
@@ -24,12 +30,12 @@ function getSeriesLinks(postId: string) {
 	return {
 		seriesPrevious: previous && {
 			href: `/en/blog/${previous.id}/`,
-			label: 'Previous',
+			label: { zh: '上一篇', en: 'Previous' },
 			title: previous.title,
 		},
 		seriesNext: next && {
 			href: `/en/blog/${next.id}/`,
-			label: 'Next',
+			label: { zh: '下一篇', en: 'Next' },
 			title: next.title,
 		},
 	};

@@ -14,17 +14,131 @@ const { headings = [], locale = 'zh' } = Astro.props;
 const visibleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 const tocLabel = '\u76ee\u5f55';
 const contentsLabel = locale === 'en' ? 'Contents' : tocLabel;
+
+interface TocItem {
+	depth: number;
+	slug: string;
+	slugs: string[];
+	primaryText: string;
+	secondaryText?: string;
+}
+
+function createTocItems(sourceHeadings: Heading[], currentLocale: string): TocItem[] {
+	if (currentLocale === 'zh') {
+		return sourceHeadings
+			.filter((_, index) => index % 2 === 0)
+			.map((heading) => ({
+				depth: heading.depth,
+				slug: heading.slug,
+				slugs: [heading.slug],
+				primaryText: heading.text,
+			}));
+	}
+
+	if (currentLocale === 'en') {
+		return sourceHeadings
+			.filter((_, index) => index % 2 === 1)
+			.map((heading) => ({
+				depth: heading.depth,
+				slug: heading.slug,
+				slugs: [heading.slug],
+				primaryText: heading.text,
+			}));
+	}
+
+	const items: TocItem[] = [];
+	for (let index = 0; index < sourceHeadings.length; index += 2) {
+		const primary = sourceHeadings[index];
+		const secondary = sourceHeadings[index + 1];
+		if (!primary) continue;
+
+		items.push({
+			depth: primary.depth,
+			slug: primary.slug,
+			slugs: secondary ? [primary.slug, secondary.slug] : [primary.slug],
+			primaryText: primary.text,
+			secondaryText: secondary?.text,
+		});
+	}
+	return items;
+}
+
+const tocItems = createTocItems(visibleHeadings, locale);
 ---
 
-{visibleHeadings.length > 0 && (
+{tocItems.length > 0 && (
 	<aside class="article-toc" aria-label={contentsLabel}>
 		<p>{contentsLabel}</p>
 		<ol>
-			{visibleHeadings.map((heading) => (
-				<li class={`depth-${heading.depth}`}>
-					<a href={`#${heading.slug}`}>{heading.text}</a>
+			{tocItems.map((item) => (
+				<li class={`depth-${item.depth}`}>
+					<a href={`#${item.slug}`} data-toc-link={item.slug} data-toc-slugs={item.slugs.join(',')}>
+						<span class="toc-primary">{item.primaryText}</span>
+						{item.secondaryText && <span class="toc-secondary">{item.secondaryText}</span>}
+					</a>
 				</li>
 			))}
 		</ol>
 	</aside>
 )}
+
+<script>
+	const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+	const sections = tocLinks.flatMap((link) => {
+			const ids = (link.dataset.tocSlugs || link.dataset.tocLink || '')
+				.split(',')
+				.map((id) => id.trim())
+				.filter(Boolean);
+			return ids
+				.map((id) => {
+					const heading = document.getElementById(id);
+					return heading ? { id: link.dataset.tocLink || id, heading, link } : null;
+				})
+				.filter((entry): entry is { id: string; heading: HTMLElement; link: HTMLAnchorElement } => Boolean(entry));
+		})
+		.sort((a, b) => a.heading.offsetTop - b.heading.offsetTop);
+
+	function setActiveTocLink(activeId: string) {
+		for (const link of tocLinks) {
+			const id = link.dataset.tocLink;
+			if (id === activeId) {
+				const wasActive = link.classList.contains('is-active');
+				link.classList.add('is-active');
+				link.setAttribute('aria-current', 'location');
+				if (!wasActive) {
+					link.scrollIntoView({
+						block: 'center',
+						inline: 'nearest',
+						behavior: 'smooth',
+					});
+				}
+			} else {
+				link.classList.remove('is-active');
+				link.removeAttribute('aria-current');
+			}
+		}
+	}
+
+	function updateActiveTocLink() {
+		const readingLine = window.innerHeight * 0.28;
+		let activeId = sections[0]?.id;
+
+		for (const { id, heading } of sections) {
+			if (heading.getBoundingClientRect().top <= readingLine) {
+				activeId = id;
+			} else {
+				break;
+			}
+		}
+
+		if (activeId) {
+			setActiveTocLink(activeId);
+		}
+	}
+
+	if (sections.length > 0) {
+		updateActiveTocLink();
+		window.addEventListener('scroll', updateActiveTocLink, { passive: true });
+		window.addEventListener('resize', updateActiveTocLink);
+	}
+</script>

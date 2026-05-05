@@ -1,8 +1,11 @@
 ---
+import LocalizedText from './LocalizedText.astro';
+import type { DualText } from '../data/siteContent';
+
 interface SeriesLink {
 	href: string;
-	label: string;
-	title: string;
+	label: DualText;
+	title: DualText;
 }
 
 interface Props {
@@ -20,14 +23,14 @@ const navLabel = locale === 'en' ? 'Series navigation' : '\u7cfb\u5217\u5bfc\u82
 	<nav class="series-nav" aria-label={navLabel}>
 		{previous && (
 			<a class="series-nav-card" href={previous.href}>
-				<span>{previous.label}</span>
-				<strong>{previous.title}</strong>
+				<LocalizedText locale={locale} text={previous.label} tag="span" />
+				<LocalizedText locale={locale} text={previous.title} tag="strong" />
 			</a>
 		)}
 		{next && (
 			<a class="series-nav-card is-next" href={next.href}>
-				<span>{next.label}</span>
-				<strong>{next.title}</strong>
+				<LocalizedText locale={locale} text={next.label} tag="span" />
+				<LocalizedText locale={locale} text={next.title} tag="strong" />
 			</a>
 		)}
 	</nav>

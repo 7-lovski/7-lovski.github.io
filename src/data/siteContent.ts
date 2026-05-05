@@ -209,8 +209,8 @@ export const projectsContent = {
 		{
 			slug: 'unity-metroidvania-action',
 			title: {
-				zh: '类银河恶魔城横版通关',
-				en: 'Metroidvania-Style Side-Scrolling Completion Demo',
+				zh: 'Unity｜类银河恶魔城横版通关',
+				en: 'Unity｜Metroidvania-Style Side-Scrolling Completion Demo',
 			},
 			description: {
 				zh: '从零搭建横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和 JSON 存档流程。',
@@ -226,9 +226,10 @@ export const projectsContent = {
 		},
 		{
 			slug: 'unity-campus-career-sim',
+			repositoryUrl: 'https://github.com/IdleWolfOwO/2025EClass',
 			title: {
-				zh: '校园生活模拟 · 职业生涯规划',
-				en: 'Campus Life Simulation · Career Planning',
+				zh: 'Unity｜校园生活模拟 · 职业生涯规划',
+				en: 'Unity｜Campus Life Simulation · Career Planning',
 			},
 			description: {
 				zh: '校园生活模拟与职业生涯规划主题的 Unity 小游戏，负责部分编辑器工具开发，以及角色图鉴、结算、回顾等页面的界面搭建与流程逻辑。',
@@ -244,8 +245,8 @@ export const projectsContent = {
 		{
 			slug: 'ue-steam-networking-plugin',
 			title: {
-				zh: 'Steam 联机插件开发',
-				en: 'Steam Networking Plugin Development',
+				zh: 'UE | Steam 联机插件开发',
+				en: 'UE | Steam Networking Plugin Development',
 			},
 			description: {
 				zh: '基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件，支持会话创建、搜索与加入，并封装为可复用插件。',
@@ -261,8 +262,8 @@ export const projectsContent = {
 		{
 			slug: 'unity-cockpit-simulation-evaluation',
 			title: {
-				zh: '驾驶舱模拟交互评估系统',
-				en: 'Cockpit Simulation Interaction Evaluation System',
+				zh: 'Unity｜驾驶舱模拟交互评估系统',
+				en: 'Unity｜Cockpit Simulation Interaction Evaluation System',
 			},
 			description: {
 				zh: '用于驾驶舱人机交互评估的模拟系统，参与部分功能开发，负责若干交互事件的逻辑实现。',

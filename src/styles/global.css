@@ -169,21 +169,83 @@ code {
 }
 
 .article-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-    width: min(1120px, calc(100% - 2rem));
+    width: min(1080px, calc(100% - 2rem));
     margin: 0 auto;
     padding: 2rem 0 4rem;
 }
 
 .technical-prose {
     min-width: 0;
+    width: min(1080px, 100%);
+    padding: 1.6rem;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--box-shadow);
 }
 
 .technical-prose h2,
 .technical-prose h3 {
     scroll-margin-top: 5rem;
+}
+
+.technical-prose .localized-content-zh + .localized-content-en {
+    display: block;
+    margin-top: -0.55rem;
+    margin-bottom: 1.1rem;
+    padding-left: 0.95rem;
+    border-left: 2px solid rgba(53, 92, 154, 0.18);
+}
+
+.localized-section-heading {
+    margin-top: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.localized-section-heading h2 {
+    margin-bottom: 0.25rem;
+}
+
+.localized-section-heading-en {
+    margin: 0;
+    color: rgb(var(--gray));
+    font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.technical-prose .localized-content-zh + .localized-content-en p,
+.technical-prose .localized-content-zh + .localized-content-en li {
+    color: rgb(var(--gray));
+    font-size: 0.92em;
+    line-height: 1.7;
+}
+
+.technical-prose .localized-content-zh + .localized-content-en p:last-child,
+.technical-prose .localized-content-zh + .localized-content-en ul:last-child,
+.technical-prose .localized-content-zh + .localized-content-en ol:last-child {
+    margin-bottom: 0;
+}
+
+.technical-prose .localized-content-zh + .localized-content-en table,
+.technical-prose .localized-content-zh + .localized-content-en pre,
+.technical-prose .localized-content-zh + .localized-content-en .code-fold,
+.technical-prose .localized-content-zh + .localized-content-en .mermaid {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.localized-section-body-en {
+    margin-bottom: 1.1rem;
+}
+
+.technical-prose .title h1 .locale-en {
+    display: block;
+    margin-top: 0.45rem;
+    color: rgb(var(--gray));
+    font-size: 0.42em;
+    font-weight: 400;
+    line-height: 1.35;
 }
 
 .technical-prose :not(pre) > code {
@@ -221,6 +283,18 @@ code {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 12px 28px rgba(31, 61, 109, 0.06);
+}
+
+.technical-prose .localized-content-zh + .localized-content-en table {
+    display: none;
+}
+
+.cell-en {
+    display: block;
+    margin-top: 0.28rem;
+    color: rgb(var(--gray));
+    font-size: 0.86em;
+    line-height: 1.45;
 }
 
 .technical-prose th,
@@ -390,11 +464,19 @@ code {
     line-height: 1.7;
 }
 
+.article-description .locale-en {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.92em;
+    line-height: 1.6;
+}
+
 .article-toc {
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 22px;
     background: rgba(255, 255, 255, 0.82);
     padding: 1rem;
+    box-shadow: 0 14px 32px rgba(20, 43, 74, 0.05);
 }
 
 .article-toc p {
@@ -408,7 +490,7 @@ code {
 
 .article-toc ol {
     display: grid;
-    gap: 0.42rem;
+    gap: 0.68rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -428,10 +510,32 @@ code {
     font-size: 0.92rem;
     line-height: 1.35;
     text-decoration: none;
+    transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
 }
 
-.article-toc a:hover {
+.article-toc .toc-primary,
+.article-toc .toc-secondary {
+    display: block;
+}
+
+.article-toc .toc-secondary {
+    margin-top: 0.2rem;
+    font-size: 0.82em;
+    line-height: 1.3;
+    opacity: 0.78;
+}
+
+.article-toc a:hover,
+.article-toc a.is-active {
     color: var(--accent-dark);
+}
+
+.article-toc a.is-active {
+    border-left: 3px solid var(--accent);
+    padding-left: 0.55rem;
+    background: rgba(232, 240, 251, 0.74);
+    border-radius: 0 6px 6px 0;
+    font-weight: 800;
 }
 
 @media (max-width: 720px) {
@@ -466,17 +570,23 @@ code {
 
 @media (min-width: 1040px) {
     .article-shell {
-        grid-template-columns: 240px minmax(0, 720px);
-        align-items: start;
-        justify-content: center;
-        gap: 2rem;
+        width: min(1080px, calc(100% - 2rem));
     }
 
     .article-toc {
-        position: sticky;
-        top: 1.5rem;
-        max-height: calc(100vh - 3rem);
+        position: fixed;
+        left: max(1rem, calc((100vw - 1120px) / 2 - 11.5rem));
+        top: 7.2rem;
+        width: 14.5rem;
+        max-height: calc(100vh - 8.4rem);
         overflow: auto;
+        z-index: 12;
+    }
+}
+
+@media (min-width: 1280px) {
+    .article-toc {
+        left: 1rem;
     }
 }
 

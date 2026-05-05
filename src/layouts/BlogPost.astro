@@ -5,10 +5,13 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import LocalizedText from '../components/LocalizedText.astro';
+import MermaidRenderer from '../components/MermaidRenderer.astro';
 import SeriesNav from '../components/SeriesNav.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { getLocaleFromPath } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
+import type { DualText } from '../data/siteContent';
 
 interface ArticleHeading {
 	depth: number;
@@ -18,8 +21,8 @@ interface ArticleHeading {
 
 interface SeriesLink {
 	href: string;
-	label: string;
-	title: string;
+	label: DualText;
+	title: DualText;
 }
 
 type Props = CollectionEntry<'blog'>['data'] & {
@@ -54,8 +57,8 @@ const resolvedDescription = getLocalizedField(description, locale);
 			box-shadow: var(--box-shadow);
 		}
 		.prose {
-			width: 720px;
-			max-width: calc(100% - 2em);
+			width: 100%;
+			max-width: 100%;
 			margin: auto;
 			padding: 1em;
 			color: rgb(var(--gray-dark));
@@ -100,8 +103,8 @@ const resolvedDescription = getLocalizedField(description, locale);
 							)
 						}
 					</div>
-					<h1>{resolvedTitle}</h1>
-					<p class="article-description">{resolvedDescription}</p>
+					<LocalizedText locale={locale} text={title} tag="h1" />
+					<LocalizedText locale={locale} text={description} tag="p" class="article-description" />
 					<hr />
 				</div>
 				<slot />
@@ -111,5 +114,6 @@ const resolvedDescription = getLocalizedField(description, locale);
 	</article>
 </main>
 <Footer locale={locale} />
+<MermaidRenderer />
 </body>
 </html>

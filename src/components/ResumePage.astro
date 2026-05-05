@@ -41,13 +41,6 @@ const skillGroups: { title: DualText; items: DualText[] }[] = [
 	},
 ];
 
-const layoutLabel =
-	locale === 'zh'
-		? { title: '排版切换', single: '单栏', double: '双栏' }
-		: locale === 'en'
-			? { title: 'Layout', single: 'Single Column', double: 'Two Columns' }
-			: { title: '排版 Layout', single: '单栏 Single', double: '双栏 Double' };
-
 const caseStudyLinkText =
 	locale === 'zh'
 		? '查看项目详情'
@@ -59,7 +52,7 @@ const caseStudyLinkText =
 <Header />
 
 <main>
-	<div class="resume-board" id="resume-board" data-layout="double">
+	<div class="resume-board" id="resume-board" data-layout="single">
 		<section class="page-hero">
 			<div class="card identity-card">
 				<LocalizedText locale={locale} text={resumeContent.title} tag="p" class="eyebrow resume-eyebrow" />
@@ -221,193 +214,9 @@ const caseStudyLinkText =
 		</section>
 	</div>
 
-	<div class="layout-switcher" aria-label={layoutLabel.title}>
-		<span class="layout-switcher-title">{layoutLabel.title}</span>
-		<button type="button" class="layout-button" data-layout-target="single">{layoutLabel.single}</button>
-		<button type="button" class="layout-button is-active" data-layout-target="double">{layoutLabel.double}</button>
-	</div>
 </main>
 
 <Footer />
-
-<script is:inline>
-	const board = document.getElementById('resume-board');
-	const buttons = Array.from(document.querySelectorAll('.layout-button'));
-	const storageKey = 'resume-layout-mode';
-	let equalizeFrame = null;
-
-	function captureContentAnchor() {
-		if (!board) return null;
-		const viewportTop = 0;
-		const viewportBottom = window.innerHeight;
-		const viewportCenter = window.innerHeight * 0.45;
-		const anchors = Array.from(board.querySelectorAll('[data-scroll-anchor]')).filter(
-			(node) => node instanceof HTMLElement,
-		);
-
-		if (!anchors.length) return null;
-
-		let chosen = null;
-		let bestVisibleArea = -1;
-		let bestCenterDistance = Number.POSITIVE_INFINITY;
-
-		for (const anchor of anchors) {
-			const rect = anchor.getBoundingClientRect();
-			const visibleTop = Math.max(rect.top, viewportTop);
-			const visibleBottom = Math.min(rect.bottom, viewportBottom);
-			const visibleArea = Math.max(0, visibleBottom - visibleTop);
-			const center = rect.top + rect.height / 2;
-			const centerDistance = Math.abs(center - viewportCenter);
-
-			if (
-				visibleArea > bestVisibleArea ||
-				(visibleArea === bestVisibleArea && centerDistance < bestCenterDistance)
-			) {
-				bestVisibleArea = visibleArea;
-				bestCenterDistance = centerDistance;
-				chosen = anchor;
-			}
-		}
-
-		if (!(chosen instanceof HTMLElement)) return null;
-
-		const rect = chosen.getBoundingClientRect();
-		const ratio = rect.height > 0 ? Math.max(0, Math.min(1, (viewportCenter - rect.top) / rect.height)) : 0;
-
-		return {
-			id: chosen.dataset.scrollAnchor,
-			anchorY: viewportCenter,
-			ratio,
-		};
-	}
-
-	function restoreContentAnchor(anchorState) {
-		if (!board || !anchorState?.id) return;
-		const anchor = board.querySelector(`[data-scroll-anchor="${anchorState.id}"]`);
-		if (!(anchor instanceof HTMLElement)) return;
-
-		const rect = anchor.getBoundingClientRect();
-		const currentPoint = rect.top + rect.height * anchorState.ratio;
-		const delta = currentPoint - anchorState.anchorY;
-
-		if (Math.abs(delta) < 1) return;
-		window.scrollBy({ top: delta, behavior: 'auto' });
-	}
-
-	function resetColumnStretch() {
-		if (!board) return;
-		const sidebar = board.querySelector('.resume-sidebar');
-		const main = board.querySelector('.resume-main');
-		const sidebarLast = board.querySelector('[data-column-tail="sidebar"]');
-		const mainLast = board.querySelector('[data-column-tail="main"]');
-		if (sidebar instanceof HTMLElement) sidebar.style.height = '';
-		if (main instanceof HTMLElement) main.style.height = '';
-		if (sidebarLast instanceof HTMLElement) {
-			sidebarLast.style.minHeight = '';
-			sidebarLast.style.height = '';
-		}
-		if (mainLast instanceof HTMLElement) {
-			mainLast.style.minHeight = '';
-			mainLast.style.height = '';
-		}
-	}
-
-	function equalizeColumns() {
-		if (!board) return;
-
-		resetColumnStretch();
-
-		const isDouble = board.dataset.layout === 'double' && window.innerWidth > 900;
-		if (!isDouble) return;
-
-		const sidebar = board.querySelector('.resume-sidebar');
-		const main = board.querySelector('.resume-main');
-		const sidebarLast = board.querySelector('[data-column-tail="sidebar"]');
-		const mainLast = board.querySelector('[data-column-tail="main"]');
-
-		if (!(sidebar instanceof HTMLElement) || !(main instanceof HTMLElement)) return;
-		if (!(sidebarLast instanceof HTMLElement) || !(mainLast instanceof HTMLElement)) return;
-
-		const sidebarHeight = sidebar.getBoundingClientRect().height;
-		const mainHeight = main.getBoundingClientRect().height;
-		const diff = Math.round(Math.abs(sidebarHeight - mainHeight));
-
-		if (diff < 2) return;
-
-		if (sidebarHeight < mainHeight) {
-			sidebar.style.height = `${mainHeight}px`;
-		} else {
-			main.style.height = `${sidebarHeight}px`;
-		}
-	}
-
-	function scheduleEqualize() {
-		if (equalizeFrame) cancelAnimationFrame(equalizeFrame);
-		equalizeFrame = requestAnimationFrame(() => {
-			equalizeColumns();
-			equalizeFrame = null;
-		});
-	}
-
-	function setLayout(layout) {
-		if (!board) return;
-		const anchorState = captureContentAnchor();
-
-		board.dataset.layout = layout;
-		buttons.forEach((button) => {
-			button.classList.toggle('is-active', button.dataset.layoutTarget === layout);
-		});
-		try {
-			localStorage.setItem(storageKey, layout);
-		} catch {}
-
-		requestAnimationFrame(() => {
-			scheduleEqualize();
-			requestAnimationFrame(() => {
-				restoreContentAnchor(anchorState);
-			});
-		});
-	}
-
-	const savedLayout = (() => {
-		try {
-			return localStorage.getItem(storageKey);
-		} catch {
-			return null;
-		}
-	})();
-
-	if (savedLayout === 'single' || savedLayout === 'double') {
-		setLayout(savedLayout);
-	}
-
-	buttons.forEach((button) => {
-		button.addEventListener('click', () => {
-			const layout = button.dataset.layoutTarget;
-			if (layout === 'single' || layout === 'double') {
-				setLayout(layout);
-			}
-		});
-	});
-
-	window.addEventListener('resize', scheduleEqualize);
-	window.addEventListener('load', scheduleEqualize);
-
-	if (document.fonts?.ready) {
-		document.fonts.ready.then(scheduleEqualize);
-	}
-
-	if (window.ResizeObserver && board) {
-		const observer = new ResizeObserver(() => {
-			scheduleEqualize();
-		});
-
-		const sidebar = board.querySelector('.resume-sidebar');
-		const main = board.querySelector('.resume-main');
-		if (sidebar) observer.observe(sidebar);
-		if (main) observer.observe(main);
-	}
-</script>
 
 <style>
 	.page-hero {
@@ -463,34 +272,36 @@ const caseStudyLinkText =
 		margin-top: 1.25rem;
 		display: grid;
 		gap: 1.25rem;
-	}
-
-	.resume-board[data-layout='double'] .resume-layout {
-		grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.42fr);
-		align-items: start;
-	}
-
-	.resume-board[data-layout='single'] .resume-layout {
 		grid-template-columns: 1fr;
-	}
-
-	.resume-board[data-layout='single'] .resume-main {
-		order: 1;
-	}
-
-	.resume-board[data-layout='single'] .resume-sidebar {
-		order: 2;
 	}
 
 	.resume-sidebar,
 	.resume-main {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+		display: contents;
 	}
 
-	.resume-board[data-layout='double'] [data-column-tail] {
-		flex: 1 1 auto;
+	[data-scroll-anchor='summary'] {
+		order: 1;
+	}
+
+	[data-scroll-anchor='education'] {
+		order: 2;
+	}
+
+	[data-scroll-anchor='skills'] {
+		order: 3;
+	}
+
+	[data-scroll-anchor='society'] {
+		order: 4;
+	}
+
+	.projects-card {
+		order: 5;
+	}
+
+	[data-scroll-anchor='additional-projects'] {
+		order: 6;
 	}
 
 	.section-card {
@@ -722,72 +533,10 @@ const caseStudyLinkText =
 		line-height: 1.5;
 	}
 
-	.layout-switcher {
-		position: sticky;
-		bottom: 1rem;
-		z-index: 15;
-		margin: 1rem auto 0;
-		width: fit-content;
-		display: flex;
-		align-items: center;
-		gap: 0.55rem;
-		padding: 0.7rem 0.85rem;
-		border: 1px solid rgba(156, 176, 201, 0.35);
-		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.92);
-		box-shadow: 0 12px 28px rgba(35, 68, 110, 0.12);
-		backdrop-filter: blur(10px);
-	}
-
-	.layout-switcher-title {
-		padding-right: 0.3rem;
-		color: rgb(var(--gray-dark));
-		font-size: 0.88rem;
-		font-weight: 700;
-	}
-
-	.layout-button {
-		padding: 0.5rem 0.9rem;
-		border: 1px solid rgba(156, 176, 201, 0.35);
-		border-radius: 999px;
-		background: transparent;
-		color: rgb(var(--gray-dark));
-		font: inherit;
-		font-size: 0.88rem;
-		font-weight: 700;
-		cursor: pointer;
-	}
-
-	.layout-button.is-active {
-		background: var(--accent);
-		border-color: var(--accent);
-		color: #fff;
-	}
-
-	@media (max-width: 900px) {
-		.resume-board[data-layout='double'] .resume-layout {
-			grid-template-columns: 1fr;
-		}
-
-		.resume-board[data-layout='double'] .resume-main,
-		.resume-board[data-layout='double'] .resume-sidebar {
-			order: initial;
-		}
-	}
-
 	@media (max-width: 720px) {
 		.resume-board {
 			padding: 1rem;
 			border-radius: 24px;
-		}
-
-		.layout-switcher {
-			gap: 0.4rem;
-			padding: 0.6rem 0.7rem;
-		}
-
-		.layout-switcher-title {
-			display: none;
 		}
 	}
 </style>

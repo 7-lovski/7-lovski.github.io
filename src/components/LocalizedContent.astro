@@ -1,0 +1,19 @@
+---
+import type { Locale } from '../utils/i18n';
+import { getLocaleFromPath, shouldRenderLanguageContent } from '../utils/i18n';
+
+interface Props {
+	language: 'zh' | 'en';
+	class?: string;
+}
+
+const { language, class: className } = Astro.props;
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
+const shouldRender = shouldRenderLanguageContent(locale, language);
+---
+
+{shouldRender && (
+	<div class:list={['localized-content', `localized-content-${language}`, className]}>
+		<slot />
+	</div>
+)}
