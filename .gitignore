@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 # local feature worktrees
 .worktrees/
+public/projects/ue-gas-multiplayer/Crunch.mp4

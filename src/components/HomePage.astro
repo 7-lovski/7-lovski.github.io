@@ -135,8 +135,8 @@ const featuredProjectLinkText = {
                                     <p class="post-date">
                                         <FormattedDate date={post.data.pubDate} />
                                     </p>
-                                    <h3>{post.data.title}</h3>
-                                    <p>{post.data.description}</p>
+                                    <LocalizedText locale={locale} text={post.data.title} tag="h3" class="post-card-title" />
+                                    <LocalizedText locale={locale} text={post.data.description} tag="p" class="post-card-description" />
                                 </a>
                         ))
                     }
@@ -342,6 +342,33 @@ const featuredProjectLinkText = {
     .post-card {
         text-decoration: none;
         color: inherit;
+    }
+
+    :global(.post-card-title) {
+        margin: 0 0 0.65rem;
+        font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+    }
+
+    :global(.post-card-title .locale-en) {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.78em;
+        line-height: 1.22;
+        color: rgb(var(--gray-dark));
+    }
+
+    :global(.post-card-description) {
+        margin: 0;
+        line-height: 1.62;
+    }
+
+    :global(.post-card-description .locale-en) {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.9em;
+        line-height: 1.55;
     }
 
     .post-empty-card {

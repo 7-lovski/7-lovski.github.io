@@ -167,7 +167,7 @@ export const projectsContent = {
 		en: 'Projects and Practice',
 	},
 	description: {
-		zh: '这里先放精选项目与练习占位，后面再逐步替换成真实作品。',
+		zh: '用于项目展示',
 		en: 'Start with selected projects and placeholders here, then gradually replace them with real work.',
 	},
 	items: [

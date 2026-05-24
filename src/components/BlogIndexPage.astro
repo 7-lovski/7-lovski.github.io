@@ -42,26 +42,28 @@ const emptyText = {
     <section>
         {
             posts.length > 0 ? (
-                <ul class="post-list">
+                <div class="post-list card">
                     {
                         posts.map((post) => (
-                                <li>
-                                    <a href={getContentPath('blog', post.id, locale)}>
+                                <article class="card post-card">
+                                    <a class="post-card-link" href={getContentPath('blog', post.id, locale)}>
                                         {post.data.heroImage && (
                                                 <Image width={720} height={360} src={post.data.heroImage} alt="" />
                                         )}
-                                        <LocalizedText locale={locale} text={post.data.title} tag="h2" class="title" />
+                                        <LocalizedText locale={locale} text={post.data.title} tag="h2" class="post-card-title" />
                                         <p class="date">
                                             <FormattedDate date={post.data.pubDate} />
                                         </p>
-                                        <LocalizedText locale={locale} text={post.data.description} tag="p" class="desc" />
+                                        <LocalizedText locale={locale} text={post.data.description} tag="p" class="post-card-description" />
                                     </a>
-                                </li>
+                                </article>
                         ))
                     }
-                </ul>
+                </div>
             ) : (
-                <LocalizedText locale={locale} text={emptyText} tag="p" class="empty-state" />
+                <div class="card post-list">
+                    <LocalizedText locale={locale} text={emptyText} tag="p" class="empty-state" />
+                </div>
             )
         }
     </section>
@@ -77,42 +79,47 @@ const emptyText = {
 
     .post-list {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.4rem;
-        list-style: none;
-        padding: 0;
-        margin: 0;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        padding: 1.35rem;
+        margin-top: 2rem;
     }
 
-    .post-list li a {
+    .post-card {
+        padding: 1.4rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px rgba(35, 68, 110, 0.1);
+    }
+
+    .post-card-link {
         display: block;
-        padding: 1.2rem;
-        border: 1px solid rgba(164, 182, 204, 0.28);
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 14px 32px rgba(20, 43, 74, 0.05);
         text-decoration: none;
         color: inherit;
-        transition: 0.2s ease;
     }
 
-    .post-list li a:hover {
-        transform: translateY(-2px);
-    }
-
-    .post-list img {
+    .post-card img {
+        display: block;
+        width: 100%;
         margin-bottom: 1rem;
-        border-radius: 16px;
+        border-radius: 18px;
     }
 
-    .title {
-        margin: 0 0 0.5rem;
+    :global(.post-card-title) {
+        margin: 0 0 0.65rem;
+        font-size: clamp(1.9rem, 2.4vw, 2.45rem);
+        line-height: 1.12;
+        letter-spacing: -0.035em;
         color: rgb(var(--black));
     }
 
-    .title :global(.locale-en) {
+    :global(.post-card-title .locale-en) {
+        display: block;
         margin-top: 0.28rem;
-        font-size: 0.62em;
+        font-size: 0.8em;
         line-height: 1.35;
         color: rgb(var(--gray));
     }
@@ -124,12 +131,14 @@ const emptyText = {
         font-weight: 700;
     }
 
-    .desc {
+    :global(.post-card-description) {
         margin: 0;
         color: rgb(var(--gray));
+        line-height: 1.7;
     }
 
-    .desc :global(.locale-en) {
+    :global(.post-card-description .locale-en) {
+        display: block;
         margin-top: 0.28rem;
         font-size: 0.9em;
         line-height: 1.55;
@@ -137,15 +146,7 @@ const emptyText = {
 
     .empty-state {
         padding: 1.2rem;
-        border: 1px solid rgba(164, 182, 204, 0.28);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.82);
+        margin: 0;
         color: rgb(var(--gray));
-    }
-
-    @media (max-width: 900px) {
-        .post-list {
-            grid-template-columns: 1fr;
-        }
     }
 </style>
