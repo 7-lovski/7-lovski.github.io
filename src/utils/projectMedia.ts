@@ -1,22 +1,17 @@
-const narrativeProjectMedia = new Map<string, { video: string; poster?: string }>([
+const narrativeProjectMedia = new Map<string, { embed: string }>([
 	[
 		'ue-gas-multiplayer',
 		{
-			video: '/projects/ue-gas-multiplayer/Crunch.mp4',
-			poster: '/projects/ue-gas-multiplayer/Crunch-poster.png',
+			embed: 'https://player.bilibili.com/player.html?bvid=BV1HqGL6jEhx&autoplay=0',
 		},
 	],
 ]);
 
-export function getNarrativeVideoSrc(pathname: string): string | undefined {
-	return getNarrativeProjectMedia(pathname)?.video;
+export function getNarrativeEmbedSrc(pathname: string): string | undefined {
+	return getNarrativeProjectMedia(pathname)?.embed;
 }
 
-export function getNarrativeVideoPoster(pathname: string): string | undefined {
-	return getNarrativeProjectMedia(pathname)?.poster;
-}
-
-function getNarrativeProjectMedia(pathname: string): { video: string; poster?: string } | undefined {
+function getNarrativeProjectMedia(pathname: string): { embed: string } | undefined {
 	const normalizedPath = pathname.replace(/\/+$/, '');
 	const slug = normalizedPath.split('/').filter(Boolean).at(-1);
 

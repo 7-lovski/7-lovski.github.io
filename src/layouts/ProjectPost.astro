@@ -7,7 +7,7 @@ import LocalizedText from '../components/LocalizedText.astro';
 import type { DualText } from '../data/siteContent';
 import { getLocaleFromPath, withLocale } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
-import { getNarrativeVideoPoster, getNarrativeVideoSrc } from '../utils/projectMedia';
+import { getNarrativeEmbedSrc } from '../utils/projectMedia';
 import { getRepositoryName, normalizeRepositoryUrl } from '../utils/projects';
 
 interface Props {
@@ -43,8 +43,7 @@ const isNarrativeCaseStudy =
 	Astro.url.pathname.includes('/unity-campus-career-sim/') ||
 	Astro.url.pathname.includes('/ue-steam-networking-plugin/') ||
 	Astro.url.pathname.includes('/unity-cockpit-simulation-evaluation/');
-const narrativeVideoSrc = isNarrativeCaseStudy ? getNarrativeVideoSrc(Astro.url.pathname) : undefined;
-const narrativeVideoPoster = isNarrativeCaseStudy ? getNarrativeVideoPoster(Astro.url.pathname) : undefined;
+const narrativeEmbedSrc = isNarrativeCaseStudy ? getNarrativeEmbedSrc(Astro.url.pathname) : undefined;
 
 const labels = {
 	back: { zh: '返回项目页', en: 'Back to projects' },
@@ -79,20 +78,17 @@ const labels = {
 				isNarrativeCaseStudy ? (
 					<>
 						<section class="case-study-hero card">
-							<div class:list={['case-study-hero-media', narrativeVideoSrc && 'has-video']}>
+							<div class:list={['case-study-hero-media', narrativeEmbedSrc && 'has-video']}>
 								{
-									narrativeVideoSrc ? (
-										<video
+									narrativeEmbedSrc ? (
+										<iframe
 											class="case-study-hero-video"
-											src={narrativeVideoSrc}
-											controls
-											muted
-											playsinline
-											preload="metadata"
-											poster={narrativeVideoPoster}
-										>
-											<LocalizedText locale={locale} text={labels.videoUnsupported} tag="span" />
-										</video>
+											src={narrativeEmbedSrc}
+											title={resolvedTitle}
+											allow="autoplay; fullscreen; picture-in-picture"
+											allowfullscreen
+											loading="lazy"
+										></iframe>
 									) :
 									heroImage ? (
 										<Image width={1400} height={900} src={heroImage} alt="" class="case-study-hero-image" />
@@ -397,7 +393,8 @@ const labels = {
 
 	.case-study-hero-media {
 		position: relative;
-		min-height: max(48vh, 360px);
+		aspect-ratio: 16 / 9;
+		min-height: 360px;
 		border-radius: 22px;
 		overflow: hidden;
 		background:
@@ -417,8 +414,10 @@ const labels = {
 		display: block;
 		width: 100%;
 		height: 100%;
+		min-height: 100%;
 		object-fit: cover;
 		background: #000;
+		border: 0;
 	}
 
 	.hero-placeholder {
