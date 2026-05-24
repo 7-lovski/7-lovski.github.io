@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
+import RevealMotion from './RevealMotion.astro';
 import {projectsContent} from '../data/siteContent';
 import { getContentPath, type Locale } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
@@ -27,46 +28,50 @@ const repositoryLinkText = {
 <Header/>
 
 <main>
-    <section class="page-hero">
+    <section class="page-hero reveal" style="--reveal-delay: 40ms">
         <LocalizedText locale={locale} text={projectsContent.title} tag="h1"/>
         <LocalizedText locale={locale} text={projectsContent.description} tag="p" class="section-copy"/>
     </section>
 
     <section class="projects-grid card">
         {
-            projectsContent.items.map((item) => {
+            projectsContent.items.map((item, index) => {
                 const href =
                     item.slug && projectDetailSlugs.has(item.slug)
                         ? getContentPath('projects', item.slug, locale)
                         : null;
 
                 return (
-                    <article class="card project-card">
-                        {
-                            href ? (
-                                <a class="project-title-link" href={href}>
-                                    <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
-                                </a>
-                            ) : (
-                                <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
-                            )
-                        }
-                        <LocalizedText locale={locale} text={item.description} tag="p"/>
-                        <div class="pill-row">
-                            {
-                                item.tags.map((tag) => {
-                                    const label =
-                                        locale === 'bi'
-                                            ? tag.zh === tag.en
-                                                ? tag.zh
-                                                : `${tag.zh} / ${tag.en}`
-                                            : locale === 'zh'
-                                                ? tag.zh
-                                                : tag.en;
+                    <article class="card project-card reveal" style={`--reveal-delay: ${90 + index * 65}ms`}>
+                        <div class="project-card-content">
+                            <div class="project-card-heading">
+                                {
+                                    href ? (
+                                        <a class="project-title-link" href={href}>
+                                            <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
+                                        </a>
+                                    ) : (
+                                        <LocalizedText locale={locale} text={item.title} tag="h2" class="project-card-title"/>
+                                    )
+                                }
+                                <LocalizedText locale={locale} text={item.description} tag="p" class="project-card-description"/>
+                            </div>
+                            <div class="pill-row project-tag-row">
+                                {
+                                    item.tags.map((tag) => {
+                                        const label =
+                                            locale === 'bi'
+                                                ? tag.zh === tag.en
+                                                    ? tag.zh
+                                                    : `${tag.zh} / ${tag.en}`
+                                                : locale === 'zh'
+                                                    ? tag.zh
+                                                    : tag.en;
 
-                                    return <span class="pill">{label}</span>;
-                                })
-                            }
+                                        return <span class="pill">{label}</span>;
+                                    })
+                                }
+                            </div>
                         </div>
 
                         {
@@ -109,6 +114,7 @@ const repositoryLinkText = {
 </main>
 
 <Footer locale={locale}/>
+<RevealMotion />
 
 <style>
     .page-hero {
@@ -119,29 +125,74 @@ const repositoryLinkText = {
         margin-top: 2rem;
         display: grid;
         grid-template-columns: repeat(1, minmax(0, 1fr));
-        gap: 1.2rem;
-        padding: 1.35rem;
+        gap: 1rem;
+        padding: clamp(1rem, 2vw, 1.5rem);
     }
 
     .project-card {
-        padding: 1.4rem;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: clamp(1.2rem, 2.5vw, 1.65rem);
+        border: 1px solid rgba(35, 68, 110, 0.1);
+        background:
+            linear-gradient(135deg, rgba(53, 92, 154, 0.06), rgba(255, 255, 255, 0) 42%),
+            rgba(255, 255, 255, 0.9);
+        box-shadow: 0 10px 28px rgba(35, 68, 110, 0.07);
+        transition:
+            opacity 0.6s var(--motion-ease) var(--reveal-delay, 0ms),
+            transform 0.6s var(--motion-ease) var(--reveal-delay, 0ms),
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease;
     }
 
-    .project-card:hover {
+    .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 0.25rem;
+        background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+        opacity: 0.62;
+    }
+
+    .project-card:hover,
+    .project-card:focus-within {
         transform: translateY(-2px);
-        box-shadow: 0 16px 30px rgba(35, 68, 110, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-color: rgba(53, 92, 154, 0.34);
+        box-shadow: 0 18px 34px rgba(35, 68, 110, 0.12);
+    }
+
+    .project-card-content {
+        display: grid;
+        gap: 1rem;
+        min-width: 0;
+    }
+
+    .project-card-heading {
+        display: grid;
+        gap: 0.7rem;
+        min-width: 0;
     }
 
     .project-card p {
+        margin: 0;
         color: rgb(var(--gray));
     }
 
+    :global(.project-card-description) {
+        max-width: 68ch;
+        font-size: 0.98rem;
+        line-height: 1.72;
+    }
+
     :global(.project-card-title) {
-        margin: 0 0 0.6rem;
-        font-size: clamp(1.9rem, 2.4vw, 2.45rem);
-        line-height: 1.12;
-        letter-spacing: -0.035em;
+        margin: 0;
+        overflow-wrap: anywhere;
+        font-size: clamp(1.45rem, 2.4vw, 2rem);
+        line-height: 1.16;
     }
 
     :global(.project-card-title .locale-en) {
@@ -152,43 +203,77 @@ const repositoryLinkText = {
     .project-title-link {
         color: inherit;
         text-decoration: none;
+        text-underline-offset: 0.18em;
+        transition: color 0.18s ease;
     }
 
     .project-title-link:hover {
         color: var(--accent-dark);
     }
 
+    .project-title-link:focus-visible,
+    .detail-link:focus-visible,
+    .repo-link:focus-visible {
+        outline: 2px solid rgba(53, 92, 154, 0.55);
+        outline-offset: 0.18rem;
+        border-radius: 0.35rem;
+    }
+
+    .project-tag-row {
+        gap: 0.45rem;
+    }
+
     .project-actions {
-        margin-top: 1rem;
+        margin-top: auto;
         display: flex;
-        gap: 50rem;
+        flex-wrap: wrap;
+        gap: 0.7rem;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        padding-top: 0.9rem;
+        border-top: 1px solid rgba(35, 68, 110, 0.08);
     }
 
     .detail-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2rem;
         color: var(--accent-dark);
         font-size: 0.9rem;
         font-weight: 700;
         text-decoration: none;
+        transition: color 0.18s ease, transform 0.18s ease;
     }
 
     .detail-link:hover {
-        text-decoration: underline;
+        color: var(--accent);
+        transform: translateX(2px);
     }
 
     .repo-link {
         display: inline-flex;
+        align-items: center;
         gap: 0.45rem;
+        min-height: 2rem;
+        padding: 0.35rem 0.65rem;
+        border: 1px solid rgba(35, 68, 110, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
         color: rgb(var(--gray-dark));
         font-size: 0.84rem;
         font-weight: 700;
         text-decoration: none;
         white-space: nowrap;
-        transition: color 0.18s ease, transform 0.18s ease;
+        transition:
+            background-color 0.18s ease,
+            border-color 0.18s ease,
+            color 0.18s ease,
+            transform 0.18s ease;
     }
 
     .repo-link:hover {
+        border-color: rgba(53, 92, 154, 0.26);
+        background: rgba(53, 92, 154, 0.08);
         color: var(--accent-dark);
         transform: translateY(-1px);
     }
@@ -199,9 +284,33 @@ const repositoryLinkText = {
         flex: 0 0 auto;
     }
 
-    @media (max-width: 800px) {
-        .projects-grid {
-            grid-template-columns: 1fr;
+    @media (max-width: 560px) {
+        .project-card {
+            gap: 1rem;
+        }
+
+        .project-actions {
+            justify-content: flex-start;
+        }
+
+        .repo-link {
+            max-width: 100%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .project-card,
+        .project-title-link,
+        .detail-link,
+        .repo-link {
+            transition: none;
+        }
+
+        .project-card:hover,
+        .project-card:focus-within,
+        .detail-link:hover,
+        .repo-link:hover {
+            transform: none;
         }
     }
 </style>

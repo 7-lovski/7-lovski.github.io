@@ -17,6 +17,8 @@
     --page: #f1f6fc;
     --line: rgba(158, 177, 201, 0.32);
     --box-shadow: 0 16px 36px rgba(31, 61, 109, 0.08);
+    --box-shadow-hover: 0 20px 44px rgba(31, 61, 109, 0.13);
+    --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -166,6 +168,44 @@ code {
     border-radius: 28px;
     background: rgba(255, 255, 255, 0.88);
     box-shadow: var(--box-shadow);
+}
+
+.motion-card {
+    transition:
+        transform 0.28s var(--motion-ease),
+        border-color 0.28s var(--motion-ease),
+        box-shadow 0.28s var(--motion-ease),
+        background-color 0.28s var(--motion-ease);
+}
+
+.motion-card.reveal {
+    transition:
+        opacity 0.6s var(--motion-ease) var(--reveal-delay, 0ms),
+        transform 0.6s var(--motion-ease) var(--reveal-delay, 0ms),
+        border-color 0.28s var(--motion-ease),
+        box-shadow 0.28s var(--motion-ease),
+        background-color 0.28s var(--motion-ease);
+}
+
+.motion-card:hover,
+.motion-card:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(53, 92, 154, 0.34);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+        opacity 0.6s var(--motion-ease) var(--reveal-delay, 0ms),
+        transform 0.6s var(--motion-ease) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .article-shell {
@@ -602,4 +642,31 @@ code {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
     white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+
+    .motion-card:hover,
+    .motion-card:focus-within,
+    .button:hover,
+    .series-nav-card:hover {
+        transform: none;
+    }
 }

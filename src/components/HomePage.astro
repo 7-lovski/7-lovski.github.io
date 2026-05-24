@@ -4,6 +4,7 @@ import Footer from './Footer.astro';
 import Header from './Header.astro';
 import FormattedDate from './FormattedDate.astro';
 import LocalizedText from './LocalizedText.astro';
+import RevealMotion from './RevealMotion.astro';
 import { homeContent } from '../data/siteContent';
 import { getContentPath, withLocale, type Locale } from '../utils/i18n';
 
@@ -23,8 +24,8 @@ const featuredProjectLinkText = {
 <Header />
 
 <main>
-    <section class="hero card">
-        <div class="hero-heading-block">
+    <section class="hero card reveal" style="--reveal-delay: 40ms">
+        <div class="hero-heading-block reveal" style="--reveal-delay: 100ms">
             {
                 locale === 'bi' ? (
                         <>
@@ -38,8 +39,24 @@ const featuredProjectLinkText = {
         </div>
 
         <div class="hero-body">
-            <div class="hero-copy">
+            <div class="hero-copy reveal" style="--reveal-delay: 180ms">
                 <LocalizedText locale={locale} text={homeContent.description} tag="p" class="hero-text" />
+
+                <div class="pill-row hero-skills" aria-label={locale === 'en' ? 'Core skills' : '核心技能'}>
+                    {
+                        homeContent.skills.map((skill) => (
+                            <span class="pill">
+                                {locale === 'bi'
+                                    ? skill.zh === skill.en
+                                        ? skill.zh
+                                        : `${skill.zh} / ${skill.en}`
+                                    : locale === 'zh'
+                                        ? skill.zh
+                                        : skill.en}
+                            </span>
+                        ))
+                    }
+                </div>
 
                 <div class="hero-actions">
                     <a class="button" href={withLocale('/projects', locale)}>
@@ -53,7 +70,7 @@ const featuredProjectLinkText = {
         </div>
     </section>
 
-    <section class="section-block">
+    <section class="section-block reveal" style="--reveal-delay: 80ms">
         <div class="section-top">
             <LocalizedText locale={locale} text={homeContent.featuredTitle} tag="h2" class="section-heading" />
             <a href={withLocale('/projects', locale)}>
@@ -67,7 +84,7 @@ const featuredProjectLinkText = {
 
         <div class="project-grid card featured-project-list">
             {
-                homeContent.projects.map((project) => {
+                homeContent.projects.map((project, index) => {
                     const href = project.slug ? getContentPath('projects', project.slug, locale) : null;
 
                     const content = (
@@ -101,11 +118,11 @@ const featuredProjectLinkText = {
                     );
 
                     return href ? (
-                        <a class="project-card card project-card-link" href={href}>
+                        <a class="project-card card motion-card project-card-link reveal" style={`--reveal-delay: ${120 + index * 90}ms`} href={href}>
                             {content}
                         </a>
                     ) : (
-                        <article class="project-card card">
+                        <article class="project-card card motion-card reveal" style={`--reveal-delay: ${120 + index * 90}ms`}>
                             {content}
                         </article>
                     );
@@ -114,7 +131,7 @@ const featuredProjectLinkText = {
         </div>
     </section>
 
-    <section class="section-block">
+    <section class="section-block reveal" style="--reveal-delay: 80ms">
         <div class="section-top">
             <LocalizedText locale={locale} text={homeContent.postsTitle} tag="h2" class="section-heading" />
             <a href={withLocale('/blog', locale)}>
@@ -130,14 +147,14 @@ const featuredProjectLinkText = {
             posts.length > 0 ? (
                 <div class="post-grid card">
                     {
-                        posts.map((post) => (
-                                <a class="post-card card" href={withLocale(`/blog/${post.id}/`, locale)}>
-                                    <p class="post-date">
-                                        <FormattedDate date={post.data.pubDate} />
-                                    </p>
-                                    <LocalizedText locale={locale} text={post.data.title} tag="h3" class="post-card-title" />
-                                    <LocalizedText locale={locale} text={post.data.description} tag="p" class="post-card-description" />
-                                </a>
+                        posts.map((post, index) => (
+                            <a class="post-card card motion-card reveal" style={`--reveal-delay: ${120 + index * 90}ms`} href={withLocale(`/blog/${post.id}/`, locale)}>
+                                <p class="post-date">
+                                    <FormattedDate date={post.data.pubDate} />
+                                </p>
+                                <LocalizedText locale={locale} text={post.data.title} tag="h3" class="post-card-title" />
+                                <LocalizedText locale={locale} text={post.data.description} tag="p" class="post-card-description" />
+                            </a>
                         ))
                     }
                 </div>
@@ -151,16 +168,33 @@ const featuredProjectLinkText = {
 </main>
 
 <Footer />
+<RevealMotion />
 
 <style>
     .hero {
-        padding: 2rem;
+        position: relative;
+        padding: clamp(2rem, 5vw, 4rem) 2rem;
         display: grid;
         gap: 2rem;
         justify-items: center;
         text-align: center;
+        overflow: hidden;
     }
 
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: inherit;
+        background:
+            radial-gradient(circle at 22% 12%, rgba(53, 92, 154, 0.13), transparent 34%),
+            radial-gradient(circle at 82% 20%, rgba(120, 154, 198, 0.16), transparent 30%);
+        pointer-events: none;
+    }
+
+    .hero > * {
+        position: relative;
+    }
 
     .hero-heading {
         display: flex;
@@ -215,6 +249,10 @@ const featuredProjectLinkText = {
         line-height: 1.8;
     }
 
+    .hero-skills {
+        justify-content: center;
+        margin-top: 1.35rem;
+    }
 
     .hero-actions {
         display: flex;
@@ -269,11 +307,6 @@ const featuredProjectLinkText = {
     .project-card-link {
         color: inherit;
         text-decoration: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .project-card-link:hover {
-        transform: translateY(-2px);
     }
 
     .project-card p,
@@ -377,11 +410,6 @@ const featuredProjectLinkText = {
 
     .post-empty-card p {
         margin: 0;
-    }
-
-    .post-card:hover {
-        transform: translateY(-2px);
-        transition: 0.2s ease;
     }
 
     .post-date {
