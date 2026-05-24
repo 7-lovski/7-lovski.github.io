@@ -1,8 +1,8 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import HomePage from '../components/HomePage.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getBlogPosts } from '../utils/blog';
+import BaseHead from '../../components/BaseHead.astro';
+import HomePage from '../../components/HomePage.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getBlogPosts } from '../../utils/blog';
 
 const posts = (await getBlogPosts())
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -15,6 +15,6 @@ const posts = (await getBlogPosts())
 	<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 </head>
 <body>
-<HomePage locale="zh" posts={posts} />
+<HomePage locale="bi" posts={posts} />
 </body>
 </html>

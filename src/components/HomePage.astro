@@ -90,7 +90,17 @@ const featuredProjectLinkText = {
                     const content = (
                         <>
                             <div class="featured-project-head">
+                                {
+                                    project.status && (
+                                        <LocalizedText locale={locale} text={project.status} tag="p" class="project-status-chip" />
+                                    )
+                                }
                                 <LocalizedText locale={locale} text={project.name} tag="h3" class="featured-project-title" />
+                                {
+                                    project.role && (
+                                        <LocalizedText locale={locale} text={project.role} tag="p" class="featured-project-role" />
+                                    )
+                                }
                             </div>
 
                             <div class="featured-project-body">
@@ -214,14 +224,14 @@ const featuredProjectLinkText = {
     .hero-title {
         max-width: none;
         margin: 0;
-        font-size: clamp(2.55rem, 5vw, 4rem);
-        line-height: 1.08;
-        letter-spacing: -0.04em;
+        font-size: clamp(2.35rem, 4.4vw, 3.6rem);
+        line-height: 1.12;
+        letter-spacing: 0;
     }
 
     .hero-title-en {
         margin: 0;
-        font-size: clamp(1.2rem, 2.2vw, 1.95rem);
+        font-size: clamp(1.12rem, 2vw, 1.72rem);
         font-weight: 700;
         line-height: 1.2;
         color: rgb(var(--gray-dark));
@@ -317,9 +327,9 @@ const featuredProjectLinkText = {
 
     :global(.featured-project-title) {
         margin: 0;
-        font-size: clamp(1.28rem, 1.5vw, 1.55rem);
+        font-size: clamp(1.18rem, 1.45vw, 1.42rem);
         line-height: 1.18;
-        letter-spacing: -0.025em;
+        letter-spacing: 0;
     }
 
     :global(.featured-project-title .locale-en) {
@@ -341,6 +351,7 @@ const featuredProjectLinkText = {
     }
 
     .featured-project-head {
+        gap: 0.38rem;
         padding-bottom: 0.9rem;
         overflow: hidden;
     }
@@ -363,6 +374,40 @@ const featuredProjectLinkText = {
         justify-content: flex-start;
     }
 
+    :global(.project-status-chip) {
+        width: fit-content;
+        margin: 0 0 0.1rem;
+        padding: 0.28rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(53, 92, 154, 0.08);
+        color: var(--accent-dark);
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    :global(.project-status-chip .locale-en) {
+        font-size: 0.88em;
+        opacity: 0.82;
+    }
+
+    :global(.featured-project-role) {
+        margin: 0;
+        color: rgb(var(--gray-dark));
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.45;
+    }
+
+    :global(.featured-project-role .locale-en) {
+        display: block;
+        margin-top: 0.18rem;
+        color: rgb(var(--gray));
+        font-size: 0.88em;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
     .featured-project-link {
         display: inline-flex;
         margin-top: 1rem;
@@ -379,9 +424,9 @@ const featuredProjectLinkText = {
 
     :global(.post-card-title) {
         margin: 0 0 0.65rem;
-        font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+        font-size: clamp(1.12rem, 1.45vw, 1.32rem);
         line-height: 1.18;
-        letter-spacing: -0.02em;
+        letter-spacing: 0;
     }
 
     :global(.post-card-title .locale-en) {

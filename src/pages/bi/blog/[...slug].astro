@@ -1,0 +1,61 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+import { getBlogPosts } from '../../../utils/blog';
+
+const seriesPosts = [
+	{
+		id: 'ue-online-subsystem-steam-eos-multiplayer',
+		title: {
+			zh: 'UE OnlineSubsystem 多人联机实践：Steam、EOS 与会话系统完整拆解',
+			en: 'UE OnlineSubsystem Multiplayer Practice: Steam, EOS, and Sessions',
+		},
+	},
+	{
+		id: 'ue-dedicated-server-docker-python-coordinator',
+		title: {
+			zh: 'UE Dedicated Server 部署实践：Docker、WSL/Ubuntu 与 Python Coordinator',
+			en: 'UE Dedicated Server Deployment Practice: Docker, WSL/Ubuntu, and a Python Coordinator',
+		},
+	},
+];
+
+function getSeriesLinks(postId: string) {
+	const index = seriesPosts.findIndex((entry) => entry.id === postId);
+	if (index === -1) return {};
+
+	const previous = seriesPosts[index - 1];
+	const next = seriesPosts[index + 1];
+
+	return {
+		seriesPrevious: previous && {
+			href: `/bi/blog/${previous.id}/`,
+			label: { zh: '上一篇', en: 'Previous' },
+			title: previous.title,
+		},
+		seriesNext: next && {
+			href: `/bi/blog/${next.id}/`,
+			label: { zh: '下一篇', en: 'Next' },
+			title: next.title,
+		},
+	};
+}
+
+export async function getStaticPaths() {
+	const posts = await getBlogPosts();
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content, headings } = await render(post);
+const seriesLinks = getSeriesLinks(post.id);
+---
+
+<BlogPost {...post.data} headings={headings} {...seriesLinks}>
+	<Content />
+</BlogPost>

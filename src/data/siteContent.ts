@@ -15,6 +15,8 @@ export type ProjectSummary = {
 	repositoryUrl?: string;
 	title: DualText;
 	description: DualText;
+	role?: DualText;
+	status?: DualText;
 	tags: DualText[];
 };
 
@@ -132,6 +134,14 @@ export const homeContent = {
 				zh: 'UE MOBA 原型 — 捕获推进',
 				en: 'UE MOBA Prototype — Capture Push',
 			},
+			status: {
+				zh: '项目案例',
+				en: 'Case Study',
+			},
+			role: {
+				zh: '独立开发｜Gameplay / GAS / 联机 / 部署',
+				en: 'Solo Dev | Gameplay / GAS / Networking / Deployment',
+			},
 			description: {
 				zh: '基于 UE5 + GAS + EOS + Docker 的第三人称网络 MOBA 游戏原型，核心玩法为护送捕获器推进至敌方核心。',
 				en: 'A third-person online MOBA prototype built with UE5, GAS, EOS, and Docker, centered on escorting a capturer into the enemy core.',
@@ -143,6 +153,14 @@ export const homeContent = {
 			name: {
 				zh: 'Unity｜工厂 + 塔防项目中的塔防玩法开发',
 				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
+			},
+			status: {
+				zh: '团队项目',
+				en: 'Team Project',
+			},
+			role: {
+				zh: '塔防模块｜防御塔 / 攻击表现 / 能力衔接',
+				en: 'Tower Defense Module | Towers / Combat Feedback / Ability Integration',
 			},
 			description: {
 				zh: '融合工厂建造与塔防玩法的团队项目，独立负责塔防模块功能实现，完成多类防御塔、攻击表现与能力系统衔接。',
@@ -177,6 +195,14 @@ export const projectsContent = {
 				zh: 'UE MOBA 原型 — 捕获推进',
 				en: 'UE MOBA Prototype — Capture Push',
 			},
+			status: {
+				zh: '项目案例',
+				en: 'Case Study',
+			},
+			role: {
+				zh: '独立开发｜Gameplay / GAS / 联机 / 部署',
+				en: 'Solo Dev | Gameplay / GAS / Networking / Deployment',
+			},
 			description: {
 				zh: '基于 UE5 + GAS + EOS + Docker 的第三人称网络 MOBA 游戏原型，核心玩法为护送捕获器推进至敌方核心。',
 				en: 'A third-person online MOBA prototype built with UE5, GAS, EOS, and Docker, centered on escorting a capturer into the enemy core.',
@@ -195,6 +221,14 @@ export const projectsContent = {
 				zh: 'Unity｜工厂 + 塔防项目中的塔防玩法开发',
 				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
 			},
+			status: {
+				zh: '团队项目',
+				en: 'Team Project',
+			},
+			role: {
+				zh: '塔防模块｜防御塔 / 攻击表现 / 能力衔接',
+				en: 'Tower Defense Module | Towers / Combat Feedback / Ability Integration',
+			},
 			description: {
 				zh: '融合工厂建造与塔防玩法的团队项目，独立负责塔防模块功能实现，完成多类防御塔、攻击表现与能力系统衔接。',
 				en: 'A team project combining factory building and tower-defense gameplay. Independently handled tower-defense module implementation, multiple tower types, attack presentation, and ability-system integration.',
@@ -211,6 +245,14 @@ export const projectsContent = {
 			title: {
 				zh: 'Unity｜类银河恶魔城横版通关',
 				en: 'Unity｜Metroidvania-Style Side-Scrolling Completion Demo',
+			},
+			status: {
+				zh: '独立 Demo',
+				en: 'Solo Demo',
+			},
+			role: {
+				zh: '完整流程｜角色动作 / 战斗技能 / AI / 存档',
+				en: 'Full Loop | Character Actions / Combat Skills / AI / Save Flow',
 			},
 			description: {
 				zh: '从零搭建横版动作游戏 Demo，包含角色动作、战斗技能、敌人 AI、成长系统和 JSON 存档流程。',
@@ -231,6 +273,14 @@ export const projectsContent = {
 				zh: 'Unity｜校园生活模拟 · 职业生涯规划',
 				en: 'Unity｜Campus Life Simulation · Career Planning',
 			},
+			status: {
+				zh: '团队项目',
+				en: 'Team Project',
+			},
+			role: {
+				zh: '编辑器工具｜UI 流程 / 数据导入',
+				en: 'Editor Tooling | UI Flow / Data Import',
+			},
 			description: {
 				zh: '校园生活模拟与职业生涯规划主题的 Unity 小游戏，负责部分编辑器工具开发，以及角色图鉴、结算、回顾等页面的界面搭建与流程逻辑。',
 				en: 'A Unity mini-game themed around campus life simulation and career planning. Responsible for part of the editor tooling, plus UI construction and flow logic for character codex, settlement, review, and related pages.',
@@ -248,6 +298,14 @@ export const projectsContent = {
 				zh: 'UE | Steam 联机插件开发',
 				en: 'UE | Steam Networking Plugin Development',
 			},
+			status: {
+				zh: '插件实践',
+				en: 'Plugin Practice',
+			},
+			role: {
+				zh: '独立开发｜Online Subsystem / Steam Session',
+				en: 'Solo Dev | Online Subsystem / Steam Session',
+			},
 			description: {
 				zh: '基于 Unreal Engine Online Subsystem 框架开发的 Steam 联机插件，支持会话创建、搜索与加入，并封装为可复用插件。',
 				en: 'A Steam networking plugin built on Unreal Engine Online Subsystem, supporting session creation, search, and join, packaged as a reusable plugin.',
@@ -264,6 +322,14 @@ export const projectsContent = {
 			title: {
 				zh: 'Unity｜驾驶舱模拟交互评估系统',
 				en: 'Unity｜Cockpit Simulation Interaction Evaluation System',
+			},
+			status: {
+				zh: '功能参与',
+				en: 'Feature Work',
+			},
+			role: {
+				zh: '交互事件｜模拟流程逻辑',
+				en: 'Interaction Events | Simulation Flow Logic',
 			},
 			description: {
 				zh: '用于驾驶舱人机交互评估的模拟系统，参与部分功能开发，负责若干交互事件的逻辑实现。',

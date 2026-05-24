@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import LocalizedText from '../components/LocalizedText.astro';
+import RevealMotion from '../components/RevealMotion.astro';
 import type { DualText } from '../data/siteContent';
 import { getLocaleFromPath, withLocale } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
@@ -76,7 +77,7 @@ const labels = {
 			{
 				isNarrativeCaseStudy ? (
 					<>
-						<section class="case-study-hero card">
+						<section class="case-study-hero card reveal" style="--reveal-delay: 90ms">
 							<div class:list={['case-study-hero-media', narrativeEmbedSrc && 'has-video']}>
 								{
 									narrativeEmbedSrc ? (
@@ -116,7 +117,7 @@ const labels = {
 							</div>
 						</section>
 
-						<section class:list={['project-positioning card', repositoryUrl && 'has-repository']}>
+						<section class:list={['project-positioning card motion-card reveal', repositoryUrl && 'has-repository']} style="--reveal-delay: 150ms">
 							<div class="pill-row project-positioning-tags">
 								{
 									stack.map((item) => {
@@ -166,7 +167,7 @@ const labels = {
 						</section>
 
 						<section class="project-prose project-prose-narrative">
-							<div class="project-summary-intro card">
+							<div class="project-summary-intro card motion-card reveal" style="--reveal-delay: 210ms">
 								<LocalizedText locale={locale} text={summary} tag="p" class="project-summary-copy" />
 							</div>
 							<slot />
@@ -174,7 +175,7 @@ const labels = {
 					</>
 				) : (
 					<>
-						<section class="project-hero card">
+						<section class="project-hero card reveal" style="--reveal-delay: 90ms">
 							<div class="project-intro">
 								<LocalizedText locale={locale} text={status} tag="p" class="eyebrow project-status" />
 								<LocalizedText locale={locale} text={title} tag="h1" class="project-title" />
@@ -188,7 +189,7 @@ const labels = {
 							)}
 
 							<div class="project-meta-grid">
-								<section class="meta-card overview-card">
+								<section class="meta-card overview-card motion-card reveal" style="--reveal-delay: 150ms">
 									<div class="overview-header">
 										<LocalizedText locale={locale} text={labels.summary} tag="h2" class="meta-title" />
 
@@ -230,7 +231,7 @@ const labels = {
 
 								{
 									shouldShowRoleCard && (
-										<section class="meta-card">
+										<section class="meta-card motion-card reveal" style="--reveal-delay: 190ms">
 											<LocalizedText locale={locale} text={labels.role} tag="h2" class="meta-title" />
 											<LocalizedText locale={locale} text={role} tag="p" class="meta-copy" />
 										</section>
@@ -238,7 +239,7 @@ const labels = {
 								}
 							</div>
 
-							<section class="meta-card">
+							<section class="meta-card motion-card reveal" style="--reveal-delay: 230ms">
 								<LocalizedText locale={locale} text={labels.stack} tag="h2" class="meta-title" />
 								<div class="pill-row">
 									{
@@ -265,7 +266,7 @@ const labels = {
 
 							</section>
 
-							<section class="meta-card">
+							<section class="meta-card motion-card reveal" style="--reveal-delay: 270ms">
 								<LocalizedText locale={locale} text={labels.highlights} tag="h2" class="meta-title" />
 								<ul class="highlight-list">
 									{
@@ -278,7 +279,7 @@ const labels = {
 
 							{
 								(mediaTitle || mediaDescription || (gallery && gallery.length > 0)) && (
-									<section class="meta-card media-card">
+									<section class="meta-card media-card motion-card reveal" style="--reveal-delay: 310ms">
 										<LocalizedText
 											locale={locale}
 											text={mediaTitle ?? labels.media}
@@ -330,6 +331,7 @@ const labels = {
 	</article>
 </main>
 <Footer locale={locale} />
+<RevealMotion />
 </body>
 </html>
 
@@ -370,8 +372,8 @@ const labels = {
 
 	.project-title {
 		margin: 0;
-		font-size: clamp(2rem, 3vw, 2.8rem);
-		line-height: 1.06;
+		font-size: clamp(1.85rem, 2.7vw, 2.48rem);
+		line-height: 1.12;
 	}
 
 	.project-title :global(.locale-en) {
@@ -465,9 +467,9 @@ const labels = {
 
 	.hero-placeholder-title {
 		margin: 0;
-		font-size: clamp(1.9rem, 4vw, 3rem);
+		font-size: clamp(1.7rem, 3.4vw, 2.55rem);
 		font-weight: 700;
-		letter-spacing: -0.03em;
+		letter-spacing: 0;
 	}
 
 	.hero-placeholder-title :global(.locale-en) {
@@ -527,7 +529,7 @@ const labels = {
 
 	.project-title-overlay {
 		color: #fff;
-		font-size: clamp(2rem, 4.3vw, 3.6rem);
+		font-size: clamp(1.85rem, 3.8vw, 3.15rem);
 		max-width: 13ch;
 	}
 
@@ -851,9 +853,9 @@ const labels = {
 
 	.project-prose-narrative :global(.section-title) {
 		margin: 0;
-		font-size: clamp(1.7rem, 2.7vw, 2.4rem);
-		line-height: 1.12;
-		letter-spacing: -0.035em;
+		font-size: clamp(1.45rem, 2.3vw, 2.05rem);
+		line-height: 1.16;
+		letter-spacing: 0;
 		color: rgb(var(--black));
 	}
 

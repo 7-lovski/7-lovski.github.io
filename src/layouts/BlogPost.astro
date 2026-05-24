@@ -7,6 +7,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import LocalizedText from '../components/LocalizedText.astro';
 import MermaidRenderer from '../components/MermaidRenderer.astro';
+import RevealMotion from '../components/RevealMotion.astro';
 import SeriesNav from '../components/SeriesNav.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import { getLocaleFromPath } from '../utils/i18n';
@@ -86,13 +87,13 @@ const resolvedDescription = getLocalizedField(description, locale);
 <Header />
 <main>
 	<article>
-		<div class="hero-image">
+		<div class="hero-image reveal" style="--reveal-delay: 40ms">
 			{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 		</div>
 		<div class="article-shell">
 			<TableOfContents headings={headings} locale={locale} />
-			<div class="prose technical-prose">
-				<div class="title">
+			<div class="prose technical-prose motion-card">
+				<div class="title reveal" style="--reveal-delay: 130ms">
 					<div class="date">
 						<FormattedDate date={pubDate} />
 						{
@@ -114,6 +115,7 @@ const resolvedDescription = getLocalizedField(description, locale);
 	</article>
 </main>
 <Footer locale={locale} />
+<RevealMotion />
 <MermaidRenderer />
 </body>
 </html>

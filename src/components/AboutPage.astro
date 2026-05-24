@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
+import RevealMotion from './RevealMotion.astro';
 import AvatarImage from '../assets/头像.jpg';
 import { aboutContent } from '../data/siteContent';
 import type { Locale } from '../utils/i18n';
@@ -17,13 +18,13 @@ const { locale } = Astro.props;
 <Header />
 
 <main>
-    <section class="page-hero">
+    <section class="page-hero reveal" style="--reveal-delay: 40ms">
         <LocalizedText locale={locale} text={aboutContent.title} tag="h1" />
         <LocalizedText locale={locale} text={aboutContent.description} tag="p" class="section-copy" />
     </section>
 
     <section class="about-grid">
-        <article class="card about-card intro-card">
+        <article class="card about-card intro-card motion-card reveal" style="--reveal-delay: 100ms">
             <div class="intro-head">
                 <LocalizedText locale={locale} text={aboutContent.intro.title} tag="h2" />
                 <Image width={160} height={160} src={AvatarImage} alt="柒年Lovski avatar" class="avatar-image" />
@@ -35,7 +36,7 @@ const { locale } = Astro.props;
             }
         </article>
 
-        <article class="card about-card">
+        <article class="card about-card motion-card reveal" style="--reveal-delay: 170ms">
             <LocalizedText locale={locale} text={aboutContent.focus.title} tag="h2" />
             <ul>
                 {
@@ -46,7 +47,7 @@ const { locale } = Astro.props;
             </ul>
         </article>
 
-        <article class="card about-card">
+        <article class="card about-card motion-card reveal" style="--reveal-delay: 240ms">
             <LocalizedText locale={locale} text={aboutContent.why.title} tag="h2" />
             <LocalizedText locale={locale} text={aboutContent.why.text} tag="p" />
         </article>
@@ -54,6 +55,7 @@ const { locale } = Astro.props;
 </main>
 
 <Footer />
+<RevealMotion />
 
 <style>
     .page-hero {

@@ -1,7 +1,7 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import BlogIndexPage from '../../components/BlogIndexPage.astro';
-import { getBlogPosts } from '../../utils/blog';
+import BaseHead from '../../../components/BaseHead.astro';
+import BlogIndexPage from '../../../components/BlogIndexPage.astro';
+import { getBlogPosts } from '../../../utils/blog';
 
 const posts = (await getBlogPosts()).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -14,6 +14,6 @@ const posts = (await getBlogPosts()).sort(
 	<BaseHead title="博客 | Blog | 洛屿柒秋" description="写作记录与文章归档。" />
 </head>
 <body>
-<BlogIndexPage locale="zh" posts={posts} />
+<BlogIndexPage locale="bi" posts={posts} />
 </body>
 </html>

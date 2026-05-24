@@ -5,6 +5,7 @@ import Footer from './Footer.astro';
 import FormattedDate from './FormattedDate.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
+import RevealMotion from './RevealMotion.astro';
 import type { Locale } from '../utils/i18n';
 import { getContentPath } from '../utils/i18n';
 
@@ -34,18 +35,18 @@ const emptyText = {
 <Header />
 
 <main>
-    <section class="page-hero">
+    <section class="page-hero reveal" style="--reveal-delay: 40ms">
         <LocalizedText locale={locale} text={pageTitle} tag="h1" />
         <LocalizedText locale={locale} text={pageDescription} tag="p" class="section-copy" />
     </section>
 
-    <section>
+    <section class="reveal" style="--reveal-delay: 90ms">
         {
             posts.length > 0 ? (
                 <div class="post-list card">
                     {
-                        posts.map((post) => (
-                                <article class="card post-card">
+                        posts.map((post, index) => (
+                                <article class="card post-card motion-card reveal" style={`--reveal-delay: ${120 + index * 75}ms`}>
                                     <a class="post-card-link" href={getContentPath('blog', post.id, locale)}>
                                         {post.data.heroImage && (
                                                 <Image width={720} height={360} src={post.data.heroImage} alt="" />
@@ -70,6 +71,7 @@ const emptyText = {
 </main>
 
 <Footer locale={locale} />
+<RevealMotion />
 
 <style>
     .page-hero {
@@ -87,12 +89,6 @@ const emptyText = {
 
     .post-card {
         padding: 1.4rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .post-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 16px 30px rgba(35, 68, 110, 0.1);
     }
 
     .post-card-link {
@@ -110,9 +106,9 @@ const emptyText = {
 
     :global(.post-card-title) {
         margin: 0 0 0.65rem;
-        font-size: clamp(1.9rem, 2.4vw, 2.45rem);
-        line-height: 1.12;
-        letter-spacing: -0.035em;
+        font-size: clamp(1.26rem, 1.8vw, 1.62rem);
+        line-height: 1.2;
+        letter-spacing: 0;
         color: rgb(var(--black));
     }
 

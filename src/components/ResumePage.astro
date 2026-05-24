@@ -2,6 +2,7 @@
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import LocalizedText from './LocalizedText.astro';
+import RevealMotion from './RevealMotion.astro';
 import { resumeContent, type DualText } from '../data/siteContent';
 import { getContentPath, type Locale } from '../utils/i18n';
 
@@ -54,7 +55,7 @@ const caseStudyLinkText =
 <main>
 	<div class="resume-board" id="resume-board" data-layout="single">
 		<section class="page-hero">
-			<div class="card identity-card">
+			<div class="card identity-card motion-card reveal" style="--reveal-delay: 90ms">
 				<LocalizedText locale={locale} text={resumeContent.title} tag="p" class="eyebrow resume-eyebrow" />
 				<LocalizedText locale={locale} text={resumeContent.identity.name} tag="p" class="resume-name" />
 				<LocalizedText locale={locale} text={resumeContent.identity.role} tag="p" class="resume-role" />
@@ -64,7 +65,7 @@ const caseStudyLinkText =
 
 		<section class="resume-layout">
 			<aside class="resume-sidebar">
-				<article class="card section-card meta-card" data-scroll-anchor="skills">
+				<article class="card section-card meta-card motion-card reveal" data-scroll-anchor="skills" style="--reveal-delay: 150ms">
 					<LocalizedText locale={locale} text={resumeContent.skillsTitle} tag="h2" class="section-title" />
 					<div class="skill-groups">
 						{
@@ -86,7 +87,7 @@ const caseStudyLinkText =
 					</div>
 				</article>
 
-				<article class="card section-card meta-card" data-scroll-anchor="education">
+				<article class="card section-card meta-card motion-card reveal" data-scroll-anchor="education" style="--reveal-delay: 210ms">
 					<LocalizedText locale={locale} text={resumeContent.educationTitle} tag="h2" class="section-title" />
 					<div class="detail-block">
 						<LocalizedText locale={locale} text={resumeContent.education.school} tag="h3" class="detail-title" />
@@ -101,7 +102,7 @@ const caseStudyLinkText =
 					</div>
 				</article>
 
-				<article class="card section-card meta-card" data-scroll-anchor="society">
+				<article class="card section-card meta-card motion-card reveal" data-scroll-anchor="society" style="--reveal-delay: 270ms">
 					<LocalizedText locale={locale} text={resumeContent.societyTitle} tag="h2" class="section-title" />
 					<div class="detail-block">
 						<LocalizedText locale={locale} text={resumeContent.society.organization} tag="h3" class="detail-title" />
@@ -116,7 +117,7 @@ const caseStudyLinkText =
 					</div>
 				</article>
 
-				<article class="card section-card compact-projects-card" data-column-tail="sidebar" data-scroll-anchor="additional-projects">
+				<article class="card section-card compact-projects-card motion-card reveal" data-column-tail="sidebar" data-scroll-anchor="additional-projects" style="--reveal-delay: 330ms">
 					<LocalizedText locale={locale} text={resumeContent.additionalProjectsTitle} tag="h2" class="section-title subsection-title" />
 					<div class="project-list project-list-compact">
 						{
@@ -159,12 +160,12 @@ const caseStudyLinkText =
 			</aside>
 
 			<section class="resume-main">
-				<article class="card section-card summary-card" data-scroll-anchor="summary">
+				<article class="card section-card summary-card motion-card reveal" data-scroll-anchor="summary" style="--reveal-delay: 150ms">
 					<LocalizedText locale={locale} text={resumeContent.summaryTitle} tag="h2" class="section-title" />
 					<LocalizedText locale={locale} text={resumeContent.summary} tag="p" class="summary-copy" />
 				</article>
 
-				<article class="card section-card projects-card" data-column-tail="main">
+				<article class="card section-card projects-card motion-card reveal" data-column-tail="main" style="--reveal-delay: 230ms">
 					<LocalizedText locale={locale} text={resumeContent.projectsTitle} tag="h2" class="section-title" />
 
 					<div class="project-list">
@@ -217,6 +218,7 @@ const caseStudyLinkText =
 </main>
 
 <Footer />
+<RevealMotion />
 
 <style>
 	.page-hero {
@@ -249,9 +251,9 @@ const caseStudyLinkText =
 
 	.resume-name {
 		margin: 0;
-		font-size: clamp(2rem, 3vw, 2.5rem);
+		font-size: clamp(1.85rem, 2.6vw, 2.28rem);
 		font-weight: 800;
-		line-height: 1.04;
+		line-height: 1.12;
 		color: rgb(var(--black));
 	}
 
@@ -434,7 +436,7 @@ const caseStudyLinkText =
 
 	.project-title {
 		margin-bottom: 0.2rem;
-		font-size: 1.08rem;
+		font-size: 1rem;
 		line-height: 1.35;
 	}
 

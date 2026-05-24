@@ -5,8 +5,8 @@ test('getContentPath builds localized detail paths for blog and projects', async
 	const module = await import('./i18n.ts');
 
 	assert.equal(typeof module.getContentPath, 'function');
-	assert.equal(module.getContentPath('blog', 'using-mdx', 'bi'), '/blog/using-mdx/');
-	assert.equal(module.getContentPath('blog', 'using-mdx', 'zh'), '/zh/blog/using-mdx/');
+	assert.equal(module.getContentPath('blog', 'using-mdx', 'bi'), '/bi/blog/using-mdx/');
+	assert.equal(module.getContentPath('blog', 'using-mdx', 'zh'), '/blog/using-mdx/');
 	assert.equal(module.getContentPath('projects', 'ue-gas-multiplayer', 'en'), '/en/projects/ue-gas-multiplayer/');
 });
 

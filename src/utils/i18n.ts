@@ -1,15 +1,17 @@
 ﻿export type Locale = 'bi' | 'zh' | 'en';
 
-export const DEFAULT_LOCALE: Locale = 'bi';
+export const DEFAULT_LOCALE: Locale = 'zh';
 
 export function getLocaleFromPath(pathname: string): Locale {
+    if (pathname === '/bi' || pathname.startsWith('/bi/')) return 'bi';
     if (pathname === '/zh' || pathname.startsWith('/zh/')) return 'zh';
     if (pathname === '/en' || pathname.startsWith('/en/')) return 'en';
-    return 'bi';
+    return DEFAULT_LOCALE;
 }
 
 export function stripLocalePrefix(pathname: string): string {
-    if (pathname === '/zh' || pathname === '/en') return '/';
+    if (pathname === '/bi' || pathname === '/zh' || pathname === '/en') return '/';
+    if (pathname.startsWith('/bi/')) return pathname.replace(/^\/bi/, '') || '/';
     if (pathname.startsWith('/zh/')) return pathname.replace(/^\/zh/, '') || '/';
     if (pathname.startsWith('/en/')) return pathname.replace(/^\/en/, '') || '/';
     return pathname || '/';
@@ -17,7 +19,7 @@ export function stripLocalePrefix(pathname: string): string {
 
 export function withLocale(pathname: string, locale: Locale): string {
     const cleanPath = stripLocalePrefix(pathname);
-    if (locale === 'bi') return cleanPath;
+    if (locale === DEFAULT_LOCALE) return cleanPath;
     return cleanPath === '/' ? `/${locale}/` : `/${locale}${cleanPath}`;
 }
 
