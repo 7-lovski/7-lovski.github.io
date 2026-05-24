@@ -8,7 +8,7 @@ import RevealMotion from '../components/RevealMotion.astro';
 import type { DualText } from '../data/siteContent';
 import { getLocaleFromPath, withLocale } from '../utils/i18n';
 import { getLocalizedField } from '../utils/content';
-import { getNarrativeEmbedSrc } from '../utils/projectMedia';
+import { getNarrativeMedia } from '../utils/projectMedia';
 import { getRepositoryName, normalizeRepositoryUrl } from '../utils/projects';
 
 interface Props {
@@ -43,7 +43,7 @@ const isNarrativeCaseStudy =
 	Astro.url.pathname.includes('/unity-metroidvania-action/') ||
 	Astro.url.pathname.includes('/unity-campus-career-sim/');
 const shouldShowRoleCard = !Astro.url.pathname.includes('/ue-steam-networking-plugin/');
-const narrativeEmbedSrc = isNarrativeCaseStudy ? getNarrativeEmbedSrc(Astro.url.pathname) : undefined;
+const narrativeMedia = isNarrativeCaseStudy ? getNarrativeMedia(Astro.url.pathname) : undefined;
 
 const labels = {
 	back: { zh: '返回项目页', en: 'Back to projects' },
@@ -78,17 +78,29 @@ const labels = {
 				isNarrativeCaseStudy ? (
 					<>
 						<section class="case-study-hero card reveal" style="--reveal-delay: 90ms">
-							<div class:list={['case-study-hero-media', narrativeEmbedSrc && 'has-video']}>
+							<div class:list={['case-study-hero-media', narrativeMedia && 'has-video']}>
 								{
-									narrativeEmbedSrc ? (
+									narrativeMedia?.type === 'embed' ? (
 										<iframe
 											class="case-study-hero-video"
-											src={narrativeEmbedSrc}
+											src={narrativeMedia.src}
 											title={resolvedTitle}
 											allow="autoplay; fullscreen; picture-in-picture"
 											allowfullscreen
 											loading="lazy"
 										></iframe>
+									) :
+									narrativeMedia?.type === 'video' ? (
+										<video
+											class="case-study-hero-video"
+											src={narrativeMedia.src}
+											poster={narrativeMedia.poster}
+											controls
+											preload="metadata"
+											playsinline
+										>
+											<LocalizedText locale={locale} text={labels.videoUnsupported} tag="span" />
+										</video>
 									) :
 									heroImage ? (
 										<Image width={1400} height={900} src={heroImage} alt="" class="case-study-hero-image" />

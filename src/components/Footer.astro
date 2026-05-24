@@ -1,7 +1,7 @@
 ---
 import LocalizedText from './LocalizedText.astro';
 import { footerContent } from '../data/siteContent';
-import { getLocaleFromPath } from '../utils/i18n';
+import { getLocaleFromPath, withLocale } from '../utils/i18n';
 
 const year = new Date().getFullYear();
 const locale = getLocaleFromPath(Astro.url.pathname);
@@ -16,8 +16,9 @@ const locale = getLocaleFromPath(Astro.url.pathname);
 
 		<div class="footer-links">
 			<a href="https://github.com/7-lovski" target="_blank" rel="noreferrer">GitHub</a>
-			<a href="/blog">Blog</a>
-			<a href="/resume">Resume</a>
+			<a href={withLocale('/blog', locale)}>Blog</a>
+			<a href={withLocale('/resume', locale)}>Resume</a>
+			<a href={withLocale('/about', locale)}>About</a>
 		</div>
 	</div>
 

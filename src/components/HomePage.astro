@@ -7,6 +7,7 @@ import LocalizedText from './LocalizedText.astro';
 import RevealMotion from './RevealMotion.astro';
 import { homeContent } from '../data/siteContent';
 import { getContentPath, withLocale, type Locale } from '../utils/i18n';
+import { getProjectCoverSrc } from '../utils/projectMedia';
 
 interface Props {
     locale: Locale;
@@ -24,8 +25,8 @@ const featuredProjectLinkText = {
 <Header />
 
 <main>
-    <section class="hero card reveal" style="--reveal-delay: 40ms">
-        <div class="hero-heading-block reveal" style="--reveal-delay: 100ms">
+    <section class="hero card">
+        <div class="hero-heading-block">
             {
                 locale === 'bi' ? (
                         <>
@@ -39,24 +40,8 @@ const featuredProjectLinkText = {
         </div>
 
         <div class="hero-body">
-            <div class="hero-copy reveal" style="--reveal-delay: 180ms">
+            <div class="hero-copy">
                 <LocalizedText locale={locale} text={homeContent.description} tag="p" class="hero-text" />
-
-                <div class="pill-row hero-skills" aria-label={locale === 'en' ? 'Core skills' : '核心技能'}>
-                    {
-                        homeContent.skills.map((skill) => (
-                            <span class="pill">
-                                {locale === 'bi'
-                                    ? skill.zh === skill.en
-                                        ? skill.zh
-                                        : `${skill.zh} / ${skill.en}`
-                                    : locale === 'zh'
-                                        ? skill.zh
-                                        : skill.en}
-                            </span>
-                        ))
-                    }
-                </div>
 
                 <div class="hero-actions">
                     <a class="button" href={withLocale('/projects', locale)}>
@@ -86,6 +71,7 @@ const featuredProjectLinkText = {
             {
                 homeContent.projects.map((project, index) => {
                     const href = project.slug ? getContentPath('projects', project.slug, locale) : null;
+                    const coverSrc = getProjectCoverSrc(project.slug);
 
                     const content = (
                         <>
@@ -129,10 +115,24 @@ const featuredProjectLinkText = {
 
                     return href ? (
                         <a class="project-card card motion-card project-card-link reveal" style={`--reveal-delay: ${120 + index * 90}ms`} href={href}>
+                            <div
+                                class:list={['project-cover', coverSrc && 'has-cover']}
+                                style={coverSrc ? `background-image: linear-gradient(180deg, rgba(20, 32, 48, 0.04), rgba(20, 32, 48, 0.36)), url("${coverSrc}");` : undefined}
+                                aria-hidden="true"
+                            >
+                                <span>{project.stack[0] ?? 'Project'}</span>
+                            </div>
                             {content}
                         </a>
                     ) : (
                         <article class="project-card card motion-card reveal" style={`--reveal-delay: ${120 + index * 90}ms`}>
+                            <div
+                                class:list={['project-cover', coverSrc && 'has-cover']}
+                                style={coverSrc ? `background-image: linear-gradient(180deg, rgba(20, 32, 48, 0.04), rgba(20, 32, 48, 0.36)), url("${coverSrc}");` : undefined}
+                                aria-hidden="true"
+                            >
+                                <span>{project.stack[0] ?? 'Project'}</span>
+                            </div>
                             {content}
                         </article>
                     );
@@ -259,10 +259,6 @@ const featuredProjectLinkText = {
         line-height: 1.8;
     }
 
-    .hero-skills {
-        justify-content: center;
-        margin-top: 1.35rem;
-    }
 
     .hero-actions {
         display: flex;
@@ -309,9 +305,62 @@ const featuredProjectLinkText = {
     .project-card {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(1rem, auto) minmax(1rem, auto) 1fr;
+        grid-template-rows: auto minmax(1rem, auto) minmax(1rem, auto) 1fr;
         gap: 0;
         min-height: 0;
+    }
+
+    .project-cover {
+        position: relative;
+        min-height: 11rem;
+        margin: -1.35rem -1.35rem 1.15rem;
+        display: grid;
+        place-items: end start;
+        padding: 1rem;
+        overflow: hidden;
+        background:
+            linear-gradient(135deg, rgba(53, 92, 154, 0.2), rgba(255, 255, 255, 0) 45%),
+            radial-gradient(circle at 78% 22%, rgba(120, 154, 198, 0.35), transparent 34%),
+            rgba(232, 240, 251, 0.75);
+        background-position: center;
+        background-size: cover;
+    }
+
+    .project-cover::before {
+        content: "";
+        position: absolute;
+        inset: 1.1rem;
+        border: 1px solid rgba(53, 92, 154, 0.16);
+        border-radius: 18px;
+        background:
+            linear-gradient(90deg, rgba(255, 255, 255, 0.54) 1px, transparent 1px),
+            linear-gradient(0deg, rgba(255, 255, 255, 0.54) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.68;
+    }
+
+    .project-cover.has-cover::before {
+        inset: 0;
+        border: 0;
+        border-radius: 0;
+        background: linear-gradient(180deg, rgba(8, 16, 28, 0), rgba(8, 16, 28, 0.42));
+        opacity: 1;
+    }
+
+    .project-cover span {
+        position: relative;
+        z-index: 1;
+        padding: 0.42rem 0.72rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--accent-dark);
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .project-cover.has-cover span {
+        background: rgba(10, 18, 30, 0.68);
+        color: #fff;
     }
 
     .project-card-link {
@@ -474,6 +523,12 @@ const featuredProjectLinkText = {
         .project-grid,
         .post-grid {
             grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .hero {
+            padding: 1.6rem;
         }
     }
 </style>
