@@ -71,7 +71,7 @@ import LocalizedText from '../../components/LocalizedText.astro';
   <div class="narrative-grid">
     <div class="narrative-visual">
       <figure class="project-screenshot">
-        <img src="/projects/ue-gas-multiplayer/combat-crunch-ability.png" alt="Crunch melee ability with fire trail in the multiplayer arena" />
+        <img src="/projects/ue-gas-multiplayer/CrunchCombat.png" alt="Crunch melee ability with fire trail in the multiplayer arena" />
         <figcaption>
           <LocalizedText locale="bi" text={{ zh: 'Crunch 近战技能表现：攻击动作、特效反馈、血量 / 蓝量与技能栏状态同时展示。', en: 'Crunch melee ability showcase: attack animation, VFX feedback, health / mana, and ability-bar state shown together.' }} tag="span" />
         </figcaption>
@@ -106,10 +106,10 @@ import LocalizedText from '../../components/LocalizedText.astro';
     </div>
 
     <div class="narrative-visual">
-      <figure class="project-screenshot is-wide">
-        <img src="/projects/ue-gas-multiplayer/shop-equipment-flow.png" alt="In-game shop and equipment interface with item icons, inventory slots, and use and sell buttons" />
+      <figure class="project-screenshot is-wide has-padded-image">
+        <img src="/projects/ue-gas-multiplayer/CrunchFade.png" alt="Crunch prosthetic character selection screen with the black-site variant on the platform" />
         <figcaption>
-          <LocalizedText locale="bi" text={{ zh: '商店与装备界面：道具购买、背包格子、使用 / 出售按钮和装备合成节点。', en: 'Shop and equipment UI: item purchase, inventory slots, use / sell buttons, and equipment synthesis nodes.' }} tag="span" />
+          <LocalizedText locale="bi" text={{ zh: 'Crunch 假体角色：同一技能组下切换不同外观与基础属性，用于低成本扩展角色池。', en: 'Crunch prosthetic character: the same ability set switches between different meshes and base attributes to expand the roster at low cost.' }} tag="span" />
         </figcaption>
       </figure>
     </div>
@@ -123,36 +123,26 @@ import LocalizedText from '../../components/LocalizedText.astro';
   </div>
 
   <ul class="role-list">
-    <li><LocalizedText locale="bi" text={{ zh: '• 每个角色拥有4个主动技能 + 可选装备主动技能，涵盖以下控制效果：', en: '• Each character has 4 active skills + optional active equipment skills, covering the following control effects:' }} tag="p" /></li>
-    <li><LocalizedText locale="bi" text={{ zh: '• 位移：冲锋、传送等自身位移', en: '• Movement: self-movement such as charge and teleport' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 每个角色拥有2个主动技能 + 可选装备主动技能，涵盖以下控制效果：', en: '• Each character has 2 active skills + optional active equipment skills, covering the following control effects:' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '• 位移：冲锋、传送等自身位移(做了但没有使用)', en: '• Movement: self-movement such as charge and teleport（Do but not use）' }} tag="p" /></li>
     <li><LocalizedText locale="bi" text={{ zh: '• 强制位移：击退、击飞、牵引（根运动 + Ability Task 驱动）', en: '• Forced movement: knockback, launch, and pull (driven by root motion + Ability Task)' }} tag="p" /></li>
     <li><LocalizedText locale="bi" text={{ zh: '• 控制状态：减速、冻结', en: '• Control states: slow and freeze' }} tag="p" /></li>
   </ul>
 </section>
 
-<section class="narrative-block">
-  <div class="narrative-grid">
-    <div class="narrative-visual">
-      <div class="placeholder-card is-mint">
-        <p class="placeholder-card-label">
-          <LocalizedText locale="bi" text={{ zh: 'GAS / Gameplay Effect / Ability Task', en: 'GAS / Gameplay Effect / Ability Task' }} tag="span" />
-        </p>
-      </div>
-    </div>
-
-    <div class="narrative-copy">
-      <div class="section-heading-wrap">
-        <p class="section-kicker">Implementation</p>
-        <LocalizedText locale="bi" text={{ zh: '技术实现', en: 'Technical Implementation' }} tag="h2" class="section-title" />
-      </div>
-
-      <LocalizedText locale="bi" text={{ zh: '原版与假体共享完全相同的 Ability 类 和 Attribute Set，仅通过不同的初始属性值（DataTable 或 CurveTable 配置）实现战术定位的差异化；网格体在 Character 蓝图中指定。', en: 'The original and prosthetic variants share completely identical Ability classes and Attribute Sets, and only use different initial attribute values (configured by DataTable or CurveTable) to implement differentiated tactical positioning; meshes are specified in the Character Blueprint.' }} tag="p" />
-      <LocalizedText locale="bi" text={{ zh: '通过 Gameplay Effect 实现控制状态的网络同步，配合 Duration / Instant / Infinite 策略精确表现持续减速、瞬时击退击飞，以及叠加触发的冻结。', en: 'Gameplay Effects are used to implement network synchronization of control states, with Duration / Instant / Infinite strategies accurately representing persistent slow, instant knockback/launch, and stack-triggered freeze.' }} tag="p" />
-      <LocalizedText locale="bi" text={{ zh: '强制位移与角色位移技能均通过根运动与 Ability Task 驱动，在客户端预测与服务器校验间取得平衡。', en: 'Forced movement and character movement skills are both driven by root motion and Ability Tasks, balancing client prediction and server validation.' }} tag="p" />
-      <LocalizedText locale="bi" text={{ zh: '属性集管理生命、法力、攻击力等，通过 OnRep 同步，利用 Prediction 优化客户端响应。', en: 'The Attribute Set manages health, mana, attack power, etc., synchronizes through OnRep, and uses Prediction to optimize client response.' }} tag="p" />
-      <LocalizedText locale="bi" text={{ zh: '冷却与消耗由 GameplayEffect 的 Cost 与 Cooldown 策略统一管理，UI 通过 ASC 委托实时更新。', en: 'Cooldowns and costs are managed uniformly by GameplayEffect Cost and Cooldown strategies, and the UI updates in real time through ASC delegates.' }} tag="p" />
-    </div>
+<section class="narrative-block is-full-width-copy">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">Implementation</p>
+    <LocalizedText locale="bi" text={{ zh: '技术实现', en: 'Technical Implementation' }} tag="h2" class="section-title" />
   </div>
+
+  <ul class="role-list">
+    <li><LocalizedText locale="bi" text={{ zh: '原版与假体共享完全相同的 Ability 类 和 Attribute Set，仅通过不同的初始属性值（DataTable 或 CurveTable 配置）实现战术定位的差异化；网格体在 Character 蓝图中指定。', en: 'The original and prosthetic variants share completely identical Ability classes and Attribute Sets, and only use different initial attribute values (configured by DataTable or CurveTable) to implement differentiated tactical positioning; meshes are specified in the Character Blueprint.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '通过 Gameplay Effect 实现控制状态的网络同步，配合 Duration / Instant / Infinite 策略精确表现持续减速、瞬时击退击飞，以及叠加触发的冻结。', en: 'Gameplay Effects are used to implement network synchronization of control states, with Duration / Instant / Infinite strategies accurately representing persistent slow, instant knockback/launch, and stack-triggered freeze.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '强制位移与角色位移技能均通过根运动与 Ability Task 驱动，在客户端预测与服务器校验间取得平衡。', en: 'Forced movement and character movement skills are both driven by root motion and Ability Tasks, balancing client prediction and server validation.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '属性集管理生命、法力、攻击力等，通过 OnRep 同步，利用 Prediction 优化客户端响应。', en: 'The Attribute Set manages health, mana, attack power, etc., synchronizes through OnRep, and uses Prediction to optimize client response.' }} tag="p" /></li>
+    <li><LocalizedText locale="bi" text={{ zh: '冷却与消耗由 GameplayEffect 的 Cost 与 Cooldown 策略统一管理，UI 通过 ASC 委托实时更新。', en: 'Cooldowns and costs are managed uniformly by GameplayEffect Cost and Cooldown strategies, and the UI updates in real time through ASC delegates.' }} tag="p" /></li>
+  </ul>
 </section>
 
 <section class="narrative-block is-reversed">
@@ -170,19 +160,21 @@ import LocalizedText from '../../components/LocalizedText.astro';
     </div>
 
     <div class="narrative-visual">
-      <div class="placeholder-card is-yellow">
-        <p class="placeholder-card-label">
-          <LocalizedText locale="bi" text={{ zh: '商店 / 装备合成树 / 装备主动技能', en: 'Shop / Equipment Synthesis Tree / Active Equipment Skills' }} tag="span" />
-        </p>
-      </div>
+      <figure class="project-screenshot is-wide has-padded-image">
+        <img src="/projects/ue-gas-multiplayer/CrunchShop.png" alt="In-game shop and equipment interface with item icons, inventory slots, and use and sell buttons" />
+        <figcaption>
+          <LocalizedText locale="bi" text={{ zh: '商店与装备界面：道具购买、背包格子、使用 / 出售按钮和装备合成节点。', en: 'Shop and equipment UI: item purchase, inventory slots, use / sell buttons, and equipment synthesis nodes.' }} tag="span" />
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<details class="tech-details" open>
-  <summary>
-    <LocalizedText locale="bi" text={{ zh: 'AI 小兵系统与动画优化', en: 'AI Minion System and Animation Optimization' }} tag="span" />
-  </summary>
+<section class="tech-details">
+  <div class="section-heading-wrap">
+    <p class="section-kicker">AI</p>
+    <LocalizedText locale="bi" text={{ zh: 'AI 小兵系统与动画优化', en: 'AI Minion System and Animation Optimization' }} tag="h2" class="section-title" />
+  </div>
 
   <div class="tech-details-body">
     <LocalizedText locale="bi" text={{ zh: '小兵在基地周期性生产，沿预设路径推进，自动攻击敌方单位。', en: 'Minions are periodically produced at the base, advance along preset paths, and automatically attack enemy units.' }} tag="p" />
@@ -193,7 +185,7 @@ import LocalizedText from '../../components/LocalizedText.astro';
     <LocalizedText locale="bi" text={{ zh: '状态切换混合：基于 AnimBP 的状态机管理 Idle / Run / Attack / Cast / Hit 等状态间的平滑过渡。', en: 'State transition blending: an AnimBP-based state machine manages smooth transitions between Idle / Run / Attack / Cast / Hit and other states.' }} tag="p" />
     <LocalizedText locale="bi" text={{ zh: 'IK 脚步地形自适应：双骨骼 IK 解算脚部位置，使角色在斜坡与不平整地面也能正确落脚，配合步伐距离限制防止滑步。', en: 'IK foot terrain adaptation: two-bone IK solves foot position so characters can place their feet correctly on slopes and uneven ground, with step-distance limits to prevent foot sliding.' }} tag="p" />
   </div>
-</details>
+</section>
 
 <section class="narrative-block is-reversed">
   <div class="narrative-grid">
@@ -214,9 +206,12 @@ import LocalizedText from '../../components/LocalizedText.astro';
 
     <div class="narrative-visual">
       <figure class="project-screenshot is-wide">
-        <img src="/projects/ue-gas-multiplayer/session-lobby-menu.png" alt="Crunch lobby menu with create lobby, join session, player name input, and session list panel" />
+        <div class="session-screenshot-stack">
+          <img src="/projects/ue-gas-multiplayer/CrunchLobby.png" alt="Crunch lobby menu with create lobby, join session, player name input, and session list panel" />
+          <img src="/projects/ue-gas-multiplayer/CrunchSession.png" alt="Crunch session room showing team slots and start hero selection button" />
+        </div>
         <figcaption>
-          <LocalizedText locale="bi" text={{ zh: '会话入口界面：创建房间、加入会话、玩家名称输入和会话列表状态集中在同一流程里。', en: 'Session entry UI: create room, join session, player-name input, and session-list state are concentrated in one flow.' }} tag="span" />
+          <LocalizedText locale="bi" text={{ zh: '会话入口与房间流程：创建房间、加入会话、玩家名称输入、队伍槽位和角色选择入口集中在同一联机链路里。', en: 'Session entry and room flow: create room, join session, player-name input, team slots, and the hero-selection entry are connected in one online flow.' }} tag="span" />
         </figcaption>
       </figure>
     </div>
@@ -226,11 +221,15 @@ import LocalizedText from '../../components/LocalizedText.astro';
 <section class="narrative-block">
   <div class="narrative-grid">
     <div class="narrative-visual">
-      <div class="placeholder-card is-teal">
-        <p class="placeholder-card-label">
-          <LocalizedText locale="bi" text={{ zh: '专用服务器 / Docker / 云主机部署', en: 'Dedicated Server / Docker / Cloud Deployment' }} tag="span" />
-        </p>
-      </div>
+      <figure class="project-screenshot is-wide">
+        <div class="deployment-screenshot-stack">
+          <img src="/projects/ue-gas-multiplayer/CrunchServer.png" alt="Alibaba Cloud ECS instance page for the Crunch dedicated server" />
+          <img src="/projects/ue-gas-multiplayer/CrunchDocker.png" alt="Docker compose terminal logs for the Crunch dedicated server and coordinator" />
+        </div>
+        <figcaption>
+          <LocalizedText locale="bi" text={{ zh: '云主机与 Docker 部署：ECS 实例承载专用服务器，docker-compose 启动协调服务与游戏服务器容器。', en: 'Cloud host and Docker deployment: the ECS instance hosts the dedicated server, while docker-compose starts the coordinator and game-server containers.' }} tag="span" />
+        </figcaption>
+      </figure>
     </div>
 
     <div class="narrative-copy">
