@@ -40,9 +40,8 @@ const isNarrativeCaseStudy =
 	Astro.url.pathname.includes('/ue-gas-multiplayer/') ||
 	Astro.url.pathname.includes('/unity-factory-td/') ||
 	Astro.url.pathname.includes('/unity-metroidvania-action/') ||
-	Astro.url.pathname.includes('/unity-campus-career-sim/') ||
-	Astro.url.pathname.includes('/ue-steam-networking-plugin/') ||
-	Astro.url.pathname.includes('/unity-cockpit-simulation-evaluation/');
+	Astro.url.pathname.includes('/unity-campus-career-sim/');
+const shouldShowRoleCard = !Astro.url.pathname.includes('/ue-steam-networking-plugin/');
 const narrativeEmbedSrc = isNarrativeCaseStudy ? getNarrativeEmbedSrc(Astro.url.pathname) : undefined;
 
 const labels = {
@@ -229,10 +228,14 @@ const labels = {
 									<LocalizedText locale={locale} text={summary} tag="p" class="meta-copy" />
 								</section>
 
-								<section class="meta-card">
-									<LocalizedText locale={locale} text={labels.role} tag="h2" class="meta-title" />
-									<LocalizedText locale={locale} text={role} tag="p" class="meta-copy" />
-								</section>
+								{
+									shouldShowRoleCard && (
+										<section class="meta-card">
+											<LocalizedText locale={locale} text={labels.role} tag="h2" class="meta-title" />
+											<LocalizedText locale={locale} text={role} tag="p" class="meta-copy" />
+										</section>
+									)
+								}
 							</div>
 
 							<section class="meta-card">
