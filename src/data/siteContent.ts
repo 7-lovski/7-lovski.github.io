@@ -10,9 +10,12 @@ export type ResumeProject = {
 	bullets: DualText[];
 };
 
+export type ProjectCategory = 'ue' | 'unity' | 'solo' | 'team';
+
 export type ProjectSummary = {
 	slug?: string;
 	repositoryUrl?: string;
+	categories: ProjectCategory[];
 	title: DualText;
 	description: DualText;
 	role?: DualText;
@@ -185,12 +188,20 @@ export const projectsContent = {
 		en: 'Projects and Practice',
 	},
 	description: {
-		zh: '用于项目展示',
-		en: 'Start with selected projects and placeholders here, then gradually replace them with real work.',
+		zh: '按引擎与合作方式整理游戏项目、工具插件和实践经历。',
+		en: 'Game projects, tools, and practice work organized by engine and collaboration mode.',
 	},
+	filters: [
+		{ id: 'all', label: { zh: '全部', en: 'All' } },
+		{ id: 'ue', label: { zh: 'UE', en: 'UE' } },
+		{ id: 'unity', label: { zh: 'Unity', en: 'Unity' } },
+		{ id: 'solo', label: { zh: '独立开发', en: 'Solo Dev' } },
+		{ id: 'team', label: { zh: '团队合作', en: 'Teamwork' } },
+	],
 	items: [
 		{
 			slug: 'ue-gas-multiplayer',
+			categories: ['ue', 'solo'],
 			title: {
 				zh: 'UE MOBA 原型 — 捕获推进',
 				en: 'UE MOBA Prototype — Capture Push',
@@ -217,6 +228,7 @@ export const projectsContent = {
 		{
 			slug: 'unity-factory-td',
 			repositoryUrl: 'https://github.com/IdleWolfOwO/Circuit-Land.git',
+			categories: ['unity', 'team'],
 			title: {
 				zh: 'Unity｜工厂 + 塔防项目中的塔防玩法开发',
 				en: 'Unity | Tower-Defense Gameplay Development for a Factory + TD Project',
@@ -242,6 +254,7 @@ export const projectsContent = {
 		},
 		{
 			slug: 'unity-metroidvania-action',
+			categories: ['unity', 'solo'],
 			title: {
 				zh: 'Unity｜类银河恶魔城横版通关',
 				en: 'Unity｜Metroidvania-Style Side-Scrolling Completion Demo',
@@ -269,6 +282,7 @@ export const projectsContent = {
 		{
 			slug: 'unity-campus-career-sim',
 			repositoryUrl: 'https://github.com/IdleWolfOwO/2025EClass',
+			categories: ['unity', 'team'],
 			title: {
 				zh: 'Unity｜校园生活模拟 · 职业生涯规划',
 				en: 'Unity｜Campus Life Simulation · Career Planning',
@@ -294,6 +308,7 @@ export const projectsContent = {
 		},
 		{
 			slug: 'ue-steam-networking-plugin',
+			categories: ['ue', 'solo'],
 			title: {
 				zh: 'UE | Steam 联机插件开发',
 				en: 'UE | Steam Networking Plugin Development',
@@ -319,6 +334,7 @@ export const projectsContent = {
 		},
 		{
 			slug: 'unity-cockpit-simulation-evaluation',
+			categories: ['unity', 'team'],
 			title: {
 				zh: 'Unity｜驾驶舱模拟交互评估系统',
 				en: 'Unity｜Cockpit Simulation Interaction Evaluation System',

@@ -38,6 +38,21 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         <LocalizedText locale={locale} text={projectsContent.description} tag="p" class="section-copy"/>
     </section>
 
+    <section class="project-filters reveal" aria-label={locale === 'en' ? 'Project categories' : '项目分类'} style="--reveal-delay: 70ms">
+        {
+            projectsContent.filters.map((filter) => (
+                <button
+                    type="button"
+                    class:list={['project-filter-button', filter.id === 'all' && 'is-active']}
+                    data-project-filter={filter.id}
+                    aria-pressed={filter.id === 'all' ? 'true' : 'false'}
+                >
+                    {getLocalizedField(filter.label, locale)}
+                </button>
+            ))
+        }
+    </section>
+
     <section class="projects-grid card">
         {
             projectsContent.items.map((item, index) => {
@@ -48,7 +63,12 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
                 const coverSrc = getProjectCoverSrc(item.slug);
 
                 return (
-                    <article class="card project-card reveal" style={`--reveal-delay: ${90 + index * 65}ms`}>
+                    <article
+                        class="card project-card reveal"
+                        data-project-card
+                        data-project-categories={item.categories.join(' ')}
+                        style={`--reveal-delay: ${90 + index * 65}ms`}
+                    >
                         <div
                             class:list={['project-visual', coverSrc && 'has-cover']}
                             style={coverSrc ? `background-image: linear-gradient(180deg, rgba(20, 32, 48, 0.02), rgba(20, 32, 48, 0.34)), url("${coverSrc}");` : undefined}
@@ -133,15 +153,125 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
                 );
             })
         }
+        <p class="project-empty-state" data-project-empty hidden>
+            {locale === 'en' ? 'No projects in this category yet.' : '该分类下暂无项目'}
+        </p>
     </section>
 </main>
 
 <Footer locale={locale}/>
 <RevealMotion />
 
+<script>
+    const filterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
+    const projectCards = Array.from(document.querySelectorAll('[data-project-card]'));
+    const emptyState = document.querySelector('[data-project-empty]');
+
+    function replayVisibleProjectCards() {
+        const visibleCards = projectCards.filter((card) => !card.hasAttribute('hidden'));
+
+        visibleCards.forEach((card, index) => {
+            card.classList.remove('is-visible');
+            card.setAttribute('style', `--reveal-delay: ${90 + index * 65}ms`);
+        });
+
+        requestAnimationFrame(() => {
+            visibleCards.forEach((card) => {
+                card.classList.add('is-visible');
+            });
+        });
+    }
+
+    filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const selectedFilter = button.getAttribute('data-project-filter') ?? 'all';
+            let visibleCount = 0;
+
+            filterButtons.forEach((entry) => {
+                const isActive = entry === button;
+                entry.classList.toggle('is-active', isActive);
+                entry.setAttribute('aria-pressed', String(isActive));
+            });
+
+            projectCards.forEach((card) => {
+                const categories = (card.getAttribute('data-project-categories') ?? '').split(/\s+/);
+                const shouldShow = selectedFilter === 'all' || categories.includes(selectedFilter);
+                card.toggleAttribute('hidden', !shouldShow);
+
+                if (shouldShow) {
+                    visibleCount += 1;
+                }
+            });
+
+            emptyState?.toggleAttribute('hidden', visibleCount > 0);
+            replayVisibleProjectCards();
+        });
+    });
+</script>
+
 <style>
     .page-hero {
         margin-top: 1rem;
+    }
+
+    .project-filters {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        align-items: center;
+    }
+
+    :global(button[data-project-filter]) {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.35rem;
+        padding: 0.5rem 0.82rem;
+        border: 1px solid rgba(35, 68, 110, 0.22);
+        border-radius: 999px;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(230, 239, 250, 0.9));
+        color: var(--accent-dark);
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.86) inset,
+            0 8px 18px rgba(31, 61, 109, 0.1);
+        font-family: inherit;
+        font-size: 0.84rem;
+        font-weight: 800;
+        line-height: 1;
+        cursor: pointer;
+        transition:
+            background-color 0.18s ease,
+            border-color 0.18s ease,
+            color 0.18s ease,
+            transform 0.18s ease,
+            box-shadow 0.18s ease;
+    }
+
+    :global(button[data-project-filter]:hover),
+    :global(button[data-project-filter]:focus-visible) {
+        border-color: rgba(53, 92, 154, 0.42);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(220, 233, 249, 0.96));
+        color: var(--accent-dark);
+        transform: translateY(-1px);
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.92) inset,
+            0 12px 24px rgba(31, 61, 109, 0.14);
+    }
+
+    :global(button[data-project-filter]:focus-visible) {
+        outline: 2px solid rgba(53, 92, 154, 0.45);
+        outline-offset: 0.16rem;
+    }
+
+    :global(button[data-project-filter].is-active) {
+        border-color: rgba(31, 61, 109, 0.74);
+        background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(31, 61, 109, 0.18);
     }
 
     .projects-grid {
@@ -170,6 +300,10 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
             border-color 0.2s ease,
             box-shadow 0.2s ease,
             background-color 0.2s ease;
+    }
+
+    .project-card[hidden] {
+        display: none;
     }
 
     .project-card::before {
@@ -340,6 +474,7 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         gap: 0.7rem;
         align-items: center;
         justify-content: space-between;
+        min-width: 5.5rem;
         padding-top: 0.9rem;
         border-top: 1px solid rgba(35, 68, 110, 0.08);
     }
@@ -352,6 +487,7 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         font-size: 0.9rem;
         font-weight: 700;
         text-decoration: none;
+        white-space: nowrap;
         transition: color 0.18s ease, transform 0.18s ease;
     }
 
@@ -414,7 +550,20 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         }
     }
 
+    .project-empty-state {
+        margin: 0;
+        padding: 2rem 1rem;
+        color: rgb(var(--gray));
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .project-empty-state[hidden] {
+        display: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
+        :global(button[data-project-filter]),
         .project-card,
         .project-title-link,
         .detail-link,
@@ -422,6 +571,8 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
             transition: none;
         }
 
+        :global(button[data-project-filter]:hover),
+        :global(button[data-project-filter]:focus-visible),
         .project-card:hover,
         .project-card:focus-within,
         .detail-link:hover,
