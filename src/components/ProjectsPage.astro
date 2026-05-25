@@ -16,10 +16,6 @@ interface Props {
 
 const {locale} = Astro.props;
 const projectDetailSlugs = new Set((await getCollection('projects')).map((entry) => entry.id));
-const detailLinkText = {
-	zh: '查看详情',
-	en: 'View Case Study',
-};
 const repositoryLinkText = {
 	zh: 'Git 仓库',
 	en: 'GitHub',
@@ -69,6 +65,15 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
                         data-project-categories={item.categories.join(' ')}
                         style={`--reveal-delay: ${90 + index * 65}ms`}
                     >
+                        {
+                            href && (
+                                <a
+                                    class="project-card-overlay"
+                                    href={href}
+                                    aria-label={`${locale === 'en' ? 'View case study:' : '查看项目详情：'} ${getLocalizedField(item.title, locale)}`}
+                                />
+                            )
+                        }
                         <div
                             class:list={['project-visual', coverSrc && 'has-cover']}
                             style={coverSrc ? `background-image: linear-gradient(180deg, rgba(20, 32, 48, 0.02), rgba(20, 32, 48, 0.34)), url("${coverSrc}");` : undefined}
@@ -118,15 +123,8 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
                         </div>
 
                         {
-                            (href || item.repositoryUrl) && (
+                            item.repositoryUrl && (
                                 <div class="project-actions">
-                                    {
-                                        href && (
-                                            <a class="detail-link" href={href}>
-                                                <LocalizedText locale={locale} text={detailLinkText} tag="span" />
-                                            </a>
-                                        )
-                                    }
                                     {
                                         item.repositoryUrl && (
                                             <a
@@ -166,45 +164,65 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
     const filterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
     const projectCards = Array.from(document.querySelectorAll('[data-project-card]'));
     const emptyState = document.querySelector('[data-project-empty]');
+    const projectsGrid = document.querySelector('.projects-grid');
+    let filterAnimationTimeout = 0;
 
-    function replayVisibleProjectCards() {
-        const visibleCards = projectCards.filter((card) => !card.hasAttribute('hidden'));
+    /** Returns whether a project card belongs to the selected filter. */
+    function cardMatchesFilter(card, selectedFilter) {
+        const categories = (card.getAttribute('data-project-categories') ?? '').split(/\s+/);
+        return selectedFilter === 'all' || categories.includes(selectedFilter);
+    }
 
-        visibleCards.forEach((card, index) => {
-            card.classList.remove('is-visible');
-            card.setAttribute('style', `--reveal-delay: ${90 + index * 65}ms`);
+    /** Applies the selected filter after the current cards have had time to fade out. */
+    function applyProjectFilter(selectedFilter) {
+        let visibleCount = 0;
+
+        projectCards.forEach((card) => {
+            const shouldShow = cardMatchesFilter(card, selectedFilter);
+            card.toggleAttribute('hidden', !shouldShow);
+
+            if (shouldShow) {
+                card.setAttribute('style', `--reveal-delay: ${90 + visibleCount * 65}ms`);
+                visibleCount += 1;
+            }
         });
 
+        emptyState?.toggleAttribute('hidden', visibleCount > 0);
+        projectsGrid?.classList.remove('is-filtering');
+
         requestAnimationFrame(() => {
-            visibleCards.forEach((card) => {
-                card.classList.add('is-visible');
-            });
+            projectCards
+                .filter((card) => !card.hasAttribute('hidden'))
+                .forEach((card) => card.classList.add('is-visible'));
+        });
+    }
+
+    /** Replays the project-card reveal sequence so category changes feel like a deliberate transition. */
+    function transitionProjectFilter(selectedFilter) {
+        window.clearTimeout(filterAnimationTimeout);
+        projectsGrid?.classList.add('is-filtering');
+        projectCards.forEach((card) => card.classList.remove('is-visible'));
+
+        filterAnimationTimeout = window.setTimeout(() => {
+            applyProjectFilter(selectedFilter);
+        }, 180);
+    }
+
+    /** Syncs the selected filter button state before the card transition starts. */
+    function activateFilterButton(activeButton) {
+        filterButtons.forEach((entry) => {
+            const isActive = entry === activeButton;
+            entry.classList.toggle('is-active', isActive);
+            entry.setAttribute('aria-pressed', String(isActive));
         });
     }
 
     filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
             const selectedFilter = button.getAttribute('data-project-filter') ?? 'all';
-            let visibleCount = 0;
 
-            filterButtons.forEach((entry) => {
-                const isActive = entry === button;
-                entry.classList.toggle('is-active', isActive);
-                entry.setAttribute('aria-pressed', String(isActive));
-            });
-
-            projectCards.forEach((card) => {
-                const categories = (card.getAttribute('data-project-categories') ?? '').split(/\s+/);
-                const shouldShow = selectedFilter === 'all' || categories.includes(selectedFilter);
-                card.toggleAttribute('hidden', !shouldShow);
-
-                if (shouldShow) {
-                    visibleCount += 1;
-                }
-            });
-
-            emptyState?.toggleAttribute('hidden', visibleCount > 0);
-            replayVisibleProjectCards();
+            activateFilterButton(button);
+            transitionProjectFilter(selectedFilter);
         });
     });
 </script>
@@ -282,6 +300,10 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         padding: clamp(1rem, 2vw, 1.5rem);
     }
 
+    .projects-grid.is-filtering {
+        pointer-events: none;
+    }
+
     .project-card {
         position: relative;
         overflow: hidden;
@@ -306,6 +328,13 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         display: none;
     }
 
+    .project-card-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        border-radius: inherit;
+    }
+
     .project-card::before {
         content: "";
         position: absolute;
@@ -317,6 +346,7 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
 
     .project-visual {
         position: relative;
+        z-index: 2;
         flex: 0 0 min(32%, 18rem);
         min-height: 13rem;
         display: grid;
@@ -374,6 +404,8 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
     }
 
     .project-card-content {
+        position: relative;
+        z-index: 2;
         display: grid;
         gap: 1rem;
         min-width: 0;
@@ -411,6 +443,8 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
     }
 
     .project-title-link {
+        position: relative;
+        z-index: 4;
         color: inherit;
         text-decoration: none;
         text-underline-offset: 0.18em;
@@ -422,7 +456,7 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
     }
 
     .project-title-link:focus-visible,
-    .detail-link:focus-visible,
+    .project-card-overlay:focus-visible,
     .repo-link:focus-visible {
         outline: 2px solid rgba(53, 92, 154, 0.55);
         outline-offset: 0.18rem;
@@ -431,6 +465,15 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
 
     .project-tag-row {
         gap: 0.45rem;
+    }
+
+    :global(.project-tag-row .pill) {
+        box-sizing: border-box;
+        height: 2.25rem;
+        padding: 0 0.78rem;
+        align-items: center;
+        line-height: 1;
+        white-space: nowrap;
     }
 
     :global(.project-status-chip) {
@@ -468,35 +511,21 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
     }
 
     .project-actions {
+        position: relative;
+        z-index: 5;
         margin-top: auto;
         display: flex;
         flex-wrap: wrap;
         gap: 0.7rem;
         align-items: center;
-        justify-content: space-between;
-        min-width: 5.5rem;
+        justify-content: flex-end;
         padding-top: 0.9rem;
         border-top: 1px solid rgba(35, 68, 110, 0.08);
     }
 
-    .detail-link {
-        display: inline-flex;
-        align-items: center;
-        min-height: 2rem;
-        color: var(--accent-dark);
-        font-size: 0.9rem;
-        font-weight: 700;
-        text-decoration: none;
-        white-space: nowrap;
-        transition: color 0.18s ease, transform 0.18s ease;
-    }
-
-    .detail-link:hover {
-        color: var(--accent);
-        transform: translateX(2px);
-    }
-
     .repo-link {
+        position: relative;
+        z-index: 4;
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
@@ -566,7 +595,6 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         :global(button[data-project-filter]),
         .project-card,
         .project-title-link,
-        .detail-link,
         .repo-link {
             transition: none;
         }
@@ -575,7 +603,6 @@ function getProjectVisualLabel(item: { tags: { zh: string; en: string }[] }) {
         :global(button[data-project-filter]:focus-visible),
         .project-card:hover,
         .project-card:focus-within,
-        .detail-link:hover,
         .repo-link:hover {
             transform: none;
         }
