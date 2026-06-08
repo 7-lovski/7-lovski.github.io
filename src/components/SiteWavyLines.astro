@@ -1,0 +1,211 @@
+<div class="site-wavy-lines" data-site-wavy-lines aria-hidden="true">
+	<svg class="site-wavy-lines-canvas" data-site-wavy-lines-canvas></svg>
+</div>
+
+<script>
+	let cleanupWavyLines = () => {};
+
+	function initWavyLines() {
+		cleanupWavyLines();
+
+		const root = document.querySelector('[data-site-wavy-lines]');
+		const svg = document.querySelector('[data-site-wavy-lines-canvas]');
+		const canAnimate =
+			window.matchMedia('(pointer: fine) and (hover: hover)').matches &&
+			!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!root || !svg || !canAnimate) {
+			root?.setAttribute('hidden', '');
+			cleanupWavyLines = () => {};
+			return;
+		}
+
+		root.removeAttribute('hidden');
+
+		const controller = new AbortController();
+		const signal = controller.signal;
+		const xGap = 10;
+		const yGap = 18;
+		const pointPushLimit = 16;
+		const pointerRadius = 180;
+		const flowFields = [
+			{ x: -0.04, y: 0.56, radiusX: 0.2, radiusY: 0.68, strength: -54, phase: 0.3 },
+			{ x: 0.24, y: 0.78, radiusX: 0.17, radiusY: 0.42, strength: 42, phase: 1.9 },
+			{ x: 0.58, y: 0.44, radiusX: 0.13, radiusY: 0.56, strength: -34, phase: 2.8 },
+			{ x: 0.76, y: 0.2, radiusX: 0.2, radiusY: 0.5, strength: 46, phase: 4.1 },
+			{ x: 1.05, y: 0.62, radiusX: 0.22, radiusY: 0.66, strength: -50, phase: 5.3 },
+		];
+		const pointer = {
+			x: window.innerWidth / 2,
+			y: window.innerHeight / 2,
+			vx: 0,
+			vy: 0,
+			lastX: window.innerWidth / 2,
+			lastY: window.innerHeight / 2,
+		};
+		let paths = [];
+		let frameId = 0;
+		let lastTime = performance.now();
+
+		const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+		const smoothInfluence = (value) => {
+			const normalized = clamp(value, 0, 1);
+			return normalized * normalized * (3 - 2 * normalized);
+		};
+
+		function createLines() {
+			svg.replaceChildren();
+			paths = [];
+
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+			const lineCount = Math.ceil(width / xGap) + 3;
+			const pointCount = Math.ceil(height / yGap) + 3;
+
+			svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+			svg.setAttribute('width', String(width));
+			svg.setAttribute('height', String(height));
+
+			for (let lineIndex = 0; lineIndex < lineCount; lineIndex += 1) {
+				const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+				const baseX = lineIndex * xGap - xGap;
+				const points = Array.from({ length: pointCount }, (_, pointIndex) => ({
+					x: baseX,
+					y: pointIndex * yGap - yGap,
+					offset: 0,
+					velocity: 0,
+					baseOffset: 0,
+				}));
+
+				path.setAttribute('fill', 'none');
+				path.setAttribute('stroke', 'rgba(31, 61, 109, 0.18)');
+				path.setAttribute('stroke-width', '0.72');
+				path.setAttribute('stroke-linecap', 'round');
+				path.setAttribute('vector-effect', 'non-scaling-stroke');
+				svg.append(path);
+				paths.push({ path, points, baseX, phase: lineIndex * 0.26 });
+			}
+
+			for (const line of paths) {
+				for (const point of line.points) {
+					const xRatio = point.x / width;
+					const yRatio = point.y / height;
+					let baseOffset = 0;
+
+					for (const field of flowFields) {
+						const normalizedX = (xRatio - field.x) / field.radiusX;
+						const normalizedY = (yRatio - field.y) / field.radiusY;
+						const distance = Math.hypot(normalizedX, normalizedY);
+						const influence = smoothInfluence(1 - distance);
+						const ripple = Math.sin(yRatio * 22 + field.phase) * 7;
+
+						baseOffset += influence * (field.strength + ripple);
+					}
+
+					point.baseOffset = baseOffset;
+				}
+			}
+		}
+
+		function updatePointer(event) {
+			pointer.x = event.clientX;
+			pointer.y = event.clientY;
+		}
+
+		function renderFrame(now) {
+			const delta = Math.min(34, now - lastTime);
+			lastTime = now;
+
+			if (document.visibilityState !== 'visible') {
+				frameId = window.requestAnimationFrame(renderFrame);
+				return;
+			}
+
+			pointer.vx += (pointer.x - pointer.lastX - pointer.vx) * 0.18;
+			pointer.vy += (pointer.y - pointer.lastY - pointer.vy) * 0.18;
+			pointer.lastX = pointer.x;
+			pointer.lastY = pointer.y;
+
+			for (const line of paths) {
+				const pathCommands = [];
+
+				for (const point of line.points) {
+					const distanceX = pointer.x - point.x;
+					const distanceY = pointer.y - point.y;
+					const distance = Math.hypot(distanceX, distanceY);
+					const influence = smoothInfluence(1 - distance / pointerRadius);
+					const microWave = Math.sin(now * 0.00045 + point.y * 0.035 + line.phase) * 2.6;
+					const secondaryWave = Math.sin(point.y * 0.012 + line.baseX * 0.04 + now * 0.0002) * 1.8;
+					const noise = microWave + secondaryWave;
+					const pointerPush = influence * clamp(pointer.vx * 0.42, -pointPushLimit, pointPushLimit);
+					const targetOffset = point.baseOffset + noise - pointerPush;
+
+					point.velocity += (targetOffset - point.offset) * 0.045 * (delta / 16.67);
+					point.velocity *= 0.82;
+					point.offset += point.velocity;
+
+					const x = line.baseX + point.offset;
+					pathCommands.push(`${pathCommands.length === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${point.y.toFixed(2)}`);
+				}
+
+				line.path.setAttribute('d', pathCommands.join(' '));
+			}
+
+			frameId = window.requestAnimationFrame(renderFrame);
+		}
+
+		function syncLineOpacity() {
+			const scrollRatio = clamp(window.scrollY / 800, 0, 1);
+			root.style.setProperty('--wavy-opacity', String(0.9 - scrollRatio * 0.24));
+		}
+
+		createLines();
+		syncLineOpacity();
+		frameId = window.requestAnimationFrame(renderFrame);
+
+		window.addEventListener('pointermove', updatePointer, { passive: true, signal });
+		window.addEventListener('resize', createLines, { signal });
+		window.addEventListener('scroll', syncLineOpacity, { passive: true, signal });
+
+		cleanupWavyLines = () => {
+			window.cancelAnimationFrame(frameId);
+			controller.abort();
+		};
+	}
+
+	document.addEventListener('astro:page-load', initWavyLines);
+	initWavyLines();
+</script>
+
+<style>
+	.site-wavy-lines {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		opacity: var(--wavy-opacity, 0.9);
+		pointer-events: none;
+		overflow: hidden;
+		mix-blend-mode: normal;
+	}
+
+	.site-wavy-lines[hidden] {
+		display: none;
+	}
+
+	.site-wavy-lines-canvas {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	.site-wavy-lines-canvas path {
+		stroke: rgba(31, 61, 109, 0.18);
+		stroke-width: 0.72;
+	}
+
+	@media (pointer: coarse), (hover: none), (prefers-reduced-motion: reduce) {
+		.site-wavy-lines {
+			display: none;
+		}
+	}
+</style>

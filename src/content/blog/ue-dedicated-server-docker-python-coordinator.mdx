@@ -126,15 +126,43 @@ The minimal deployment model is:
 
 <LocalizedContent language="zh">
 
-```mermaid
-flowchart LR
-    Admin["管理工具 / 匹配服务<br/>Admin Tool / Matchmaker"] -->|HTTP TCP 8080<br/>X-Admin-Token| Coordinator["Python Flask Coordinator"]
-    Coordinator -->|启动进程<br/>spawn process| RoomA["UE Dedicated Server<br/>房间 A UDP 7777<br/>Room A UDP 7777"]
-    Coordinator -->|启动进程<br/>spawn process| RoomB["UE Dedicated Server<br/>房间 B UDP 7778<br/>Room B UDP 7778"]
-    Coordinator -->|读取日志<br/>tail files| Logs[("房间日志<br/>Room Logs")]
-    Player1["玩家客户端<br/>Player Client"] -->|UE 游戏流量<br/>UE gameplay traffic<br/>UDP/IP NetDriver typical path| RoomA
-    Player2["玩家客户端<br/>Player Client"] -->|UE 游戏流量<br/>UE gameplay traffic<br/>UDP/IP NetDriver typical path| RoomB
-```
+<figure class="article-flow article-flow-deployment">
+	<div class="flow-row">
+		<div class="flow-node">管理工具 / 匹配服务<span>Admin Tool / Matchmaker</span></div>
+		<div class="flow-arrow-with-label">
+			<span>HTTP TCP 8080</span>
+			<span>X-Admin-Token</span>
+			<strong aria-hidden="true">→</strong>
+		</div>
+		<div class="flow-node is-control">Python Flask Coordinator</div>
+	</div>
+	<div class="flow-branch-row">
+		<div class="flow-branch">
+			<p class="flow-edge-label">启动进程 / spawn process</p>
+			<div class="flow-node">UE Dedicated Server<span>房间 A UDP 7777 / Room A UDP 7777</span></div>
+		</div>
+		<div class="flow-branch">
+			<p class="flow-edge-label">启动进程 / spawn process</p>
+			<div class="flow-node">UE Dedicated Server<span>房间 B UDP 7778 / Room B UDP 7778</span></div>
+		</div>
+		<div class="flow-branch">
+			<p class="flow-edge-label">读取日志 / tail files</p>
+			<div class="flow-node is-log">房间日志<span>Room Logs</span></div>
+		</div>
+	</div>
+	<div class="flow-branch-row">
+		<div class="flow-branch">
+			<div class="flow-node">玩家客户端<span>Player Client</span></div>
+			<p class="flow-edge-label">UE 游戏流量 / UDP/IP NetDriver typical path</p>
+			<div class="flow-node">房间 A UDP 7777<span>Room A UDP 7777</span></div>
+		</div>
+		<div class="flow-branch">
+			<div class="flow-node">玩家客户端<span>Player Client</span></div>
+			<p class="flow-edge-label">UE 游戏流量 / UDP/IP NetDriver typical path</p>
+			<div class="flow-node">房间 B UDP 7778<span>Room B UDP 7778</span></div>
+		</div>
+	</div>
+</figure>
 
 </LocalizedContent>
 

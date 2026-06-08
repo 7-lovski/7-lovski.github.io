@@ -422,6 +422,8 @@ export const resumeContent = {
 		en: 'Resume',
 	},
 	description: {
+		zh: '主攻 Unreal Engine 客户端与 Gameplay 玩法开发，同时具备完整 Unity 项目落地经验；独立实现过 Steam / EOS 多人联机、GAS 技能系统、专用服务器部署等核心模块。',
+		en: 'Focused on Unreal Engine client-side and Gameplay development, with complete Unity project delivery experience. Independently implemented Steam / EOS multiplayer, GAS ability systems, and dedicated server deployment modules.',
 	},
 	identity: {
 		name: {

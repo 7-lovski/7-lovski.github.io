@@ -1,0 +1,207 @@
+<div class="magnetic-cursor" data-magnetic-cursor aria-hidden="true">
+	<div class="magnetic-cursor-ring" data-magnetic-cursor-ring></div>
+	<div class="magnetic-cursor-dot" data-magnetic-cursor-dot></div>
+</div>
+
+<script>
+	let cleanupMagneticCursor = () => {};
+
+	function initMagneticCursor() {
+		cleanupMagneticCursor();
+
+		const cursorRoot = document.querySelector('[data-magnetic-cursor]');
+		const cursorRing = document.querySelector('[data-magnetic-cursor-ring]');
+		const cursorDot = document.querySelector('[data-magnetic-cursor-dot]');
+		const canUseCursor =
+			window.matchMedia('(pointer: fine) and (hover: hover)').matches &&
+			!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!cursorRoot || !cursorRing || !cursorDot || !canUseCursor) {
+			cleanupMagneticCursor = () => {};
+			return;
+		}
+
+		const controller = new AbortController();
+		const { signal } = controller;
+		const magneticSelector = [
+			'a',
+			'button',
+			'summary',
+			'.button',
+			'.motion-card',
+			'.project-card',
+			'.post-card',
+			'.repo-link',
+			'.resource-button',
+			'[data-project-filter]',
+		].join(',');
+
+		let pointerX = window.innerWidth / 2;
+		let pointerY = window.innerHeight / 2;
+		let ringX = pointerX;
+		let ringY = pointerY;
+		let ringWidth = 34;
+		let ringHeight = 34;
+		let targetElement = null;
+		let animationFrame = 0;
+
+		const setCursorVisible = (isVisible) => {
+			cursorRoot.classList.toggle('is-visible', isVisible);
+			document.documentElement.classList.toggle('custom-cursor-active', isVisible);
+		};
+
+		const resetTarget = () => {
+			if (targetElement) {
+				targetElement.style.removeProperty('--magnetic-x');
+				targetElement.style.removeProperty('--magnetic-y');
+			}
+
+			targetElement = null;
+			cursorRoot.classList.remove('is-magnetic');
+			ringWidth = 34;
+			ringHeight = 34;
+		};
+
+		const getMagneticTarget = (eventTarget) => {
+			if (!(eventTarget instanceof Element)) return null;
+			const target = eventTarget.closest(magneticSelector);
+			return target;
+		};
+
+		const syncTarget = (event) => {
+			const nextTarget = getMagneticTarget(event.target);
+
+			if (nextTarget !== targetElement) {
+				resetTarget();
+				targetElement = nextTarget;
+			}
+
+			if (!targetElement) return;
+
+			const rect = targetElement.getBoundingClientRect();
+			const centerX = rect.left + rect.width / 2;
+			const centerY = rect.top + rect.height / 2;
+			const pullX = Math.max(-12, Math.min(12, (pointerX - centerX) * 0.08));
+			const pullY = Math.max(-12, Math.min(12, (pointerY - centerY) * 0.08));
+
+			targetElement.style.setProperty('--magnetic-x', `${pullX}px`);
+			targetElement.style.setProperty('--magnetic-y', `${pullY}px`);
+			ringX = centerX + pullX;
+			ringY = centerY + pullY;
+			ringWidth = Math.min(rect.width + 18, window.innerWidth - 24);
+			ringHeight = Math.min(rect.height + 18, window.innerHeight - 24);
+			cursorRoot.classList.add('is-magnetic');
+		};
+
+		const renderCursor = () => {
+			if (!targetElement) {
+				ringX += (pointerX - ringX) * 0.22;
+				ringY += (pointerY - ringY) * 0.22;
+			}
+
+			cursorRing.style.width = `${ringWidth}px`;
+			cursorRing.style.height = `${ringHeight}px`;
+			cursorRing.style.transform = `translate3d(${ringX - ringWidth / 2}px, ${ringY - ringHeight / 2}px, 0)`;
+			cursorDot.style.transform = `translate3d(${pointerX - 3}px, ${pointerY - 3}px, 0)`;
+			animationFrame = window.requestAnimationFrame(renderCursor);
+		};
+
+		const handlePointerMove = (event) => {
+			pointerX = event.clientX;
+			pointerY = event.clientY;
+			setCursorVisible(true);
+			syncTarget(event);
+		};
+
+		document.addEventListener('pointermove', handlePointerMove, { passive: true, signal });
+		document.addEventListener('pointerleave', () => setCursorVisible(false), { passive: true, signal });
+		document.addEventListener('pointerover', syncTarget, { passive: true, signal });
+		document.addEventListener('pointerout', (event) => {
+			const relatedTarget = event.relatedTarget;
+
+			if (targetElement && relatedTarget instanceof Node && targetElement.contains(relatedTarget)) {
+				return;
+			}
+
+			resetTarget();
+		}, { passive: true, signal });
+
+		window.addEventListener('blur', () => {
+			setCursorVisible(false);
+			resetTarget();
+		}, { signal });
+
+		cleanupMagneticCursor = () => {
+			window.cancelAnimationFrame(animationFrame);
+			resetTarget();
+			setCursorVisible(false);
+			controller.abort();
+		};
+
+		document.addEventListener('astro:before-swap', cleanupMagneticCursor, { once: true, signal });
+
+		animationFrame = window.requestAnimationFrame(renderCursor);
+	}
+
+	document.addEventListener('astro:page-load', initMagneticCursor);
+	initMagneticCursor();
+</script>
+
+<style>
+	.magnetic-cursor {
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.16s ease;
+	}
+
+	.magnetic-cursor.is-visible {
+		opacity: 1;
+	}
+
+	.magnetic-cursor-ring,
+	.magnetic-cursor-dot {
+		position: fixed;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		will-change: transform, width, height;
+	}
+
+	.magnetic-cursor-ring {
+		width: 34px;
+		height: 34px;
+		border: 1px solid rgba(31, 61, 109, 0.58);
+		border-radius: 999px;
+		background: rgba(232, 240, 251, 0.18);
+		box-shadow: 0 8px 24px rgba(31, 61, 109, 0.08);
+		transition:
+			width 0.22s var(--motion-ease),
+			height 0.22s var(--motion-ease),
+			border-color 0.18s ease,
+			background-color 0.18s ease,
+			border-radius 0.18s ease;
+	}
+
+	.magnetic-cursor-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		background: var(--accent-dark);
+		box-shadow: 0 0 0 4px rgba(53, 92, 154, 0.08);
+	}
+
+	.magnetic-cursor.is-magnetic .magnetic-cursor-ring {
+		border-color: rgba(53, 92, 154, 0.72);
+		border-radius: 16px;
+		background: rgba(232, 240, 251, 0.24);
+	}
+
+	@media (pointer: coarse), (hover: none), (prefers-reduced-motion: reduce) {
+		.magnetic-cursor {
+			display: none;
+		}
+	}
+</style>

@@ -31,3 +31,15 @@ test('getLanguageContentMode marks bilingual content as primary and secondary', 
 	assert.equal(module.getLanguageContentMode('bi', 'zh'), 'primary');
 	assert.equal(module.getLanguageContentMode('bi', 'en'), 'secondary');
 });
+
+test('getAlternateLocaleLinks builds hreflang URLs from any localized path', async () => {
+	const module = await import('./i18n.ts');
+
+	assert.equal(typeof module.getAlternateLocaleLinks, 'function');
+	assert.deepEqual(module.getAlternateLocaleLinks('/en/projects/ue-gas-multiplayer/', 'https://7-lovski.github.io'), [
+		{ hreflang: 'zh-CN', href: 'https://7-lovski.github.io/projects/ue-gas-multiplayer/' },
+		{ hreflang: 'en', href: 'https://7-lovski.github.io/en/projects/ue-gas-multiplayer/' },
+		{ hreflang: 'zh-Hans', href: 'https://7-lovski.github.io/bi/projects/ue-gas-multiplayer/' },
+		{ hreflang: 'x-default', href: 'https://7-lovski.github.io/projects/ue-gas-multiplayer/' },
+	]);
+});

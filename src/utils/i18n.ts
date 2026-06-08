@@ -2,6 +2,12 @@
 
 export const DEFAULT_LOCALE: Locale = 'zh';
 
+const LOCALE_HREFLANGS: Record<Locale, string> = {
+    zh: 'zh-CN',
+    en: 'en',
+    bi: 'zh-Hans',
+};
+
 export function getLocaleFromPath(pathname: string): Locale {
     if (pathname === '/bi' || pathname.startsWith('/bi/')) return 'bi';
     if (pathname === '/zh' || pathname.startsWith('/zh/')) return 'zh';
@@ -25,6 +31,23 @@ export function withLocale(pathname: string, locale: Locale): string {
 
 export function getContentPath(section: 'blog' | 'projects', slug: string, locale: Locale): string {
 	return withLocale(`/${section}/${slug}/`, locale);
+}
+
+export function getAlternateLocaleLinks(pathname: string, site: URL | string): { hreflang: string; href: string }[] {
+    const basePath = stripLocalePrefix(pathname);
+    const siteUrl = site instanceof URL ? site : new URL(site);
+    const localeLinks = (['zh', 'en', 'bi'] as Locale[]).map((locale) => ({
+        hreflang: LOCALE_HREFLANGS[locale],
+        href: new URL(withLocale(basePath, locale), siteUrl).toString(),
+    }));
+
+    return [
+        ...localeLinks,
+        {
+            hreflang: 'x-default',
+            href: new URL(withLocale(basePath, DEFAULT_LOCALE), siteUrl).toString(),
+        },
+    ];
 }
 
 export function shouldRenderLanguageContent(currentLocale: Locale, language: 'zh' | 'en'): boolean {

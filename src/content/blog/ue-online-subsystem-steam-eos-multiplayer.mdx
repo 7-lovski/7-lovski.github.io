@@ -90,22 +90,47 @@ Those questions belong to the online-services layer. UE OnlineSubsystem gives yo
 
 <LocalizedContent language="zh">
 
-```mermaid
-flowchart TD
-    A["启动客户端<br/>Start client"] --> B["选择 OnlineSubsystem<br/>Select OnlineSubsystem"]
-    B --> C{"身份登录<br/>Identity login"}
-    C -->|EOS AccountPortal /<br/>Developer / ExchangeCode| D["获得本地用户身份<br/>Local user identity"]
-    C -->|Steam client login state| D
-    D --> E["CreateSession 或 FindSessions<br/>CreateSession or FindSessions"]
-    E --> F{"加入路径<br/>Join path"}
-    F -->|Host| G["CreateSession 成功<br/>CreateSession succeeds"]
-    G --> H["ServerTravel Map?listen"]
-    F -->|Client| I["JoinSession 成功<br/>JoinSession succeeds"]
-    I --> J["GetResolvedConnectString"]
-    J --> K["ClientTravel"]
-    H --> L["Replication 开始同步游戏状态<br/>Replication starts gameplay sync"]
-    K --> L
-```
+<figure class="article-flow article-flow-session">
+	<div class="flow-row">
+		<div class="flow-node">启动客户端<span>Start client</span></div>
+		<div class="flow-arrow" aria-hidden="true">→</div>
+		<div class="flow-node">选择 OnlineSubsystem<span>Select OnlineSubsystem</span></div>
+		<div class="flow-arrow" aria-hidden="true">→</div>
+		<div class="flow-node is-decision">身份登录<span>Identity login</span></div>
+	</div>
+	<div class="flow-branch-row">
+		<div class="flow-branch">
+			<p class="flow-edge-label">EOS AccountPortal / Developer / ExchangeCode</p>
+			<div class="flow-node">获得本地用户身份<span>Local user identity</span></div>
+		</div>
+		<div class="flow-branch">
+			<p class="flow-edge-label">Steam client login state</p>
+			<div class="flow-node">获得本地用户身份<span>Local user identity</span></div>
+		</div>
+	</div>
+	<div class="flow-row">
+		<div class="flow-node">CreateSession 或 FindSessions<span>CreateSession or FindSessions</span></div>
+		<div class="flow-arrow" aria-hidden="true">→</div>
+		<div class="flow-node is-decision">加入路径<span>Join path</span></div>
+	</div>
+	<div class="flow-branch-row">
+		<div class="flow-branch">
+			<p class="flow-edge-label">Host</p>
+			<div class="flow-node">CreateSession 成功<span>CreateSession succeeds</span></div>
+			<div class="flow-down" aria-hidden="true">↓</div>
+			<div class="flow-node">ServerTravel Map?listen</div>
+		</div>
+		<div class="flow-branch">
+			<p class="flow-edge-label">Client</p>
+			<div class="flow-node">JoinSession 成功<span>JoinSession succeeds</span></div>
+			<div class="flow-down" aria-hidden="true">↓</div>
+			<div class="flow-node">GetResolvedConnectString</div>
+			<div class="flow-down" aria-hidden="true">↓</div>
+			<div class="flow-node">ClientTravel</div>
+		</div>
+	</div>
+	<div class="flow-node is-terminal">Replication 开始同步游戏状态<span>Replication starts gameplay sync</span></div>
+</figure>
 
 </LocalizedContent>
 
