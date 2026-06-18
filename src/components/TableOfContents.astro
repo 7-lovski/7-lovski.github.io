@@ -98,6 +98,10 @@ const tocItems = createTocItems(visibleHeadings, locale);
 		})
 		.sort((a, b) => a.heading.offsetTop - b.heading.offsetTop);
 
+	function canScrollTocLinkIntoView() {
+		return window.matchMedia('(min-width: 1040px)').matches;
+	}
+
 	function setActiveTocLink(activeId: string) {
 		for (const link of tocLinks) {
 			const id = link.dataset.tocLink;
@@ -105,7 +109,7 @@ const tocItems = createTocItems(visibleHeadings, locale);
 				const wasActive = link.classList.contains('is-active');
 				link.classList.add('is-active');
 				link.setAttribute('aria-current', 'location');
-				if (!wasActive) {
+				if (!wasActive && canScrollTocLinkIntoView()) {
 					link.scrollIntoView({
 						block: 'center',
 						inline: 'nearest',

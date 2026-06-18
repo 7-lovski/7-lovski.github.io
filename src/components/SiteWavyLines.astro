@@ -11,7 +11,7 @@
 		const root = document.querySelector('[data-site-wavy-lines]');
 		const svg = document.querySelector('[data-site-wavy-lines-canvas]');
 		const canAnimate =
-			window.matchMedia('(pointer: fine) and (hover: hover)').matches &&
+			window.matchMedia('(any-pointer: fine) and (any-hover: hover)').matches &&
 			!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 		if (!root || !svg || !canAnimate) {
@@ -26,6 +26,8 @@
 		const signal = controller.signal;
 		const xGap = 10;
 		const yGap = 18;
+		const canvasBleedX = 32;
+		const lineOverflowX = 96;
 		const pointPushLimit = 16;
 		const pointerRadius = 180;
 		const flowFields = [
@@ -57,9 +59,12 @@
 			svg.replaceChildren();
 			paths = [];
 
-			const width = window.innerWidth;
+			const viewportWidth = window.innerWidth;
+			const width = viewportWidth + canvasBleedX * 2;
 			const height = window.innerHeight;
-			const lineCount = Math.ceil(width / xGap) + 3;
+			const lineStartX = -canvasBleedX - xGap;
+			const lineEndX = width + canvasBleedX + lineOverflowX;
+			const lineCount = Math.ceil((lineEndX - lineStartX) / xGap) + 1;
 			const pointCount = Math.ceil(height / yGap) + 3;
 
 			svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -68,7 +73,7 @@
 
 			for (let lineIndex = 0; lineIndex < lineCount; lineIndex += 1) {
 				const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-				const baseX = lineIndex * xGap - xGap;
+				const baseX = lineStartX + lineIndex * xGap;
 				const points = Array.from({ length: pointCount }, (_, pointIndex) => ({
 					x: baseX,
 					y: pointIndex * yGap - yGap,
@@ -78,8 +83,8 @@
 				}));
 
 				path.setAttribute('fill', 'none');
-				path.setAttribute('stroke', 'rgba(31, 61, 109, 0.18)');
-				path.setAttribute('stroke-width', '0.72');
+				path.setAttribute('stroke', 'rgba(31, 61, 109, 0.28)');
+				path.setAttribute('stroke-width', '0.82');
 				path.setAttribute('stroke-linecap', 'round');
 				path.setAttribute('vector-effect', 'non-scaling-stroke');
 				svg.append(path);
@@ -156,7 +161,7 @@
 
 		function syncLineOpacity() {
 			const scrollRatio = clamp(window.scrollY / 800, 0, 1);
-			root.style.setProperty('--wavy-opacity', String(0.9 - scrollRatio * 0.24));
+			root.style.setProperty('--wavy-opacity', String(1 - scrollRatio * 0.18));
 		}
 
 		createLines();
@@ -180,9 +185,9 @@
 <style>
 	.site-wavy-lines {
 		position: fixed;
-		inset: 0;
-		z-index: 0;
-		opacity: var(--wavy-opacity, 0.9);
+		inset: -2px -24px -2px -2px;
+		z-index: 1;
+		opacity: var(--wavy-opacity, 1);
 		pointer-events: none;
 		overflow: hidden;
 		mix-blend-mode: normal;
@@ -199,11 +204,11 @@
 	}
 
 	.site-wavy-lines-canvas path {
-		stroke: rgba(31, 61, 109, 0.18);
-		stroke-width: 0.72;
+		stroke: rgba(31, 61, 109, 0.28);
+		stroke-width: 0.82;
 	}
 
-	@media (pointer: coarse), (hover: none), (prefers-reduced-motion: reduce) {
+	@media (any-pointer: coarse) and (any-hover: none), (prefers-reduced-motion: reduce) {
 		.site-wavy-lines {
 			display: none;
 		}
